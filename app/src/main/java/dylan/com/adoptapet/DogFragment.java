@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,33 +128,26 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 AlertDialog breedSelect = new AlertDialog.Builder( getContext() )
                         .setCustomTitle( LayoutInflater.from( getContext() ).inflate( R.layout.dog_breed_title, null ) )
                         .setView(dialogView)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //process selected breeds
-                            }
-                        })
-                        .setNegativeButton( "Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNeutralButton( "Clear", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick( DialogInterface dialog, int which ) {
-                                selectedBreeds.setText( "" );
-                            }
-                        })
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-
-                            }
-                        })
+                        .setPositiveButton("Save", null)
+                        .setNegativeButton( "Cancel", null )
+                        .setNeutralButton( "Clear", null )
                         .create();
 
                 breedSelect.show();
+
+                breedSelect.getButton( AlertDialog.BUTTON_POSITIVE ).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //save button
+                    }
+                });
+
+                breedSelect.getButton( AlertDialog.BUTTON_NEUTRAL ).setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick( View v ) {
+                        selectedBreeds.setText( "" );
+                    }
+                });
 
                 break;
         }
@@ -224,5 +218,6 @@ public class DogFragment extends Fragment implements View.OnClickListener {
         }
 
     }
+
 
 }
