@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="Search Breeds"
+        android:id="@+id/breedSearch"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="100dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:scrollbars="vertical"
+        android:padding="10dp"
+        android:id="@+id/selectedBreeds"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:id="@+id/breedList"
+        />
+
+</LinearLayout>
