@@ -46,14 +46,16 @@ import java.util.List;
  */
 public class DogFragment extends Fragment implements View.OnClickListener {
 
-    private LocationManager locationManager;
+    private ArrayList<String> selectedBreeds;
 
+    private LocationManager locationManager;
     private EditText postalBox;
 
     @Override
     public void onAttach( Context context ) {
         super.onAttach( context );
         locationManager = ( LocationManager ) context.getSystemService( Context.LOCATION_SERVICE );
+        selectedBreeds = new ArrayList<String>();
     }
 
     @Override
@@ -79,6 +81,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    @SuppressWarnings("NewApi")
     public void onClick( View v ) {
         switch ( v.getId() ) {
 
@@ -113,16 +116,24 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
                 breedSearch.setAdapter( adapter );
 
-                breedSearch.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+                breedSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick( AdapterView parent, View v, int item, long id  ) {
-                        String selected = adapter.getItem( item );
+                    public void onItemClick(AdapterView parent, View v, int item, long id) {
+                        String selected = adapter.getItem(item);
 
-                        breedSearch.setText( "" );
+                        breedSearch.setText("");
 
-                        addSelectedBreed( selected, selectedBreeds );
+                        addSelectedBreed(selected, selectedBreeds);
                     }
                 });
+
+                breedSearch.setOnDismissListener(new AutoCompleteTextView.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        breedSearch.setText( "" );
+                    }
+                });
+
                 breedList.setAdapter(adapter);
                 breedList.setFastScrollEnabled(true);
 
@@ -130,13 +141,12 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemClick(AdapterView parent, View view, int item, long id) {
                         String selected = getResources().getStringArray(R.array.dog_breeds)[item];
-
                         addSelectedBreed( selected, selectedBreeds );
 
                     }
                 });
 
-                AlertDialog breedSelect = new AlertDialog.Builder( getContext() )
+                final AlertDialog breedSelect = new AlertDialog.Builder( getContext() )
                         .setCustomTitle( LayoutInflater.from( getContext() ).inflate( R.layout.dog_breed_title, null ) )
                         .setView(dialogView)
                         .setPositiveButton("Save", null)
@@ -146,17 +156,19 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
                 breedSelect.show();
 
-                breedSelect.getButton( AlertDialog.BUTTON_POSITIVE ).setOnClickListener(new View.OnClickListener() {
+                breedSelect.getButton( AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //save button
+                        breedSelect.dismiss();
+                        processSelectedBreeds();
                     }
                 });
 
-                breedSelect.getButton( AlertDialog.BUTTON_NEUTRAL ).setOnClickListener(new View.OnClickListener() {
+                breedSelect.getButton( AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         selectedBreeds.removeAllViews();
+                        DogFragment.this.selectedBreeds.clear();
                     }
                 });
 
@@ -167,19 +179,33 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     public void addSelectedBreed( String selected, LinearLayout parent ) {
         //TODO:: Add to arraylist<String> of selected breeds for processing later, make sure to clear if user uses clear button
 
-        TextView newBreed = new TextView( getContext() );
-        newBreed.setText(selected);
+        if ( this.selectedBreeds.size() < 3 ) {
+            TextView newBreed = new TextView( getContext() );
+            newBreed.setText(selected);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins( 5, 5, 5, 5 );
-        //TODO: Set padding to the text insdie the textview
-        //TODO:: Instead of using a dialog for breed selection, create an entire activity, can offer the most options this way
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins( 5, 5, 5, 5 );
+            //TODO: Set padding to the text insdie the textview
+            //TODO:: Instead of using a dialog for breed selection, create an entire activity, can offer the most options this way
 
-        newBreed.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        newBreed.setTextColor(getResources().getColor(R.color.colorWhite));
-        newBreed.setLayoutParams( layoutParams );
+            newBreed.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            newBreed.setTextColor(getResources().getColor(R.color.colorWhite));
+            newBreed.setLayoutParams( layoutParams );
 
-        parent.addView( newBreed, 0 );
+            parent.addView( newBreed, 0 );
+            this.selectedBreeds.add( selected );
+        } else {
+            Toast.makeText( getContext(), "Max Selection is 3", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    public void processSelectedBreeds() {
+        //TODO:: get selected breeds, add them to the listview below the SELECT BREEDS button, listview should have height wrap_content
+        ArrayAdapter<String> breedsAdapter = new ArrayAdapter<String>( getContext(), R.layout.breed_list_item, this.selectedBreeds );
+        ListView selectedBreedsList = (ListView) getView().findViewById(R.id.selectedBreedsList);
+        selectedBreedsList.setAdapter( breedsAdapter );
     }
 
 
