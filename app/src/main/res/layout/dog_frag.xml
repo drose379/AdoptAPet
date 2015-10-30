@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/colorBackground"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -28,23 +30,28 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Select Breeds"
-        android:id="@+id/breedSelectButton"
-        />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:id="@+id/selectedBreedsList"
-        />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:text="Select Breeds"
+            android:id="@+id/breedSelectButton"
+            />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:paddingBottom="10dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:id="@+id/selectedBreedsList"
+            />
+
+
 
 
 </LinearLayout>

@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
     private LocationManager locationManager;
     private EditText postalBox;
+    private Button breedSelectButton;
 
     @Override
     public void onAttach( Context context ) {
@@ -71,11 +73,11 @@ public class DogFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate( R.layout.dog_frag, v, false );
 
         ImageView locationIcon = (ImageView) view.findViewById(R.id.locationIcon);
-        Button selectBreed = (Button) view.findViewById(R.id.breedSelectButton);
+        breedSelectButton = (Button) view.findViewById(R.id.breedSelectButton);
         postalBox = (EditText) view.findViewById(R.id.postalBox);
 
         locationIcon.setOnClickListener( this );
-        selectBreed.setOnClickListener(this);
+        breedSelectButton.setOnClickListener(this);
 
         return view;
     }
@@ -172,6 +174,14 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
+                breedSelect.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick( View v ) {
+                        DogFragment.this.selectedBreeds.clear();
+                        breedSelect.dismiss();
+                   }
+                });
+
                 break;
         }
     }
@@ -203,9 +213,18 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
     public void processSelectedBreeds() {
         //TODO:: get selected breeds, add them to the listview below the SELECT BREEDS button, listview should have height wrap_content
-        ArrayAdapter<String> breedsAdapter = new ArrayAdapter<String>( getContext(), R.layout.breed_list_item, this.selectedBreeds );
+        ArrayList<String> selected = new ArrayList<String>( this.selectedBreeds);
+        ArrayAdapter<String> breedsAdapter = new ArrayAdapter<String>( getContext(), R.layout.breed_list_item, R.id.title, selected );
         ListView selectedBreedsList = (ListView) getView().findViewById(R.id.selectedBreedsList);
-        selectedBreedsList.setAdapter( breedsAdapter );
+        selectedBreedsList.setAdapter(breedsAdapter);
+
+        LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT );
+        selectedBreedsList.setLayoutParams( listParams );
+        selectedBreedsList.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+
+        selectedBreeds.clear();
+        breedSelectButton.setVisibility( View.GONE );
+
     }
 
 
