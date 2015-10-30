@@ -1,6 +1,7 @@
 package dylan.com.adoptapet;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.DataSetObserver;
@@ -27,7 +28,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -98,8 +101,8 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 View dialogView = LayoutInflater.from( getContext() ).inflate( R.layout.breed_select_dialog, null );
                 ListView breedList = (ListView) dialogView.findViewById(R.id.breedList);
                 AutoCompleteTextView breedSearch = (AutoCompleteTextView) dialogView.findViewById(R.id.breedSearch);
-                final TextView selectedBreeds = (TextView) dialogView.findViewById(R.id.selectedBreeds);
-                selectedBreeds.setMovementMethod( new ScrollingMovementMethod() );
+                final LinearLayout selectedBreeds = (LinearLayout) dialogView.findViewById(R.id.selectedBreeds);
+                //selectedBreeds.setMovementMethod( new ScrollingMovementMethod() );
 
                 //TODO:: Add click to select on each item in the listview, keep list of selected items below the search, can select multiple
                     //TODO:: When grabbing multiple breeds, need to grab one by one and combine results
@@ -116,11 +119,27 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemClick(AdapterView parent, View view, int item, long id) {
                         String selected = getResources().getStringArray(R.array.dog_breeds)[item];
+                        /**
                         if (selectedBreeds.getText().length() == 0) {
                             selectedBreeds.setText(selected);
                         } else {
                             selectedBreeds.setText(selected + ", " + selectedBreeds.getText());
                         }
+                         */
+
+                        TextView newBreed = new TextView( getContext() );
+                        newBreed.setText(selected);
+
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins( 5, 5, 5, 5 );
+                        //TODO: Set padding to the text insdie the textview
+                        //TODO:: Instead of using a dialog for breed selection, create an entire activity, can offer the most options this way
+
+                        newBreed.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        newBreed.setTextColor(getResources().getColor(R.color.colorWhite));
+                        newBreed.setLayoutParams( layoutParams );
+
+                        selectedBreeds.addView( newBreed, 0 );
 
                     }
                 });
@@ -145,7 +164,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 breedSelect.getButton( AlertDialog.BUTTON_NEUTRAL ).setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) {
-                        selectedBreeds.setText( "" );
+                        selectedBreeds.removeAllViews();
                     }
                 });
 

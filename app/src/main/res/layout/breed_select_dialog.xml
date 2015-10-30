@@ -12,16 +12,22 @@
         android:id="@+id/breedSearch"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="100dp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:scrollbars="vertical"
-        android:padding="10dp"
-        android:id="@+id/selectedBreeds"
-        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:scrollbars="vertical"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:id="@+id/selectedBreeds"
+            />
+    </ScrollView>
+
 
     <ListView
         android:layout_width="match_parent"
