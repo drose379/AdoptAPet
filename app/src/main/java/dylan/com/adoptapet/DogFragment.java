@@ -189,7 +189,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     public void addSelectedBreed( String selected, LinearLayout parent ) {
         //TODO:: Add to arraylist<String> of selected breeds for processing later, make sure to clear if user uses clear button
 
-        if ( this.selectedBreeds.size() < 3 ) {
+        if ( this.selectedBreeds.size() < 3 && !this.selectedBreeds.contains( selected ) ) {
             TextView newBreed = new TextView( getContext() );
             newBreed.setText(selected);
 
@@ -205,7 +205,12 @@ public class DogFragment extends Fragment implements View.OnClickListener {
             parent.addView( newBreed, 0 );
             this.selectedBreeds.add( selected );
         } else {
-            Toast.makeText( getContext(), "Max Selection is 3", Toast.LENGTH_SHORT).show();
+            if ( this.selectedBreeds.size() == 3 ) {
+                Toast.makeText( getContext(), "Max Selection is 3", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText( getContext(), "Already Selected This Breed", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
 
@@ -216,10 +221,12 @@ public class DogFragment extends Fragment implements View.OnClickListener {
         ArrayList<String> selected = new ArrayList<String>( this.selectedBreeds);
         ArrayAdapter<String> breedsAdapter = new ArrayAdapter<String>( getContext(), R.layout.breed_list_item, R.id.title, selected );
         ListView selectedBreedsList = (ListView) getView().findViewById(R.id.selectedBreedsList);
+
+        selectedBreedsList.setVisibility( View.VISIBLE );
         selectedBreedsList.setAdapter(breedsAdapter);
 
         LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT );
-        selectedBreedsList.setLayoutParams( listParams );
+        selectedBreedsList.setLayoutParams(listParams);
         selectedBreedsList.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
 
         selectedBreeds.clear();
