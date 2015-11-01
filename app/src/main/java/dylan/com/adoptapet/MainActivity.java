@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbarText.setText( "AdoptAPet" );
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.searchFab);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabLayout);

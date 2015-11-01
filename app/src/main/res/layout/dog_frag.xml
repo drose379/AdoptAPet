@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/colorBackground"
     android:focusable="true"
@@ -12,6 +12,7 @@
         android:padding="10dp"
         android:orientation="horizontal"
         android:background="@color/colorBackgroundDark"
+        android:id="@+id/topBox"
         >
 
         <ImageView
@@ -30,15 +31,22 @@
 
     </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/topBox"
+        android:id="@+id/midBox"
+        >
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:text="Select Breeds"
+            android:layout_below="@id/topBox"
             android:id="@+id/breedSelectButton"
             />
 
@@ -50,24 +58,33 @@
             android:divider="@null"
             android:dividerHeight="0dp"
             android:visibility="gone"
+            android:layout_below="@id/breedSelectButton"
             android:id="@+id/selectedBreedsList"
             />
+
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/colorAccent"
+        android:layout_below="@id/midBox"
         android:textStyle="bold"
         android:text="Gender: "
+        android:id="@+id/genderLabel"
         />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@id/genderLabel"
         android:id="@+id/genderSelect"
         >
 
@@ -88,15 +105,14 @@
     </LinearLayout>
 
 
-
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
+        android:layout_below="@id/genderSelect"
+        android:id="@+id/sizeLabel"
         android:text="Size: "
         />
 
@@ -104,8 +120,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@+id/sizeLabel"
         android:id="@+id/sizeSelect"
         >
 
@@ -142,15 +159,18 @@
         android:layout_marginLeft="20dp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
+        android:layout_below="@id/sizeSelect"
+        android:id="@+id/ageLabel"
         android:text="Age: "
         />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:orientation="horizontal"
+        android:layout_below="@id/ageLabel"
         android:id="@+id/ageSelect"
         >
 
@@ -185,4 +205,14 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/searchFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_search_white_24dp" />
+
+</RelativeLayout>

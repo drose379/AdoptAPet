@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -27,15 +28,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +59,8 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     private LocationManager locationManager;
     private EditText postalBox;
     private Button breedSelectButton;
+
+    private AlertDialog loadingDialog;
 
     @Override
     public void onAttach( Context context ) {
@@ -72,10 +81,12 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     public View onCreateView( LayoutInflater inflater, ViewGroup v, Bundle savedInstnace ) {
         View view = inflater.inflate( R.layout.dog_frag, v, false );
 
+        FloatingActionButton searchButton = (FloatingActionButton) view.findViewById(R.id.searchFab);
         ImageView locationIcon = (ImageView) view.findViewById(R.id.locationIcon);
         breedSelectButton = (Button) view.findViewById(R.id.breedSelectButton);
         postalBox = (EditText) view.findViewById(R.id.postalBox);
 
+        searchButton.setOnClickListener( this );
         locationIcon.setOnClickListener( this );
         breedSelectButton.setOnClickListener(this);
 
@@ -183,6 +194,87 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 });
 
                 break;
+
+            case R.id.searchFab :
+
+                /**
+                 * To grab:
+                 *
+                 * Location: postalBox.getText().toString()
+                 * Breeds: this.selectedBreeds
+                 * continue...
+                 */
+
+                CheckBox maleGender = (CheckBox) getView().findViewById( R.id.male );
+                CheckBox femaleGender = (CheckBox) getView().findViewById( R.id.female );
+
+                CheckBox sizeSmall = (CheckBox) getView().findViewById( R.id.sm );
+                CheckBox sizeMedium = (CheckBox) getView().findViewById( R.id.md );
+                CheckBox sizeLarge = (CheckBox) getView().findViewById( R.id.lg );
+                CheckBox sizeXL = (CheckBox) getView().findViewById( R.id.xl );
+
+                CheckBox ageBaby = (CheckBox) getView().findViewById( R.id.baby );
+                CheckBox ageYoung = (CheckBox) getView().findViewById( R.id.young );
+                CheckBox ageAdult = (CheckBox) getView().findViewById(  R.id.adult );
+                CheckBox ageSenior = (CheckBox) getView().findViewById( R.id.senior );
+
+                CheckBox[] genderBoxes = { maleGender, femaleGender };
+                CheckBox[] sizeBoxes = { sizeSmall, sizeMedium, sizeLarge, sizeXL };
+                CheckBox[] ageBoxes = { ageBaby, ageYoung, ageAdult, ageSenior };
+
+                JSONObject requestInfo = new JSONObject();
+
+                try {
+
+                    JSONArray genderSelected = new JSONArray();
+                    JSONArray ageSelected = new JSONArray();
+                    JSONArray sizeSelected = new JSONArray();
+
+                    for ( CheckBox box : genderBoxes ) {
+                        if ( box.isChecked() ) {
+                            genderSelected.put( box.getText() );
+                        }
+                    }
+
+                    for ( CheckBox box : sizeBoxes ) {
+                        if ( box.isChecked() ) {
+                            sizeSelected.put( box.getText() );
+                        }
+                    }
+
+                    for ( CheckBox box : ageBoxes ) {
+                        if ( box.isChecked() ) {
+                            ageSelected.put( box.getText() );
+                        }
+                    }
+
+                    String location = postalBox.getText().toString();
+                    JSONArray breeds = new JSONArray( this.selectedBreeds.toArray() );
+
+                    requestInfo.put( "location", location );
+                    requestInfo.put( "breeds", breeds.toString() );
+                    requestInfo.put( "genders", genderSelected );
+                    requestInfo.put( "sizes", sizeSelected );
+                    requestInfo.put("ages", ageSelected);
+
+                    if ( requestInfo.getString( "location" ).length() == 5 ) {
+                        loadingDialog = new AlertDialog.Builder(getContext())
+                                .setCustomTitle(LayoutInflater.from(getContext()).inflate(R.layout.loading_title, null, false))
+                                .setMessage( "Searching..." )
+                                .create();
+                        loadingDialog.show();
+                    } else {
+                        Snackbar.make( getView(), "Please Specify a Location", Snackbar.LENGTH_SHORT ).show();
+                    }
+
+
+                } catch ( JSONException e ) {
+                    throw new RuntimeException( e.getMessage() );
+                }
+
+
+
+                break;
         }
     }
 
@@ -200,7 +292,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
             newBreed.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             newBreed.setTextColor(getResources().getColor(R.color.colorWhite));
-            newBreed.setLayoutParams( layoutParams );
+            newBreed.setLayoutParams(layoutParams);
 
             parent.addView( newBreed, 0 );
             this.selectedBreeds.add( selected );
@@ -229,7 +321,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
         selectedBreedsList.setLayoutParams(listParams);
         selectedBreedsList.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
 
-        selectedBreeds.clear();
+        //selectedBreeds.clear();
         breedSelectButton.setVisibility( View.GONE );
 
     }
@@ -237,7 +329,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
     public void grabLocationZip() {
         final AlertDialog locationWaiting = new AlertDialog.Builder( getContext() )
-                .setTitle("One Moment...")
+                .setCustomTitle( LayoutInflater.from( getContext()).inflate( R.layout.location_title, null, false ) )
                 .setMessage("Waiting For Location")
                 .create();
         locationWaiting.show();
