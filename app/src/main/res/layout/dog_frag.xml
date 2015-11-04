@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/genderLabel"
         android:id="@+id/genderSelect"
         >
@@ -104,11 +104,20 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="160dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorBackgroundDarkerer"
+        android:layout_below="@id/genderSelect"
+        />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
         android:layout_below="@id/genderSelect"
@@ -121,7 +130,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/sizeLabel"
         android:id="@+id/sizeSelect"
         >
@@ -153,10 +162,20 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="160dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorBackgroundDarkerer"
+        android:layout_below="@id/sizeSelect"
+        />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
         android:layout_below="@id/sizeSelect"

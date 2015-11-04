@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.location.Address;
 import android.location.Geocoder;
@@ -33,10 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -252,17 +250,18 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     JSONArray breeds = new JSONArray( this.selectedBreeds.toArray() );
 
                     requestInfo.put( "location", location );
-                    requestInfo.put( "breeds", breeds.toString() );
+                    requestInfo.put( "type", "Dog" );
+                    requestInfo.put( "breeds", breeds );
                     requestInfo.put( "genders", genderSelected );
                     requestInfo.put( "sizes", sizeSelected );
                     requestInfo.put("ages", ageSelected);
 
                     if ( requestInfo.getString( "location" ).length() == 5 ) {
-                        loadingDialog = new AlertDialog.Builder(getContext())
-                                .setCustomTitle(LayoutInflater.from(getContext()).inflate(R.layout.loading_title, null, false))
-                                .setMessage( "Searching..." )
-                                .create();
-                        loadingDialog.show();
+
+                        Intent i = new Intent( getContext(), SearchResults.class );
+                        i.putExtra( "searchItems", requestInfo.toString() );
+                        startActivity( i );
+
                     } else {
                         Snackbar.make( getView(), "Please Specify a Location", Snackbar.LENGTH_SHORT ).show();
                     }
@@ -392,6 +391,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
         }
 
     }
+
 
 
 }
