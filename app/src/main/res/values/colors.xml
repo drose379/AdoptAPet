@@ -10,4 +10,10 @@
     <color name="colorBackgroundDark">#CFD8DC</color>
     <color name="colorBackgroundDarker">#B0BEC5</color>
     <color name="colorBackgroundDarkerer">#90A4AE</color>
+
+    <color name="colorFemale">#C51162</color>
+    <color name="colorMale">#2962FF</color>
+
+    <color name="colorBlack">#000000</color>
+
 </resources>

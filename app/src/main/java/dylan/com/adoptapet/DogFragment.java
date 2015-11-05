@@ -58,6 +58,8 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     private EditText postalBox;
     private Button breedSelectButton;
 
+    private AlertDialog breedSelectDialog;
+
     private AlertDialog loadingDialog;
 
     @Override
@@ -141,7 +143,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 breedSearch.setOnDismissListener(new AutoCompleteTextView.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        breedSearch.setText( "" );
+                        breedSearch.setText("");
                     }
                 });
 
@@ -152,12 +154,12 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemClick(AdapterView parent, View view, int item, long id) {
                         String selected = getResources().getStringArray(R.array.dog_breeds)[item];
-                        addSelectedBreed( selected, selectedBreeds );
+                        addSelectedBreed(selected, selectedBreeds);
 
                     }
                 });
 
-                final AlertDialog breedSelect = new AlertDialog.Builder( getContext() )
+                breedSelectDialog = new AlertDialog.Builder( getContext() )
                         .setCustomTitle( LayoutInflater.from( getContext() ).inflate( R.layout.dog_breed_title, null ) )
                         .setView(dialogView)
                         .setPositiveButton("Save", null)
@@ -165,17 +167,17 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                         .setNeutralButton( "Clear", null )
                         .create();
 
-                breedSelect.show();
+                breedSelectDialog.show();
 
-                breedSelect.getButton( AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                breedSelectDialog.getButton( AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        breedSelect.dismiss();
+                        breedSelectDialog.dismiss();
                         processSelectedBreeds();
                     }
                 });
 
-                breedSelect.getButton( AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+                breedSelectDialog.getButton( AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         selectedBreeds.removeAllViews();
@@ -183,11 +185,11 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
-                breedSelect.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener( new View.OnClickListener() {
+                breedSelectDialog.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) {
                         DogFragment.this.selectedBreeds.clear();
-                        breedSelect.dismiss();
+                        breedSelectDialog.dismiss();
                    }
                 });
 
@@ -313,15 +315,29 @@ public class DogFragment extends Fragment implements View.OnClickListener {
         ArrayAdapter<String> breedsAdapter = new ArrayAdapter<String>( getContext(), R.layout.breed_list_item, R.id.title, selected );
         ListView selectedBreedsList = (ListView) getView().findViewById(R.id.selectedBreedsList);
 
-        selectedBreedsList.setVisibility( View.VISIBLE );
+
         selectedBreedsList.setAdapter(breedsAdapter);
+        selectedBreedsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick( AdapterView parent, View view, int item, long id  ) {
+                breedSelectDialog.show();
+            }
+        });
 
-        LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT );
-        selectedBreedsList.setLayoutParams(listParams);
-        selectedBreedsList.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+        //TODO:: Fix weird grey box under the button if a list of breeds is cleared and button re-shows
 
-        //selectedBreeds.clear();
-        breedSelectButton.setVisibility( View.GONE );
+        if ( selectedBreeds.size() > 0 ) {
+            LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            selectedBreedsList.setLayoutParams(listParams);
+            selectedBreedsList.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
+            breedSelectButton.setVisibility(View.GONE);
+            selectedBreedsList.setVisibility(View.VISIBLE);
+        } else {
+            breedSelectButton.setVisibility( View.VISIBLE );
+            selectedBreedsList.setVisibility( View.GONE );
+        }
+
+        //if ( selectedBreeds.size() > 0 ) {breedSelectButton.setVisibility( View.GONE ); };
 
     }
 

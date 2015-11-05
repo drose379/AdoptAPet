@@ -110,6 +110,27 @@ public class PetResult {
     public String getName() {
         return name;
     }
+    public String getBreed() {
+        return breed.get(0);
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public ArrayList<String> getPhotos() {
+        return photoUrls;
+    }
+
+    public String getBestPhotoOne() {
+        //TODO:: Get the number 2 characters before the "?", that is the photo ID, ( get ID 1 here ), then, get the best photo ID with 1 with the highest "width"
+        //TODO:: Return the above item
+        return null;
+    }
+    public String getBestPhotoTwo() {
+        //TODO:: Do the same as above, but get for photo ID 2
+        return null;
+    }
 
     //TODO:: Write all getters
 

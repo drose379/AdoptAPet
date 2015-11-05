@@ -57,8 +57,6 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         loadingDialog.dismiss();
         PetResultAdapter adapter = new PetResultAdapter( this, results );
 
-        Log.i("RESULT", String.valueOf( results.size() ) );
-        Log.i("ADAPTERRESULT", String.valueOf( adapter.getCount() ) );
         resultList.setAdapter( adapter );
     }
 
