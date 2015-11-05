@@ -1,6 +1,7 @@
 package dylan.com.adoptapet;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class PetResultAdapter extends BaseAdapter {
 
         PetResult result = pets.get( item );
 
+
         switch ( result.getSex() ) {
             case "Male" :
                 petHeadImage.setBorderColorResource( R.color.colorMale );
@@ -73,8 +75,8 @@ public class PetResultAdapter extends BaseAdapter {
         }
 
 
-        Picasso.with( context ).load( result.getPhotos().get( 1 ) ).fit().into( petHeadImage );
-        Picasso.with( context ).load( result.getPhotos().get( result.getPhotos().size() - 1 ) ).fit().into(petHeadImageTwo);
+        Picasso.with( context ).load( result.getBestPhoto( 1 ) ).fit().into( petHeadImage );
+        Picasso.with( context ).load( result.getBestPhoto( 2 ) ).fit().into(petHeadImageTwo);
         petHeadName.setText(result.getName());
 
         imageParent.setInAnimation(context, android.R.anim.fade_in);

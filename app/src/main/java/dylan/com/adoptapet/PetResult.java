@@ -1,5 +1,7 @@
 package dylan.com.adoptapet;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,15 +124,33 @@ public class PetResult {
         return photoUrls;
     }
 
-    public String getBestPhotoOne() {
+    public String getBestPhoto( int which ) {
         //TODO:: Get the number 2 characters before the "?", that is the photo ID, ( get ID 1 here ), then, get the best photo ID with 1 with the highest "width"
         //TODO:: Return the above item
-        return null;
+
+        String photoId = String.valueOf( which );
+
+        String url = null;
+        int currentLargest = 0;
+
+        for ( String photoUrl : getPhotos() ) {
+            String id = photoUrl.substring( photoUrl.indexOf("?") - 2, photoUrl.indexOf("?") - 1 );
+            if ( id.equals( photoId ) ) {
+                //firstPhotos.add( photoUrl ); get the size, if bigger then current, assign to url;
+                int widthStart = photoUrl.indexOf( "width=" ) + 6;
+                int widthEnd = photoUrl.indexOf( "&", widthStart  );
+                int width = Integer.valueOf( photoUrl.substring( widthStart, widthEnd ) );
+
+                if ( width > currentLargest ) {
+                    url = photoUrl;
+                    currentLargest = width;
+                }
+            }
+        }
+
+        return url;
     }
-    public String getBestPhotoTwo() {
-        //TODO:: Do the same as above, but get for photo ID 2
-        return null;
-    }
+
 
     //TODO:: Write all getters
 

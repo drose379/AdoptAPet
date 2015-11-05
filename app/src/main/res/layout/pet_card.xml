@@ -28,7 +28,7 @@
             <ViewFlipper
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:flipInterval="5000"
+                android:flipInterval="2500"
                 android:id="@+id/imageContainer"
                 >
 
