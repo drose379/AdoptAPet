@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         card_view:cardBackgroundColor="@color/colorBackgroundDark"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:cardCornerRadius="5dp"
         >
 
         <!--TODO:: Show a border around each card, of colorBackgroundDarkerer -->
@@ -25,6 +26,25 @@
             android:padding="10dp"
             >
 
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:id="@+id/genderIcon"
+                />
+
+            <TextView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_below="@id/genderIcon"
+                android:id="@+id/genderText"
+                />
+
+
             <ViewFlipper
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,15 +53,15 @@
                 >
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/petHeadImage"
                     />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/petHeadImageTwo"
                     />
@@ -59,8 +79,20 @@
                 android:layout_centerHorizontal="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textAlignment="center"
                 android:layout_below="@id/imageContainer"
-                android:id="@+id/petHeadName"
+                android:id="@+id/petHeadGreeting"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:layout_below="@id/petHeadGreeting"
+                android:id="@+id/petHeadDescription"
                 />
 
 

@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,12 +24,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class PetResultAdapter extends BaseAdapter {
 
+    private String[] greetingStarts = { "Hello", "Hi", "Hey There", "Hey", "Howdy", "Good Day", "Greetings" };
+    private String[] greetingMiddle = { "I go by", "My name is", "Call me", "They Call Me" };
+    private Random rand;
+
     private Context context;
     private ArrayList<PetResult> pets;
 
     public PetResultAdapter( Context context, ArrayList<PetResult> pets ) {
         this.context = context;
         this.pets = pets;
+
+        rand = new Random();
     }
 
     @Override
@@ -44,40 +53,82 @@ public class PetResultAdapter extends BaseAdapter {
         return pets.get( item );
     }
 
+    public String getGreetingText() {
+        int startRandom = rand.nextInt( 6 );
+
+
+        return greetingStarts[startRandom] + "!";
+    }
+
+    public String getBasicInfoText() {
+        int middleRandom = rand.nextInt( 3 );
+
+        return greetingMiddle[middleRandom];
+    }
+
     @Override
     public View getView( int item, View recycledView, ViewGroup parent ) {
+        PetResult result = pets.get(item);
+
+        RequestCreator imageOne = Picasso.with( context ).load( result.getBestPhoto( 1 ) );
+        RequestCreator imageTwo = Picasso.with( context ).load( result.getBestPhoto( 2 ) );
+
+        //TODO:: Check for a photo 3 below just in case 2 is NULL and 3 is not
+
+        if ( result.getBestPhoto( 2 ) == null ) {
+            imageTwo = Picasso.with( context ).load( result.getBestPhoto( 1 ) );
+        }
 
         recycledView = recycledView == null ? LayoutInflater.from( context ).inflate( R.layout.pet_card, parent, false ) : recycledView;
 
-        //TODO:: If pets sex is a girl, give a girly image frame, if it is male, give a man image frame on head image
         ViewFlipper imageParent = (ViewFlipper) recycledView.findViewById( R.id.imageContainer );
         CircleImageView petHeadImage = (CircleImageView) recycledView.findViewById( R.id.petHeadImage );
         CircleImageView petHeadImageTwo = (CircleImageView) recycledView.findViewById( R.id.petHeadImageTwo );
-        TextView petHeadName = (TextView) recycledView.findViewById( R.id.petHeadName );
-
-        PetResult result = pets.get( item );
+        ImageView genderIcon = (ImageView) recycledView.findViewById( R.id.genderIcon );
+        TextView petHeadGreeting = (TextView) recycledView.findViewById( R.id.petHeadGreeting );
+        TextView petHeadBasicInfo = (TextView) recycledView.findViewById( R.id.petHeadDescription );
+        TextView genderText = (TextView) recycledView.findViewById( R.id.genderText );
 
 
         switch ( result.getSex() ) {
             case "Male" :
-                petHeadImage.setBorderColorResource( R.color.colorMale );
-                petHeadImageTwo.setBorderColorResource( R.color.colorMale );
+                petHeadImage.setBorderColorResource(R.color.colorMale);
+                petHeadImageTwo.setBorderColorResource(R.color.colorMale);
                 petHeadImage.setBorderWidth(6);
-                petHeadImageTwo.setBorderWidth( 6 );
+                petHeadImageTwo.setBorderWidth(6);
+
+                genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male);
+                genderText.setText("M" );
+                genderText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
+
                 break;
 
             case "Female" :
-                petHeadImage.setBorderColorResource( R.color.colorFemale );
-                petHeadImageTwo.setBorderColorResource( R.color.colorFemale );
+                petHeadImage.setBorderColorResource(R.color.colorFemale);
+                petHeadImageTwo.setBorderColorResource(R.color.colorFemale);
                 petHeadImage.setBorderWidth(6);
-                petHeadImageTwo.setBorderWidth( 6 );
+                petHeadImageTwo.setBorderWidth(6);
+
+                genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
+                genderText.setText("F");
+                genderText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
+
                 break;
         }
 
 
-        Picasso.with( context ).load( result.getBestPhoto( 1 ) ).fit().into( petHeadImage );
-        Picasso.with( context ).load( result.getBestPhoto( 2 ) ).fit().into(petHeadImageTwo);
-        petHeadName.setText(result.getName());
+        imageOne.fit().into( petHeadImage );
+        imageTwo.fit().into( petHeadImageTwo );
+
+        //TODO:: Have an ArrayList of random greeting strings and pick random one for each animal
+
+        //String headText = "I am a " + result.getSex() + " " + result.getBreed() + "\nMy name is " + result.getName();
+        //String headText = getHeadText() + result.getName() + "\nI am a " + result.getSex() + " " + result.getBreed() ;
+
+        String basicInfo = getBasicInfoText() + " " + result.getName() + "\nI am a " + result.getBreed();
+
+        petHeadGreeting.setText( getGreetingText() );
+        petHeadBasicInfo.setText( basicInfo );
 
         imageParent.setInAnimation(context, android.R.anim.fade_in);
         imageParent.setOutAnimation( context, android.R.anim.fade_out );

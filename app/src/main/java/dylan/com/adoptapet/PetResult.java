@@ -125,9 +125,6 @@ public class PetResult {
     }
 
     public String getBestPhoto( int which ) {
-        //TODO:: Get the number 2 characters before the "?", that is the photo ID, ( get ID 1 here ), then, get the best photo ID with 1 with the highest "width"
-        //TODO:: Return the above item
-
         String photoId = String.valueOf( which );
 
         String url = null;
