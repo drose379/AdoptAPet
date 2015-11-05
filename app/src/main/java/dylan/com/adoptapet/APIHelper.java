@@ -1,5 +1,6 @@
 package dylan.com.adoptapet;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.squareup.okhttp.Callback;
@@ -25,7 +26,7 @@ public class APIHelper {
         void getResults( ArrayList<PetResult> results );
     }
 
-    public static void makeRequest( String animalType, final Callback callback , JSONObject criteria ) {
+    public static void makeRequest( String animalType, final Callback callback , final Handler h, JSONObject criteria ) {
         OkHttpClient client = new OkHttpClient();
         /**
          * Make request with object as string,
@@ -45,17 +46,49 @@ public class APIHelper {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                parseResults( response.body().string(), callback );
+                parseResults( response.body().string(), h, callback );
             }
         });
 
     }
 
-    private static void parseResults( String resultArray, Callback callback ) {
+    private static void parseResults( String resultArray, final Handler h, final Callback callback ) {
+
+
+        final ArrayList<PetResult> results = new ArrayList<PetResult>();
 
         try {
             JSONArray petResults = new JSONArray( resultArray );
-            Log.i("COUNT", String.valueOf( petResults.length() ));
+
+            for ( int i = 0; i < petResults.length(); i++ ) {
+                JSONObject pet = petResults.getJSONObject( i );
+
+                PetResult petResult = new PetResult()
+                        .setName( pet.getString( "name" ) )
+                        .setId( pet.getString( "id" ) )
+                        .setAnimalType( pet.getString( "animalType" ) )
+                        .setBreed( pet.getJSONArray( "breed" ) )
+                        .setIsMix( pet.getString( "isMix" ).equals( "true" ) )
+                        .setAge( pet.getString( "age" ) )
+                        .setSex( pet.getString( "sex" ) )
+                        .setSize( pet.getString( "size" ) )
+                        .setExtras( pet.getJSONArray( "extras" ) )
+                        .setDescription( pet.getString( "description" ) )
+                        .setPhotos( pet.getJSONArray( "photos" ) )
+                        .setContactInfo( pet.getJSONObject( "contactInfo" ) );
+
+                results.add( petResult );
+            }
+
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    callback.getResults( results );
+                }
+            };
+
+            h.post( r );
+
         } catch ( JSONException e) {
             throw new RuntimeException( e.getMessage() );
         }
