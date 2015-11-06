@@ -1,6 +1,7 @@
 package dylan.com.adoptapet;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class PetResultAdapter extends BaseAdapter {
 
     private String[] greetingStarts = { "Hello", "Hi", "Hey There", "Hey", "Howdy", "Good Day", "Greetings" };
     private String[] greetingMiddle = { "I go by", "My name is", "Call me", "They Call Me" };
+
     private Random rand;
 
     private Context context;
@@ -66,6 +68,7 @@ public class PetResultAdapter extends BaseAdapter {
         return greetingMiddle[middleRandom];
     }
 
+
     @Override
     public View getView( int item, View recycledView, ViewGroup parent ) {
         PetResult result = pets.get(item);
@@ -90,12 +93,21 @@ public class PetResultAdapter extends BaseAdapter {
         TextView genderText = (TextView) recycledView.findViewById( R.id.genderText );
 
 
+        View backdrop =recycledView.findViewById(R.id.backdrop);
+
+        //TODO:: Make sure the backdrop view has rounded top corners on all devices
+
+
+
         switch ( result.getSex() ) {
             case "Male" :
+
                 petHeadImage.setBorderColorResource(R.color.colorMale);
                 petHeadImageTwo.setBorderColorResource(R.color.colorMale);
                 petHeadImage.setBorderWidth(6);
                 petHeadImageTwo.setBorderWidth(6);
+
+                backdrop.setBackgroundColor( Color.parseColor("#C5CAE9") );
 
                 genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male);
                 genderText.setText("M" );
@@ -104,10 +116,13 @@ public class PetResultAdapter extends BaseAdapter {
                 break;
 
             case "Female" :
+
                 petHeadImage.setBorderColorResource(R.color.colorFemale);
                 petHeadImageTwo.setBorderColorResource(R.color.colorFemale);
                 petHeadImage.setBorderWidth(6);
                 petHeadImageTwo.setBorderWidth(6);
+
+                backdrop.setBackgroundColor( Color.parseColor( "#F8BBD0" ) );
 
                 genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
                 genderText.setText("F");
@@ -119,11 +134,6 @@ public class PetResultAdapter extends BaseAdapter {
 
         imageOne.fit().into( petHeadImage );
         imageTwo.fit().into( petHeadImageTwo );
-
-        //TODO:: Have an ArrayList of random greeting strings and pick random one for each animal
-
-        //String headText = "I am a " + result.getSex() + " " + result.getBreed() + "\nMy name is " + result.getName();
-        //String headText = getHeadText() + result.getName() + "\nI am a " + result.getSex() + " " + result.getBreed() ;
 
         String basicInfo = getBasicInfoText() + " " + result.getName() + "\nI am a " + result.getBreed();
 

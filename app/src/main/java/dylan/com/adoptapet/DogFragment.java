@@ -2,9 +2,11 @@ package dylan.com.adoptapet;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,6 +18,7 @@ import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -54,6 +57,8 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> selectedBreeds;
 
+    private BroadcastReceiver noResultReceiver;
+
     private LocationManager locationManager;
     private EditText postalBox;
     private Button breedSelectButton;
@@ -73,9 +78,35 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
 
-
-
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if( noResultReceiver == null ) {
+
+            noResultReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Log.i("BROADCAST", "RECEIVED BROADCAST");
+                    Snackbar.make(getView(), "No Results!", Snackbar.LENGTH_SHORT).show();
+                }
+            };
+
+            IntentFilter filter = new IntentFilter(SearchResults.NO_RESULT);
+
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(noResultReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance( getContext() ).unregisterReceiver( noResultReceiver );
+        Log.i("STOP","STOPPED");
+    }
+
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup v, Bundle savedInstnace ) {
@@ -88,10 +119,12 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
         searchButton.setOnClickListener( this );
         locationIcon.setOnClickListener( this );
-        breedSelectButton.setOnClickListener(this);
+        breedSelectButton.setOnClickListener( this );
 
         return view;
     }
+
+
 
     @Override
     @SuppressWarnings("NewApi")

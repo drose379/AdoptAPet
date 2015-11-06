@@ -24,10 +24,10 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
                 frag = new DogFragment();
                 break;
             case 1 :
-                frag = new DogFragment();
+                frag = new Fragment();
                 break;
             case 2 :
-                frag = new DogFragment();
+                frag = new Fragment();
                 break;
             default :
                 throw new RuntimeException();

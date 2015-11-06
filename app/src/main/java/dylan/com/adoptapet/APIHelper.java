@@ -57,42 +57,54 @@ public class APIHelper {
 
         final ArrayList<PetResult> results = new ArrayList<PetResult>();
 
-        try {
-            JSONArray petResults = new JSONArray( resultArray );
+        if ( !resultArray.isEmpty() ) {
 
-            for ( int i = 0; i < petResults.length(); i++ ) {
-                JSONObject pet = petResults.getJSONObject( i );
+            try {
+                JSONArray petResults = new JSONArray(resultArray);
 
-                PetResult petResult = new PetResult()
-                        .setName( pet.getString( "name" ) )
-                        .setId( pet.getString( "id" ) )
-                        .setAnimalType( pet.getString( "animalType" ) )
-                        .setBreed( pet.getJSONArray( "breed" ) )
-                        .setIsMix( pet.getString( "isMix" ).equals( "true" ) )
-                        .setAge( pet.getString( "age" ) )
-                        .setSex( pet.getString( "sex" ) )
-                        .setSize( pet.getString( "size" ) )
-                        .setExtras( pet.getJSONArray( "extras" ) )
-                        .setDescription( pet.getString( "description" ) )
-                        .setPhotos( pet.getJSONArray( "photos" ) )
-                        .setContactInfo( pet.getJSONObject( "contactInfo" ) );
+                for (int i = 0; i < petResults.length(); i++) {
+                    JSONObject pet = petResults.getJSONObject(i);
 
-                results.add( petResult );
+                    PetResult petResult = new PetResult()
+                            .setName(pet.getString("name"))
+                            .setId(pet.getString("id"))
+                            .setAnimalType(pet.getString("animalType"))
+                            .setBreed(pet.getJSONArray("breed"))
+                            .setIsMix(pet.getString("isMix").equals("true"))
+                            .setAge(pet.getString("age"))
+                            .setSex(pet.getString("sex"))
+                            .setSize(pet.getString("size"))
+                            .setExtras(pet.getJSONArray("extras"))
+                            .setDescription(pet.getString("description"))
+                            .setPhotos(pet.getJSONArray("photos"))
+                            .setContactInfo(pet.getJSONObject("contactInfo"));
+
+                    results.add(petResult);
+                }
+
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.getResults(results);
+                    }
+                };
+
+                h.post(r);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e.getMessage());
             }
 
+        } else {
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
-                    callback.getResults( results );
+                    callback.getResults( null );
                 }
             };
-
             h.post( r );
-
-        } catch ( JSONException e) {
-            throw new RuntimeException( e.getMessage() );
         }
-
     }
+
 
 }
