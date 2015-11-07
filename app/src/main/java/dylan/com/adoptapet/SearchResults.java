@@ -27,6 +27,8 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
     private AlertDialog loadingDialog;
     private ListView resultList;
+    private ImageView noResultsImage;
+    private TextView noResultText;
 
     public static String NO_RESULT = "NO_RESULT";
 
@@ -38,6 +40,9 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
         ImageView toolbarBack = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
+
+        noResultsImage = (ImageView) findViewById( R.id.noResultImage );
+        noResultText = (TextView) findViewById( R.id.noResultsText );
 
         toolbarTitle.setText( "Results" );
         toolbarBack.setOnClickListener( this );
@@ -79,8 +84,19 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
     public void getResults( ArrayList<PetResult> results ) {
         loadingDialog.dismiss();
         if ( results != null ) {
-            PetResultAdapter adapter = new PetResultAdapter( this, results );
-            resultList.setAdapter( adapter );
+            if ( results.size() > 0 ) {
+                PetResultAdapter adapter = new PetResultAdapter( this, results );
+                resultList.setVisibility( View.VISIBLE );
+                resultList.setAdapter( adapter );
+
+                noResultsImage.setVisibility( View.GONE );
+                noResultText.setVisibility( View.GONE );
+            } else {
+                resultList.setVisibility( View.GONE );
+                noResultsImage.setVisibility( View.VISIBLE );
+                noResultsImage.setVisibility( View.VISIBLE );
+            }
+
         } else {
             /**
              * Send a broadcast that the DogFragment will listen for, the dog frag will show the "No Results" snackbar on receive of broadcast

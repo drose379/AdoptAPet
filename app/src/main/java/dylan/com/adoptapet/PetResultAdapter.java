@@ -26,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PetResultAdapter extends BaseAdapter {
 
     private String[] greetingStarts = { "Hello", "Hi", "Hey There", "Hey", "Howdy", "Good Day", "Greetings" };
-    private String[] greetingMiddle = { "I go by", "My name is", "Call me", "They Call Me" };
+    private String[] greetingMiddle = {  "My name is", "Call me", "They Call Me", "People call me" };
 
     private Random rand;
 
@@ -107,7 +107,7 @@ public class PetResultAdapter extends BaseAdapter {
                 petHeadImage.setBorderWidth(6);
                 petHeadImageTwo.setBorderWidth(6);
 
-                backdrop.setBackgroundColor( Color.parseColor("#C5CAE9") );
+                backdrop.setBackgroundResource( R.drawable.round_card_male );
 
                 genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male);
                 genderText.setText("M" );
@@ -122,7 +122,7 @@ public class PetResultAdapter extends BaseAdapter {
                 petHeadImage.setBorderWidth(6);
                 petHeadImageTwo.setBorderWidth(6);
 
-                backdrop.setBackgroundColor( Color.parseColor( "#F8BBD0" ) );
+                backdrop.setBackgroundResource( R.drawable.round_card_female );
 
                 genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
                 genderText.setText("F");

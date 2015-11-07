@@ -14,6 +14,9 @@
     <color name="colorFemale">#C51162</color>
     <color name="colorMale">#2962FF</color>
 
+    <color name="colorMaleCard">#C5CAE9</color>
+    <color name="colorFemaleCard">#F8BBD0</color>
+
     <color name="colorBlack">#000000</color>
 
 </resources>

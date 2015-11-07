@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/root"
+    android:background="@color/colorBackgroundDarker"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
@@ -19,6 +20,29 @@
         android:dividerHeight="0dp"
         android:divider="@null"
         android:id="@+id/petResultsList"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_sad_100"
+        android:paddingTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        android:id="@+id/noResultImage"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/no_results"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:padding="50dp"
+        android:id="@+id/noResultsText"
         />
 
 </LinearLayout>

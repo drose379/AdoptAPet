@@ -36,7 +36,7 @@ public class APIHelper {
 
         Request request = new Request.Builder()
                 .post( body )
-                .url( "http://104.236.15.47/AdoptAPetAPI/getPets.php" )
+                .url( "http://104.236.15.47/AdoptAPetAPI/testScript.php" )
                 .build();
         client.newCall( request ).enqueue(new com.squareup.okhttp.Callback() {
             @Override
