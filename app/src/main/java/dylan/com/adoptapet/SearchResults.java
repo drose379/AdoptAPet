@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 11/1/15.
  */
-public class SearchResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener {
+public class SearchResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener, AdapterView.OnItemClickListener {
 
     private AlertDialog loadingDialog;
     private ListView resultList;
@@ -50,9 +51,10 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         noResultText = (TextView) findViewById( R.id.noResultsText );
 
         toolbarTitle.setText( "Results" );
-        toolbarBack.setOnClickListener( this );
+        toolbarBack.setOnClickListener(this);
 
         resultList = (ListView) findViewById( R.id.petResultsList );
+        resultList.setOnItemClickListener( this );
 
         Intent i = getIntent();
         if ( i.getStringExtra("searchItems") != null ) {
@@ -95,6 +97,14 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick( AdapterView parent, View view, int item, long id ) {
+        PetResult itemClicked = (PetResult) resultList.getItemAtPosition( item );
+        Intent petDetail = new Intent( this, PetResultDetail.class );
+        petDetail.putExtra( "pet", itemClicked );
+        startActivity( petDetail );
     }
 
     @Override

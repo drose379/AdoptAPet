@@ -20,6 +20,8 @@
         </activity>
 
         <activity android:name=".SearchResults" />
+
+        <activity android:name=".PetResultDetail" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

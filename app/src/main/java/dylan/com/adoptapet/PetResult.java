@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ import dylan.com.adoptapet.util.DistanceUtil;
 /**
  * Created by dylan on 11/4/15.
  */
-public class PetResult {
+public class PetResult implements Serializable {
 
     /**
      * POJO for the PetResult
