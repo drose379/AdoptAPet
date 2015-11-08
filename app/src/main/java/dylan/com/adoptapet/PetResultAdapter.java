@@ -108,10 +108,10 @@ public class PetResultAdapter extends BaseAdapter {
         switch ( result.getSex() ) {
             case "Male" :
 
-                petHeadImage.setBorderColorResource(R.color.colorMale);
-                petHeadImageTwo.setBorderColorResource(R.color.colorMale);
-                petHeadImage.setBorderWidth(6);
-                petHeadImageTwo.setBorderWidth(6);
+                petHeadImage.setBorderColorResource(R.color.colorMaleCard);
+                petHeadImageTwo.setBorderColorResource(R.color.colorMaleCard);
+                petHeadImage.setBorderWidth( 10 );
+                petHeadImageTwo.setBorderWidth( 10 );
 
                 backdrop.setBackgroundResource( R.drawable.round_card_male );
 
@@ -126,10 +126,10 @@ public class PetResultAdapter extends BaseAdapter {
 
             case "Female" :
 
-                petHeadImage.setBorderColorResource(R.color.colorFemale);
-                petHeadImageTwo.setBorderColorResource(R.color.colorFemale);
-                petHeadImage.setBorderWidth(6);
-                petHeadImageTwo.setBorderWidth(6);
+                petHeadImage.setBorderColorResource(R.color.colorFemaleCard);
+                petHeadImageTwo.setBorderColorResource(R.color.colorFemaleCard);
+                petHeadImage.setBorderWidth(10);
+                petHeadImageTwo.setBorderWidth(10);
 
                 backdrop.setBackgroundResource( R.drawable.round_card_female );
 

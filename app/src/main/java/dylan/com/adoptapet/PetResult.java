@@ -125,7 +125,7 @@ public class PetResult {
         return name;
     }
     public String getBreed() {
-        return breed.get(0);
+        return breed.size() > 1 ? breed.get( 0 ) + " Mix" : breed.get( 0 );
     }
 
     public String getSex() {

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:custom_text="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:background="@color/colorPrimary"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark">
