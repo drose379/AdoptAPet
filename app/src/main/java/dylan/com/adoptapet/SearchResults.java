@@ -35,7 +35,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
     private ImageView noResultsImage;
     private TextView noResultText;
 
-    public static String NO_RESULT = "NO_RESULT";
+    public static boolean badLocation = false;
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -102,6 +102,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         loadingDialog.dismiss();
         if ( results != null ) {
             if ( results.size() > 0 ) {
+                badLocation = false;
                 PetResultAdapter adapter = new PetResultAdapter( this, results );
                 resultList.setVisibility( View.VISIBLE );
                 resultList.setAdapter( adapter );
@@ -115,17 +116,9 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             }
 
         } else {
-            /**
-             * Send a broadcast that the DogFragment will listen for, the dog frag will show the "No Results" snackbar on receive of broadcast
-             * Call finish after broadcast is called
-             * -----> ------> THIS IS NOT WORKING RIGHT NOW!, apparently code will run after finish <----- <-----
-             */
-
 
             finish();
-            Intent noResult = new Intent( NO_RESULT );
-            sendBroadcast( noResult );
-            Log.i("BROADCAST","SENT BROADCAST");
+            badLocation = true;
 
         }
 

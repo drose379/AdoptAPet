@@ -57,8 +57,6 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> selectedBreeds;
 
-    private BroadcastReceiver noResultReceiver;
-
     private LocationManager locationManager;
     private EditText postalBox;
     private Button breedSelectButton;
@@ -69,7 +67,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onAttach( Context context ) {
-        super.onAttach( context );
+        super.onAttach(context);
         locationManager = ( LocationManager ) context.getSystemService( Context.LOCATION_SERVICE );
         selectedBreeds = new ArrayList<String>();
     }
@@ -81,30 +79,19 @@ public class DogFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
-        if( noResultReceiver == null ) {
-
-            noResultReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    Log.i("BROADCAST", "RECEIVED BROADCAST");
-                    Snackbar.make(getView(), "No Results!", Snackbar.LENGTH_SHORT).show();
-                }
-            };
-
-            IntentFilter filter = new IntentFilter(SearchResults.NO_RESULT);
-
-            LocalBroadcastManager.getInstance(getContext()).registerReceiver(noResultReceiver, filter);
+        if ( SearchResults.badLocation ) {
+            Snackbar.make( getView(), "Please specify a valid location", Snackbar.LENGTH_SHORT ).show();
         }
+
     }
+
 
     @Override
     public void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance( getContext() ).unregisterReceiver( noResultReceiver );
-        Log.i("STOP","STOPPED");
     }
 
 
