@@ -1,6 +1,9 @@
 package dylan.com.adoptapet;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -18,10 +21,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by dylan on 11/1/15.
+ * Created by Dylan Rose on 11/1/15.
  */
 public class SearchResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener {
 
@@ -61,13 +66,25 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             try {
 
                 JSONObject searchItems = new JSONObject( i.getStringExtra( "searchItems" ) );
-                APIHelper.makeRequest(searchItems.getString("type"), this, new Handler(), searchItems);
+                APIHelper.makeRequest( this, searchItems.getString( "location" ),  new Handler(), searchItems);
 
             } catch ( JSONException e ) {
                  throw new RuntimeException( e.getMessage() );
             }
 
         }
+
+        /**TEST---TEST--GEOCODER TO GO FROM ZIP TO ADDRESS OBJECT-----TEST------TEST-----TEST----TEST---
+        Geocoder geoCoder = new Geocoder( this );
+        try {
+            List<Address> addresses = geoCoder.getFromLocationName( "02356", 1 );
+            float[] results = new float[3];
+            Location.distanceBetween(  );
+        } catch ( IOException e ) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+         */
 
     }
 

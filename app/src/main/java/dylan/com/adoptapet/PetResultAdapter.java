@@ -2,6 +2,9 @@ package dylan.com.adoptapet;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +17,13 @@ import android.widget.ViewFlipper;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import dylan.com.adoptapet.util.DistanceUtil;
 
 /**
  * Created by dylan on 11/4/15.
@@ -88,16 +93,17 @@ public class PetResultAdapter extends BaseAdapter {
         CircleImageView petHeadImage = (CircleImageView) recycledView.findViewById( R.id.petHeadImage );
         CircleImageView petHeadImageTwo = (CircleImageView) recycledView.findViewById( R.id.petHeadImageTwo );
         ImageView genderIcon = (ImageView) recycledView.findViewById( R.id.genderIcon );
+        ImageView locationIcon = (ImageView) recycledView.findViewById( R.id.locationIcon );
         TextView petHeadGreeting = (TextView) recycledView.findViewById( R.id.petHeadGreeting );
         TextView petHeadBasicInfo = (TextView) recycledView.findViewById( R.id.petHeadDescription );
         TextView genderText = (TextView) recycledView.findViewById( R.id.genderText );
+        TextView distanceText = (TextView) recycledView.findViewById( R.id.distanceText );
 
 
         View backdrop =recycledView.findViewById(R.id.backdrop);
 
-        //TODO:: Make sure the backdrop view has rounded top corners on all devices
 
-
+        //String distance = DistanceUtil.zipDistance( context, clientZip, result.getZip() ) + " MI";
 
         switch ( result.getSex() ) {
             case "Male" :
@@ -112,6 +118,9 @@ public class PetResultAdapter extends BaseAdapter {
                 genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male);
                 genderText.setText("M" );
                 genderText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
+
+                distanceText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
+                locationIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_location_100_male ) );
 
                 break;
 
@@ -128,9 +137,14 @@ public class PetResultAdapter extends BaseAdapter {
                 genderText.setText("F");
                 genderText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
 
+                distanceText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
+                locationIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_location_100_female ) );
+
                 break;
         }
 
+        String distance = result.getDistance() + " Mi";
+        distanceText.setText( distance );
 
         imageOne.fit().into( petHeadImage );
         imageTwo.fit().into( petHeadImageTwo );

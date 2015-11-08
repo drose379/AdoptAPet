@@ -1,5 +1,6 @@
 package dylan.com.adoptapet;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
@@ -17,6 +18,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dylan.com.adoptapet.util.DistanceUtil;
+
 /**
  * Created by dylan on 11/1/15.
  */
@@ -26,7 +29,11 @@ public class APIHelper {
         void getResults( ArrayList<PetResult> results );
     }
 
-    public static void makeRequest( String animalType, final Callback callback , final Handler h, JSONObject criteria ) {
+    private static Context context;
+
+    public static void makeRequest( final Callback callback, final String clientZip, final Handler h, final JSONObject criteria ) {
+        APIHelper.context = (Context) callback;
+
         OkHttpClient client = new OkHttpClient();
         /**
          * Make request with object as string,
@@ -46,13 +53,13 @@ public class APIHelper {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                parseResults( response.body().string(), h, callback );
+                parseResults( response.body().string(), clientZip, h, callback );
             }
         });
 
     }
 
-    private static void parseResults( String resultArray, final Handler h, final Callback callback ) {
+    private static void parseResults( String resultArray, String clientLocation, final Handler h, final Callback callback ) {
 
 
         final ArrayList<PetResult> results = new ArrayList<PetResult>();
@@ -78,6 +85,8 @@ public class APIHelper {
                             .setDescription(pet.getString("description"))
                             .setPhotos(pet.getJSONArray("photos"))
                             .setContactInfo(pet.getJSONObject("contactInfo"));
+
+                    petResult.setDistanceFromClient( DistanceUtil.zipDistance( context, petResult.getZip(), clientLocation ) );
 
                     results.add(petResult);
                 }

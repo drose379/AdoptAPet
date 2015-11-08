@@ -1,13 +1,20 @@
 package dylan.com.adoptapet;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import dylan.com.adoptapet.util.DistanceUtil;
 
 /**
  * Created by dylan on 11/4/15.
@@ -31,6 +38,7 @@ public class PetResult {
     private String description;
     private ArrayList<String> photoUrls;
     private HashMap<String,String> contactInfo;
+    private String distanceFromClient;
 
     public PetResult setName( String name ) {
         this.name = name;
@@ -109,6 +117,10 @@ public class PetResult {
         return this;
     }
 
+    public void setDistanceFromClient( String distance) {
+        distanceFromClient = distance;
+    }
+
     public String getName() {
         return name;
     }
@@ -146,6 +158,15 @@ public class PetResult {
         }
 
         return url;
+    }
+
+
+    public String getDistance() {
+        return distanceFromClient;
+    }
+
+    public String getZip() {
+        return contactInfo.get( "zip" );
     }
 
 
