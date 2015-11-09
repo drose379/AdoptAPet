@@ -171,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_cell_phone_100"
+                android:id="@+id/phoneButton"
                 />
 
             <TextView
