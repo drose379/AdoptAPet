@@ -6,8 +6,8 @@
     <color name="colorAccent">#536DFE</color>
     -->
 
-    <color name="colorPrimary">#34495e</color>
-    <color name="colorPrimaryDark">#2E4154</color>
+    <color name="colorPrimary">#3498DB</color>
+    <color name="colorPrimaryDark">#2980B9</color>
     <color name="colorAccent">#EF5C54</color>
 
     <color name="colorWhite">#FFFFFF</color>
@@ -25,7 +25,7 @@
     <color name="colorFemaleCard">#F8BBD0</color>
     -->
 
-    <color name="colorMaleCard">#96a0a9</color>
+    <color name="colorMaleCard">#86C2EA</color>
     <color name="colorFemaleCard">#f59d98</color>
 
     <color name="colorBlack">#000000</color>

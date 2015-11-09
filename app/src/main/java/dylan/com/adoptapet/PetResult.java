@@ -179,7 +179,26 @@ public class PetResult implements Serializable {
         return age;
     }
 
-    //TODO:: Write all getters
+    public String getSize() {
+        return size;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+
+    public String getContactNumber() {
+        return contactInfo.get( "phone" );
+    }
+
+    public String getLocationInfo() {
+        return contactInfo.get( "address" ) + ", " + contactInfo.get( "city" ) + ", " + contactInfo.get( "state" );
+    }
+
+    public String getEmail( ) {
+        return contactInfo.get( "email" );
+    }
 
 
 }

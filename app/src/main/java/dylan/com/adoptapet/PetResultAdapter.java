@@ -115,12 +115,12 @@ public class PetResultAdapter extends BaseAdapter {
 
                 backdrop.setBackgroundResource( R.drawable.round_card_male );
 
-                genderIcon.setImageResource( R.drawable.ic_dog_footprint_male_2 );
+                genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male );
                 genderText.setText("M" );
                 genderText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
 
                 distanceText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
-                locationIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_location_100_2 ) );
+                locationIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_location_100_male ) );
 
                 break;
 
