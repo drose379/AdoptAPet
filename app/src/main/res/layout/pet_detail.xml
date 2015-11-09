@@ -2,9 +2,111 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/colorBackgroundDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/toolbar_back" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:id="@+id/topView"
+        />
+
+
+
+    <ViewFlipper
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:flipInterval="3000"
+        android:layout_below="@id/backdrop"
+        android:layout_marginTop="-120dp"
+        android:autoStart="true"
+        android:id="@+id/imageContainer"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="2dp"
+            android:id="@+id/petHeadImageOne"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:elevation="2dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/petHeadImageTwo"
+            />
+
+    </ViewFlipper>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/nameText"
+        />
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_dog_100"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlack"
+            android:textAlignment="center"
+            android:id="@+id/breedText"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_easter_cake_100"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:id="@+id/ageText"
+            />
+
+    </RelativeLayout>
 
 </LinearLayout>

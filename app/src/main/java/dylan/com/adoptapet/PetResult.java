@@ -129,6 +129,10 @@ public class PetResult implements Serializable {
         return breed.size() > 1 ? breed.get( 0 ) + " Mix" : breed.get( 0 );
     }
 
+    public ArrayList<String> getBreeds() {
+        return breed;
+    }
+
     public String getSex() {
         return sex;
     }
@@ -170,6 +174,10 @@ public class PetResult implements Serializable {
         return contactInfo.get( "zip" );
     }
 
+
+    public String getAge() {
+        return age;
+    }
 
     //TODO:: Write all getters
 
