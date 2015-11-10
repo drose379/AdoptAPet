@@ -199,6 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_compass_100"
+                android:id="@+id/navButton"
                 />
 
             <TextView

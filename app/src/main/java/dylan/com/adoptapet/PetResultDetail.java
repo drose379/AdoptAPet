@@ -55,6 +55,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         TextView email = (TextView) findViewById( R.id.emailText );
 
         ImageView phoneButton = (ImageView) findViewById( R.id.phoneButton );
+        ImageView navButton = (ImageView) findViewById( R.id.navButton );
 
         ViewFlipper imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
 
@@ -64,6 +65,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         phoneButton.setOnClickListener( this );
         phoneNumber.setOnClickListener( this );
+        navButton.setOnClickListener( this );
 
         switch ( currentPet.getSex() ) {
             case "Male" :
@@ -121,6 +123,12 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
+            case R.id.navButton :
+            case R.id.locationText :
+
+                //Intent map = Intent.makeMainSelectorActivity(  );
+
+                break;
         }
 
     }

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="horizontal"
-        android:background="@color/colorBackgroundDark"
+        android:background="@color/colorBackgroundDarker"
         android:id="@+id/topBox"
         >
 

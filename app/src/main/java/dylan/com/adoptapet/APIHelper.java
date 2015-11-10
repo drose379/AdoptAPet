@@ -31,6 +31,8 @@ public class APIHelper {
 
     private static Context context;
 
+    public static String lastOffset = null;
+
     public static void makeRequest( final Callback callback, final String clientZip, final Handler h, final JSONObject criteria ) {
         APIHelper.context = (Context) callback;
 
@@ -53,21 +55,28 @@ public class APIHelper {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                parseResults( response.body().string(), clientZip, h, callback );
+                String results = response.body().string();
+                parseResults(results, clientZip, h, callback);
             }
         });
 
     }
 
-    private static void parseResults( String resultArray, String clientLocation, final Handler h, final Callback callback ) {
+    private static void parseResults( String result, String clientLocation, final Handler h, final Callback callback ) {
 
 
         final ArrayList<PetResult> results = new ArrayList<PetResult>();
 
-        if ( !resultArray.isEmpty() ) {
+        if ( !result.isEmpty() ) {
 
             try {
-                JSONArray petResults = new JSONArray(resultArray);
+
+                JSONObject resultObject = new JSONObject( result );
+
+                JSONArray petResults = resultObject.getJSONArray( "masterItems" );
+
+                lastOffset = resultObject.get( "lastOffset" ).toString();
+
 
                 for (int i = 0; i < petResults.length(); i++) {
                     JSONObject pet = petResults.getJSONObject(i);
