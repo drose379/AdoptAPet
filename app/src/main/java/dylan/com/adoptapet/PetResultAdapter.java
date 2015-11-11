@@ -92,6 +92,11 @@ public class PetResultAdapter extends BaseAdapter {
         return item < pets.size() ? TYPE_CARD : TYPE_LOAD_BUTTON;
     }
 
+    public void updateData( ArrayList<PetResult> newItems ) {
+        for ( PetResult newItem : newItems ) {
+            pets.add( newItem );
+        }
+    }
 
     @Override
     public View getView( int item, View recycledView, ViewGroup parent ) {

@@ -42,7 +42,10 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
     private ImageView noResultsImage;
     private TextView noResultText;
 
+    private JSONObject searchItems;
+
     private BroadcastReceiver loadMore;
+    private PetResultAdapter resultAdapter;
 
     public static boolean badLocation = false;
 
@@ -75,7 +78,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
             try {
 
-                JSONObject searchItems = new JSONObject( i.getStringExtra( "searchItems" ) );
+                searchItems = new JSONObject( i.getStringExtra( "searchItems" ) );
                 APIHelper.makeRequest( this, searchItems.getString( "location" ),  new Handler(), searchItems);
 
             } catch ( JSONException e ) {
@@ -101,7 +104,17 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             loadMore = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    Log.i("LOAD_MORE", "LOAD_MORE_RECEIVED" );
+                    //Use the same same searchItems JSONObject and send to APIHelper method
+                    //Also pass the lastOffset
+                    try {
+                        Log.i("LOAD_MORE", "Loading More");
+                        searchItems.put( "offset", APIHelper.lastOffset );
+
+                        APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
+                    } catch ( JSONException e ) {
+                        throw new RuntimeException( e.getMessage() );
+                    }
+
                 }
             };
 
@@ -139,9 +152,25 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         if ( results != null ) {
             if ( results.size() > 0 ) {
                 badLocation = false;
-                PetResultAdapter adapter = new PetResultAdapter( this, results );
+                if ( resultAdapter == null ) {
+                    resultAdapter = new PetResultAdapter( this, results );
+                    resultList.setAdapter( resultAdapter );
+                } else {
+
+                    int index = resultList.getFirstVisiblePosition() + 1;
+                    int top = resultList.getTop();
+
+                    Log.i("INDEX", String.valueOf( index ));
+
+                    resultAdapter.updateData( results );
+                    resultAdapter.notifyDataSetChanged();
+
+                    resultList.setSelection( index );
+
+                    //test the new lastOffset static value in APIHelper
+                }
+
                 resultList.setVisibility( View.VISIBLE );
-                resultList.setAdapter( adapter );
 
                 noResultsImage.setVisibility( View.GONE );
                 noResultText.setVisibility( View.GONE );
