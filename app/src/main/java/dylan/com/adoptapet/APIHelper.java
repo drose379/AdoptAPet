@@ -75,7 +75,9 @@ public class APIHelper {
 
                 JSONArray petResults = resultObject.getJSONArray( "masterItems" );
 
-                lastOffset = resultObject.get( "lastOffset" ).toString();
+                lastOffset = resultObject.getJSONObject( "lastOffset" ).getString( "0" );
+
+                Log.i("OFFSET", String.valueOf( lastOffset ) );
 
 
                 for (int i = 0; i < petResults.length(); i++) {
@@ -95,9 +97,10 @@ public class APIHelper {
                             .setPhotos(pet.getJSONArray("photos"))
                             .setContactInfo(pet.getJSONObject("contactInfo"));
 
-                    petResult.setDistanceFromClient( DistanceUtil.zipDistance( context, petResult.getZip(), clientLocation ) );
+                    //petResult.setDistanceFromClient( DistanceUtil.zipDistance( context, petResult.getZip(), clientLocation ) );
+                    petResult.setDistanceFromClient( "5" ); //TODO:: INSTEAD OF DOING DISTANCE CALCULATION, JUST SHOW STATE EX: MA, NH, ETC
 
-                    results.add(petResult);
+                    results.add( petResult );
                 }
 
                 Runnable r = new Runnable() {

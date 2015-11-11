@@ -35,7 +35,8 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 11/1/15.
  */
-public class SearchResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener, AdapterView.OnItemClickListener{
+public class SearchResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener, AdapterView.OnItemClickListener,
+                                                                PetResultAdapter.Callback{
 
     private AlertDialog loadingDialog;
     private ListView resultList;
@@ -99,28 +100,41 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
     public void initBroadcastReceiver() {
 
-        if ( loadMore == null ) {
+        if ( loadMore != null ) {
+            LocalBroadcastManager.getInstance( this ).unregisterReceiver( loadMore );
+        }
 
-            loadMore = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    //Use the same same searchItems JSONObject and send to APIHelper method
-                    //Also pass the lastOffset
-                    try {
-                        Log.i("LOAD_MORE", "Loading More");
-                        searchItems.put( "offset", APIHelper.lastOffset );
+        loadMore = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //Use the same same searchItems JSONObject and send to APIHelper method
+                //Also pass the lastOffset
 
-                        APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
-                    } catch ( JSONException e ) {
-                        throw new RuntimeException( e.getMessage() );
-                    }
+                /**
+                 * TODO:: Sometimes when the Load More button is pressed, the broadcast is not received here
+                 */
 
-                }
-            };
+                Log.i("LOAD_MORE", "LOAD MORE CLICKED");
+
+
+            }
+        };
+
+
 
             IntentFilter loadMoreFilter = new IntentFilter( PetResultAdapter.LOAD_MORE_PETS );
-            LocalBroadcastManager.getInstance( this ).registerReceiver( loadMore, loadMoreFilter );
+            LocalBroadcastManager.getInstance( this ).registerReceiver(loadMore, loadMoreFilter);
 
+    }
+
+    @Override
+    public void loadMore() {
+
+        try {
+            searchItems.put( "offset", APIHelper.lastOffset ); //test
+            APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
+        } catch ( JSONException e ) {
+            throw new RuntimeException( e.getMessage() );
         }
 
     }
@@ -167,7 +181,6 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
                     resultList.setSelection( index );
 
-                    //test the new lastOffset static value in APIHelper
                 }
 
                 resultList.setVisibility( View.VISIBLE );

@@ -34,6 +34,10 @@ import dylan.com.adoptapet.util.DistanceUtil;
  */
 public class PetResultAdapter extends BaseAdapter {
 
+    public interface Callback {
+        void loadMore();
+    }
+
     private static final int TYPE_CARD = 0;
     private static int TYPE_LOAD_BUTTON = 1;
 
@@ -46,8 +50,10 @@ public class PetResultAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<PetResult> pets;
+    private Callback callback;
 
     public PetResultAdapter( Context context, ArrayList<PetResult> pets ) {
+        callback = (Callback) context;
         this.context = context;
         this.pets = pets;
 
@@ -192,10 +198,10 @@ public class PetResultAdapter extends BaseAdapter {
             loadButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    loadButton.setVisibility(View.GONE);
-                    progress.setVisibility(View.VISIBLE);
+                    loadButton.setVisibility( View.GONE );
+                    progress.setVisibility( View.VISIBLE );
 
-                    LocalBroadcastManager.getInstance(context).sendBroadcast( new Intent( LOAD_MORE_PETS ) );
+                    callback.loadMore();
                 }
             });
 
