@@ -87,44 +87,6 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             }
 
         }
-
-        initBroadcastReceiver();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        LocalBroadcastManager.getInstance( this ).unregisterReceiver( loadMore );
-    }
-
-    public void initBroadcastReceiver() {
-
-        if ( loadMore != null ) {
-            LocalBroadcastManager.getInstance( this ).unregisterReceiver( loadMore );
-        }
-
-        loadMore = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                //Use the same same searchItems JSONObject and send to APIHelper method
-                //Also pass the lastOffset
-
-                /**
-                 * TODO:: Sometimes when the Load More button is pressed, the broadcast is not received here
-                 */
-
-                Log.i("LOAD_MORE", "LOAD MORE CLICKED");
-
-
-            }
-        };
-
-
-
-            IntentFilter loadMoreFilter = new IntentFilter( PetResultAdapter.LOAD_MORE_PETS );
-            LocalBroadcastManager.getInstance( this ).registerReceiver(loadMore, loadMoreFilter);
-
     }
 
     @Override

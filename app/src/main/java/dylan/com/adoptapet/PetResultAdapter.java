@@ -52,6 +52,8 @@ public class PetResultAdapter extends BaseAdapter {
     private ArrayList<PetResult> pets;
     private Callback callback;
 
+    private View loadMoreView;
+
     public PetResultAdapter( Context context, ArrayList<PetResult> pets ) {
         callback = (Callback) context;
         this.context = context;
@@ -190,25 +192,13 @@ public class PetResultAdapter extends BaseAdapter {
             imageParent.startFlipping();
 
         } else {
-            recycledView = LayoutInflater.from( context ).inflate( R.layout.load_more_list_item, parent, false );
 
-            final Button loadButton = (Button) recycledView.findViewById( R.id.loadButton );
-            final ProgressBar progress = (ProgressBar) recycledView.findViewById( R.id.progress );
+            loadMoreView = loadMoreView == null ? LayoutInflater.from( context ).inflate( R.layout.load_more_list_item, parent, false ) : loadMoreView;
+            recycledView = loadMoreView;
 
-            loadButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadButton.setVisibility( View.GONE );
-                    progress.setVisibility( View.VISIBLE );
-
-                    callback.loadMore();
-                }
-            });
+            callback.loadMore();
 
         }
-
-
-
 
         return recycledView;
     }
