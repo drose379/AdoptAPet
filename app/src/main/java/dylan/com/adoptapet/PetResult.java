@@ -193,7 +193,32 @@ public class PetResult implements Serializable {
     }
 
     public String getLocationInfo() {
-        return contactInfo.get( "address" ) + ", " + contactInfo.get( "city" ) + ", " + contactInfo.get( "state" );
+        String contactString = "";
+
+        String address = contactInfo.get( "address" );
+        String city = contactInfo.get( "city" );
+        String state = contactInfo.get( "state" );
+
+        if ( !address.isEmpty() ) {
+            if ( city.isEmpty() && state.isEmpty() ) {
+                contactString += address;
+            } else {
+                contactString += address + ", ";
+            }
+        }
+
+        if ( !city.isEmpty() ) {
+            if ( state.isEmpty() ) {
+                contactString += city;
+            } else {
+                contactString += city + ", ";
+            }
+        }
+
+        contactString += state;
+
+        return contactString;
+        //return contactInfo.get( "address" ) + ", " + contactInfo.get( "city" ) + ", " + contactInfo.get( "state" );
     }
 
     public String getEmail( ) {

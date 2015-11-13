@@ -4,12 +4,11 @@
     android:orientation="vertical"
     android:background="@color/colorBackgroundDark"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/root"
+    >
 
     <include layout="@layout/toolbar_back" />
-
-
-
 
 
 
@@ -227,6 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_message_filled_100"
+                android:id="@+id/emailIcon"
                 />
 
             <TextView

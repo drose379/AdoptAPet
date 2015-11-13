@@ -3,6 +3,7 @@ package dylan.com.adoptapet;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,6 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PetResultDetail extends AppCompatActivity implements View.OnClickListener {
 
     private PetResult currentPet;
+    private View rootView;
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -29,7 +31,9 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
-        ImageView toolbarBack = (ImageView) findViewById( R.id.toolbarBackButton );
+        ImageView toolbarBack = (ImageView) findViewById(R.id.toolbarBackButton);
+
+        rootView = findViewById( R.id.root );
 
         currentPet = (PetResult) getIntent().getSerializableExtra("pet");
         toolbarTitle.setText( currentPet.getName() + "\'s Details" );
@@ -56,6 +60,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         ImageView phoneButton = (ImageView) findViewById( R.id.phoneButton );
         ImageView navButton = (ImageView) findViewById( R.id.navButton );
+        ImageView mailIcon = (ImageView) findViewById( R.id.emailIcon );
 
         ViewFlipper imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
 
@@ -66,6 +71,9 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         phoneButton.setOnClickListener( this );
         phoneNumber.setOnClickListener( this );
         navButton.setOnClickListener( this );
+        location.setOnClickListener( this );
+        mailIcon.setOnClickListener( this );
+        email.setOnClickListener( this );
 
         switch ( currentPet.getSex() ) {
             case "Male" :
@@ -117,18 +125,43 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             case R.id.phoneButton :
             case R.id.phoneNumberText :
 
-                Intent dial = new Intent( Intent.ACTION_DIAL );
-                dial.setData( Uri.parse("tel:" + currentPet.getContactNumber() ) );
-                startActivity(dial);
+                if ( !currentPet.getContactNumber().isEmpty() ) {
+                    Intent dial = new Intent( Intent.ACTION_DIAL );
+                    dial.setData( Uri.parse("tel:" + currentPet.getContactNumber() ) );
+                    startActivity(dial);
+                } else {
+                    Snackbar.make( rootView, "No phone number supplied by this organization", Snackbar.LENGTH_SHORT ).show();
+                }
 
                 break;
 
             case R.id.navButton :
             case R.id.locationText :
 
-                //Intent map = Intent.makeMainSelectorActivity(  );
+                Uri mapUri = Uri.parse( "geo:0,0?q=" + currentPet.getLocationInfo()  );
+                Intent map = new Intent( Intent.ACTION_VIEW, mapUri );
+                map.setPackage( "com.google.android.apps.maps" );
+                startActivity( map );
 
                 break;
+
+            case R.id.emailIcon :
+            case R.id.emailText :
+
+                if ( !currentPet.getEmail().isEmpty() ) {
+
+                    Intent mail = new Intent( Intent.ACTION_SENDTO );
+                    mail.setData( Uri.parse( "mailto:" + currentPet.getEmail() ) );
+                    mail.putExtra( Intent.EXTRA_SUBJECT, "Interested in - " + currentPet.getName() );
+
+                    startActivity( mail );
+
+                } else {
+                    Snackbar.make( rootView, "No email provided by this organization", Snackbar.LENGTH_SHORT ).show();
+                }
+
+                break;
+
         }
 
     }
