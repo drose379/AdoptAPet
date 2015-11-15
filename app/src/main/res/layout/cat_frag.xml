@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorBackground"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@color/colorBackgroundDarker"
+        android:id="@+id/topBox"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_location_on_black_36dp"
+            android:id="@+id/locationIcon"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Click Icon or Enter Here"
+            android:id="@+id/postalBox"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/topBox"
+        android:id="@+id/midBox"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:text="Select Breeds"
+            android:layout_below="@id/topBox"
+            android:id="@+id/breedSelectButton"
+            />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:paddingBottom="10dp"
+            android:background="#000000"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:visibility="gone"
+            android:layout_below="@id/breedSelectButton"
+            android:id="@+id/selectedBreedsList"
+            />
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@id/midBox"
+        android:textStyle="bold"
+        android:text="Gender: "
+        android:id="@+id/genderLabel"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/genderLabel"
+        android:id="@+id/genderSelect"
+        >
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:id="@+id/male"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:id="@+id/female"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="160dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorBackgroundDarkerer"
+        android:layout_below="@id/genderSelect"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:layout_below="@id/genderSelect"
+        android:id="@+id/sizeLabel"
+        android:text="Size: "
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/sizeLabel"
+        android:id="@+id/sizeSelect"
+        >
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small"
+            android:id="@+id/sm"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium"
+            android:id="@+id/md"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large"
+            android:id="@+id/lg"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exra Large"
+            android:id="@+id/xl"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="160dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorBackgroundDarkerer"
+        android:layout_below="@id/sizeSelect"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:layout_below="@id/sizeSelect"
+        android:id="@+id/ageLabel"
+        android:text="Age: "
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/ageLabel"
+        android:id="@+id/ageSelect"
+        >
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Baby"
+            android:id="@+id/baby"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Young"
+            android:id="@+id/young"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adult"
+            android:id="@+id/adult"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Senior"
+            android:id="@+id/senior"
+            />
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/searchFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_search_white_24dp" />
+
+</RelativeLayout>

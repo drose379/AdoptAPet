@@ -19,12 +19,13 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     public Fragment getItem( int item ) {
         Fragment frag;
+
         switch ( item ) {
             case 0 :
                 frag = new DogFragment();
                 break;
             case 1 :
-                frag = new Fragment();
+                frag = new CatFragment();
                 break;
             case 2 :
                 frag = new Fragment();

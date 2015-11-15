@@ -250,4 +250,112 @@
 
     </string-array>
 
+    <string-array name="cat_breeds">
+
+        <item>Abyssinian</item>
+        <item>American Curl</item>
+        <item>American Shorthair</item>
+        <item>American Wirehair</item>
+        <item>Applehead Siamese</item>
+        <item>Balinese</item>
+        <item>Bengal</item>
+        <item>Birman</item>
+        <item>Bobtail</item>
+        <item>Bombay</item>
+        <item>British Shorthair</item>
+        <item>Burmese</item>
+        <item>Burmilla</item>
+        <item>Calico</item>
+        <item>Canadian Hairless</item>
+        <item>Chartreux</item>
+        <item>Chausie</item>
+        <item>Chinchilla</item>
+        <item>Cornish Rex</item>
+        <item>Cymric</item>
+        <item>Devon Rex</item>
+        <item>Dilute Calico</item>
+        <item>Dilute Tortoiseshell</item>
+        <item>Domestic Long Hair</item>
+        <item>Domestic Long Hair - brown</item>
+        <item>Domestic Long Hair - buff</item>
+        <item>Domestic Long Hair - buff and white</item>
+        <item>Domestic Long Hair - gray and white</item>
+        <item>Domestic Long Hair - orange</item>
+        <item>Domestic Long Hair - orange and white</item>
+        <item>Domestic Long Hair-black</item>
+        <item>Domestic Long Hair-black and white</item>
+        <item>Domestic Long Hair-gray</item>
+        <item>Domestic Long Hair-white</item>
+        <item>Domestic Medium Hair</item>
+        <item>Domestic Medium Hair - brown</item>
+        <item>Domestic Medium Hair - buff</item>
+        <item>Domestic Medium Hair - buff and white</item>
+        <item>Domestic Medium Hair - gray and white</item>
+        <item>Domestic Medium Hair - orange and white</item>
+        <item>Domestic Medium Hair-black</item>
+        <item>Domestic Medium Hair-black and white</item>
+        <item>Domestic Medium Hair-gray</item>
+        <item>Domestic Medium Hair-orange</item>
+        <item>Domestic Medium Hair-white</item>
+        <item>Domestic Short Hair</item>
+        <item>Domestic Short Hair - brown</item>
+        <item>Domestic Short Hair - buff</item>
+        <item>Domestic Short Hair - buff and white</item>
+        <item>Domestic Short Hair - gray and white</item>
+        <item>Domestic Short Hair - orange and white</item>
+        <item>Domestic Short Hair-black</item>
+        <item>Domestic Short Hair-black and white</item>
+        <item>Domestic Short Hair-gray</item>
+        <item>Domestic Short Hair-mitted</item>
+        <item>Domestic Short Hair-orange</item>
+        <item>Domestic Short Hair-white</item>
+        <item>Egyptian Mau</item>
+        <item>Exotic Shorthair</item>
+        <item>Extra-Toes Cat (Hemingway Polydactyl)</item>
+        <item>Havana</item>
+        <item>Himalayan</item>
+        <item>Japanese Bobtail</item>
+        <item>Javanese</item>
+        <item>Korat</item>
+        <item>LaPerm</item>
+        <item>Maine Coon</item>
+        <item>Manx</item>
+        <item>Munchkin</item>
+        <item>Nebelung</item>
+        <item>Norwegian Forest Cat</item>
+        <item>Ocicat</item>
+        <item>Oriental Long Hair</item>
+        <item>Oriental Short Hair</item>
+        <item>Oriental Tabby</item>
+        <item>Persian</item>
+        <item>Pixie-Bob</item>
+        <item>Ragamuffin</item>
+        <item>Ragdoll</item>
+        <item>Russian Blue</item>
+        <item>Scottish Fold</item>
+        <item>Selkirk Rex</item>
+        <item>Siamese</item>
+        <item>Siberian</item>
+        <item>Silver</item>
+        <item>Singapura</item>
+        <item>Snowshoe</item>
+        <item>Somali</item>
+        <item>Sphynx (hairless cat)</item>
+        <item>Tabby</item>
+        <item>Tabby - black</item>
+        <item>Tabby - Brown</item>
+        <item>Tabby - buff</item>
+        <item>Tabby - Grey</item>
+        <item>Tabby - Orange</item>
+        <item>Tabby - white</item>
+        <item>Tiger</item>
+        <item>Tonkinese</item>
+        <item>Torbie</item>
+        <item>Tortoiseshell</item>
+        <item>Turkish Angora</item>
+        <item>Turkish Van</item>
+        <item>Tuxedo</item>
+
+    </string-array>
+
 </resources>

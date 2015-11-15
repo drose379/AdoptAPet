@@ -3,6 +3,7 @@ package dylan.com.adoptapet;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -46,6 +47,8 @@ public class PetResultAdapter extends BaseAdapter {
     private String[] greetingStarts = { "Hello", "Hi", "Hey There", "Hey", "Howdy", "Good Day", "Greetings" };
     private String[] greetingMiddle = {  "My name is", "Call me", "They Call Me", "People call me" };
 
+    private int[] femaleIcons = { R.drawable.ic_flower_1,R.drawable.ic_flower_bouquet_3, R.drawable.ic_spring_4 };
+    private int[] maleIcons  = { R.drawable.ic_dog_bone_1, R.drawable.ic_dog_bowl_100, R.drawable.ic_fire_hydrant_100 };
     private Random rand;
 
     private Context context;
@@ -88,6 +91,14 @@ public class PetResultAdapter extends BaseAdapter {
         int middleRandom = rand.nextInt( 3 );
 
         return greetingMiddle[middleRandom];
+    }
+
+    public Drawable getMaleIcon() {
+        return context.getResources().getDrawable( maleIcons[rand.nextInt( 2 )] );
+    }
+
+    public Drawable getFemaleIcon() {
+        return context.getResources().getDrawable( femaleIcons[rand.nextInt( 2 )] );
     }
 
     @Override
@@ -153,7 +164,7 @@ public class PetResultAdapter extends BaseAdapter {
                     genderText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
 
                     distanceText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
-                    locationIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_location_100_male ) );
+                    locationIcon.setImageDrawable( getMaleIcon() );
 
                     break;
 
@@ -171,7 +182,7 @@ public class PetResultAdapter extends BaseAdapter {
                     genderText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
 
                     distanceText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
-                    locationIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_location_100_female ) );
+                    locationIcon.setImageDrawable( getFemaleIcon() );
 
                     break;
             }

@@ -53,7 +53,7 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 10/27/15.
  */
-public class DogFragment extends Fragment implements View.OnClickListener {
+public class CatFragment extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> selectedBreeds;
 
@@ -141,11 +141,11 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 //selectedBreeds.setMovementMethod( new ScrollingMovementMethod() );
 
                 //TODO:: Add click to select on each item in the listview, keep list of selected items below the search, can select multiple
-                    //TODO:: When grabbing multiple breeds, need to grab one by one and combine results
+                //TODO:: When grabbing multiple breeds, need to grab one by one and combine results
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>( getContext(),
                         R.layout.support_simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.dog_breeds) );
+                        getResources().getStringArray(R.array.cat_breeds) );
 
                 breedSearch.setAdapter( adapter );
 
@@ -160,15 +160,15 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
-                breedSearch.setOnDismissListener( new AutoCompleteTextView.OnDismissListener() {
+                breedSearch.setOnDismissListener(new AutoCompleteTextView.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         breedSearch.setText("");
                     }
-                } );
+                });
 
-                breedList.setAdapter( adapter );
-                breedList.setFastScrollEnabled( true );
+                breedList.setAdapter(adapter);
+                breedList.setFastScrollEnabled(true);
 
                 breedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -180,7 +180,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                 });
 
                 breedSelectDialog = new AlertDialog.Builder( getContext() )
-                        .setCustomTitle( LayoutInflater.from( getContext() ).inflate( R.layout.dog_breed_title, null ) )
+                        .setCustomTitle( LayoutInflater.from( getContext() ).inflate( R.layout.cat_breed_title, null ) )
                         .setView(dialogView)
                         .setPositiveButton("Save", null)
                         .setNegativeButton( "Cancel", null )
@@ -201,16 +201,16 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(View v) {
                         selectedBreeds.removeAllViews();
-                        DogFragment.this.selectedBreeds.clear();
+                        CatFragment.this.selectedBreeds.clear();
                     }
                 });
 
                 breedSelectDialog.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) {
-                        DogFragment.this.selectedBreeds.clear();
+                        CatFragment.this.selectedBreeds.clear();
                         breedSelectDialog.dismiss();
-                   }
+                    }
                 });
 
                 break;
@@ -272,7 +272,7 @@ public class DogFragment extends Fragment implements View.OnClickListener {
                     JSONArray breeds = new JSONArray( this.selectedBreeds.toArray() );
 
                     requestInfo.put( "location", location );
-                    requestInfo.put( "type", "dog" );
+                    requestInfo.put( "type", "cat" );
                     requestInfo.put( "breeds", breeds );
                     requestInfo.put( "genders", genderSelected );
                     requestInfo.put( "sizes", sizeSelected );

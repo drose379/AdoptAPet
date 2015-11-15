@@ -77,9 +77,6 @@ public class APIHelper {
 
                 lastOffset = resultObject.getJSONObject( "lastOffset" ).getString( "0" );
 
-                Log.i("OFFSET", String.valueOf( lastOffset ) );
-
-
                 for (int i = 0; i < petResults.length(); i++) {
                     JSONObject pet = petResults.getJSONObject(i);
 

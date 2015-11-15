@@ -93,7 +93,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
     public void loadMore() {
 
         try {
-            searchItems.put( "offset", APIHelper.lastOffset ); //test
+            searchItems.put( "offset", APIHelper.lastOffset );
             APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
         } catch ( JSONException e ) {
             throw new RuntimeException( e.getMessage() );

@@ -84,13 +84,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             case "Female" :
                 topBackdrop.setBackgroundColor(getResources().getColor(R.color.colorFemaleCard));
                 imageOne.setBorderColorResource( R.color.colorFemaleCard );
-                imageTwo.setBorderColorResource(R.color.colorFemaleCard);
+                imageTwo.setBorderColorResource( R.color.colorFemaleCard );
                 break;
         }
 
 
-        imageContainer.setInAnimation(this, android.R.anim.fade_in);
-        imageContainer.setOutAnimation(this, android.R.anim.fade_out);
+        imageContainer.setInAnimation( this, android.R.anim.fade_in );
+        imageContainer.setOutAnimation( this, android.R.anim.fade_out );
 
         imageOne.setBorderWidth( 15 );
         imageTwo.setBorderWidth(15);
@@ -110,6 +110,10 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         phoneNumber.setText( currentPet.getContactNumber().isEmpty() ? "N/A" : currentPet.getContactNumber() );
         location.setText( currentPet.getLocationInfo() );
         email.setText( currentPet.getEmail() );
+
+        if ( currentPet.getBestPhoto( 2 ) != null ) {
+            imageContainer.startFlipping();
+        }
 
     }
 
