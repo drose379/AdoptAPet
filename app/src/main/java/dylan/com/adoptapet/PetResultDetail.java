@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -180,18 +181,29 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                             @Override
                             public void onClick( DialogInterface dialog, int which ) {
 
-                                switch ( which ) {
-                                    case 0 :
+                                String gender = currentPet.getSex().equals( "Male" ) ? "him" : "her";
+                                String url = "https://www.petfinder.com/petdetail/" + currentPet.getId();
+                                String message = "I thought you may be interested in adopting " + currentPet.getName() +
+                                        ", you can find " + gender + " here: " + url;
 
+                                switch (which) {
+                                    case 0:
+                                        Intent sms = new Intent( Intent.ACTION_SENDTO );
+                                        sms.setData( Uri.parse( "smsto:" ) );
+                                        sms.putExtra( "sms_body", message ); //edit the message with the correct link with getId()
+                                        startActivity( sms );
                                         break;
-                                    case 1 :
-
+                                    case 1:
+                                        Intent mail = new Intent( Intent.ACTION_SENDTO );
+                                        mail.setData( Uri.parse( "mailto:" ) );
+                                        mail.putExtra( Intent.EXTRA_TEXT, message);
+                                        startActivity( mail );
                                         break;
                                 }
 
                             }
                         })
-                        .setNegativeButton( "Cancel", null )
+                        .setNegativeButton("Cancel", null)
                         .create();
 
                 shareDialog.show();

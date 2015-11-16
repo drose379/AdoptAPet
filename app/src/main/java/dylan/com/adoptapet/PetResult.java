@@ -225,5 +225,7 @@ public class PetResult implements Serializable {
         return contactInfo.get( "email" );
     }
 
+    public String getId() { return id; }
+
 
 }

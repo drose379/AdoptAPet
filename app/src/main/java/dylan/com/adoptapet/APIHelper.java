@@ -82,7 +82,7 @@ public class APIHelper {
 
                     PetResult petResult = new PetResult()
                             .setName(pet.getString("name"))
-                            .setId(pet.getString("id"))
+                            .setId(pet.getJSONObject("id").getString( "0" ))
                             .setAnimalType(pet.getString("animalType"))
                             .setBreed(pet.getJSONArray("breed"))
                             .setIsMix(pet.getString("isMix").equals("true"))
