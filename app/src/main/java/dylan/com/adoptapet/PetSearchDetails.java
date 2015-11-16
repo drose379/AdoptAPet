@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +46,12 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstance);
         setContentView(R.layout.pet_search_details);
 
+        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
+        TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        ImageView backButton = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
+
+        title.setText( "Search Details" );
+
         root = findViewById(R.id.root);
 
         animalType = getIntent().getIntExtra("type", 1);
@@ -55,6 +63,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
         //set the breed select according to type
 
+        backButton.setOnClickListener( this );
         breedSelect.setOnClickListener( this );
         searchFab.setOnClickListener( this );
     }
@@ -235,6 +244,12 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
                 break;
 
+            case R.id.toolbarBackButton :
+
+                finish();
+
+                break;
+
         }
 
     }
@@ -288,7 +303,6 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         if ( selectedBreeds.size() > 0 ) {
             LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             selectedBreedsList.setLayoutParams(listParams);
-            selectedBreedsList.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
             //breedSelectButton.setVisibility(View.GONE);
             selectedBreedsList.setVisibility(View.VISIBLE);
         } else {

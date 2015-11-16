@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android.support.design="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorBackgroundDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root"
-    >
+    android:id="@+id/root">
 
-    <include layout="@layout/toolbar_back" />
+    <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
 
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="160dp"
+        android:layout_below="@id/toolbar"
         android:id="@+id/topView"
         >
 
@@ -32,11 +32,12 @@
     </LinearLayout>
 
 
+
     <ViewFlipper
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:flipInterval="3000"
-        android:layout_below="@id/backdrop"
+        android:layout_below="@id/topView"
         android:layout_marginTop="-120dp"
         android:id="@+id/imageContainer"
         >
@@ -59,9 +60,22 @@
 
     </ViewFlipper>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/searchFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topView"
+        android:layout_alignParentRight="true"
+        android.support.design:fabSize="mini"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="-20dp"
+        android:src="@drawable/ic_share_white_18dp" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageContainer"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -242,5 +256,7 @@
         </RelativeLayout>
 
     </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+
+</RelativeLayout>
