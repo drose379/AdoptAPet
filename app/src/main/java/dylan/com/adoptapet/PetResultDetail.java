@@ -1,11 +1,14 @@
 package dylan.com.adoptapet;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,12 +35,15 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
         ImageView toolbarBack = (ImageView) findViewById(R.id.toolbarBackButton);
+        ImageView shareButton = (ImageView) findViewById( R.id.shareButton );
 
         rootView = findViewById( R.id.root );
 
         currentPet = (PetResult) getIntent().getSerializableExtra("pet");
         toolbarTitle.setText( currentPet.getName() + "\'s Details" );
-        toolbarBack.setOnClickListener( this );
+        toolbarBack.setOnClickListener(this);
+
+        shareButton.setOnClickListener( this );
 
         initDetailLayout();
     }
@@ -83,8 +89,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 break;
             case "Female" :
                 topBackdrop.setBackgroundColor(getResources().getColor(R.color.colorFemaleCard));
-                imageOne.setBorderColorResource( R.color.colorFemaleCard );
-                imageTwo.setBorderColorResource( R.color.colorFemaleCard );
+                imageOne.setBorderColorResource(R.color.colorFemaleCard);
+                imageTwo.setBorderColorResource(R.color.colorFemaleCard);
                 break;
         }
 
@@ -163,6 +169,32 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 } else {
                     Snackbar.make( rootView, "No email provided by this organization", Snackbar.LENGTH_SHORT ).show();
                 }
+
+                break;
+
+            case R.id.shareButton :
+
+                AlertDialog shareDialog = new AlertDialog.Builder( this )
+                        .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.share_title, null ) )
+                        .setItems(new CharSequence[]{"Text Message", "E-Mail"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick( DialogInterface dialog, int which ) {
+
+                                switch ( which ) {
+                                    case 0 :
+
+                                        break;
+                                    case 1 :
+
+                                        break;
+                                }
+
+                            }
+                        })
+                        .setNegativeButton( "Cancel", null )
+                        .create();
+
+                shareDialog.show();
 
                 break;
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/root">
 
-    <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
+    <include layout="@layout/toolbar_pet_detail" android:id="@+id/toolbar" />
 
 
 
@@ -59,17 +59,6 @@
             />
 
     </ViewFlipper>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/searchFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topView"
-        android:layout_alignParentRight="true"
-        android.support.design:fabSize="mini"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="-20dp"
-        android:src="@drawable/ic_share_white_18dp" />
 
     <ScrollView
         android:layout_width="match_parent"
