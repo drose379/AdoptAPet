@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class HomePagerAdapter extends FragmentPagerAdapter {
 
-    private String[] tabTitles = {"Dogs","Cats","Other"};
-    private int[] tabIcons = { R.drawable.ic_action_year_of_dog_50, R.drawable.ic_action_black_cat_50, R.drawable.ic_action_pig_50 };
+    private String[] tabTitles = {"Dogs & Cats", "Other"};
+    private int[] tabIcons = { R.drawable.ic_footprint_50, R.drawable.ic_action_pig_50 };
     //also have array of icon for each item (paw print for "Other"          )
 
     public HomePagerAdapter(FragmentManager manager) {
@@ -22,12 +22,9 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
         switch ( item ) {
             case 0 :
-                frag = new DogFragment();
+                frag = new CatDogFragment();
                 break;
             case 1 :
-                frag = new CatFragment();
-                break;
-            case 2 :
                 frag = new Fragment();
                 break;
             default :
