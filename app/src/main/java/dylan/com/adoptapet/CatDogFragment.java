@@ -13,7 +13,9 @@ import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,8 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
     private LocationManager locationManager;
     private EditText postalBox;
     private Button breedSelectButton;
+
+    private DrawerLayout drawer;
 
     private ImageView dogSelect;
     private ImageView catSelect;
@@ -84,6 +88,7 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
 
         //TODO:: Show a background around animal selector when it is clicked
 
+        drawer = (DrawerLayout) view.findViewById( R.id.drawer );
         dogSelect = (ImageView) view.findViewById( R.id.dogSelect );
         catSelect = (ImageView) view.findViewById( R.id.catSelect );
 
