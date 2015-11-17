@@ -234,8 +234,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
             case R.id.favoriteButton :
 
-                //TODO:: Check if favorited, if yes unfavorite, if not, favorite, make sure to update the icon, just call initFavoriteStatus method
-
                 SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
                 Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
 
@@ -247,7 +245,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                             .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //TODO:: Insert item to favorites table and call initFavoriteStatus to adjust icon
+                                    addToFavorites();
+                                    initFavoriteStatus();
                                 }
                             })
                             .setNegativeButton( "Cancel", null )
@@ -256,15 +255,48 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                     confirmFavorite.show();
 
                 } else {
-                    //TODO:: Unfavorite the item ( Show a dialog asking first? ), call initFavoriteStatus to adjust the icon
+
+                    AlertDialog confirmUnfavorite = new AlertDialog.Builder( this )
+                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.unfavorite_title ,null ) )
+                            .setMessage( "Would you like to remove " + currentPet.getName() + " from your favorites?" )
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removeFromFavorites();
+                                    initFavoriteStatus();
+                                }
+                            })
+                            .setNegativeButton( "No", null )
+                            .create();
+
+                    confirmUnfavorite.show();
+
                 }
 
                 readable.close();
 
                 break;
-
         }
 
+    }
+
+    public void addToFavorites() {
+        ContentValues vals = new ContentValues();
+        vals.put( FavoritesDBHelper.type_col, currentPet.getType() );
+        vals.put( FavoritesDBHelper.id_col, currentPet.getId() );
+        vals.put( FavoritesDBHelper.name_col, currentPet.getName() );
+        vals.put( FavoritesDBHelper.photo_col, currentPet.getBestPhoto(1) );
+
+        SQLiteDatabase writeable = new FavoritesDBHelper( this ).getWritableDatabase();
+        writeable.insert( FavoritesDBHelper.table_name, null, vals );
+
+        writeable.close();
+    }
+
+    public void removeFromFavorites() {
+        SQLiteDatabase writeable = new FavoritesDBHelper( this ).getWritableDatabase();
+        writeable.delete( FavoritesDBHelper.table_name, "id = ?", new String[] { currentPet.getId() } );
+        writeable.close();
     }
 
 }

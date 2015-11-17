@@ -227,5 +227,7 @@ public class PetResult implements Serializable {
 
     public String getId() { return id; }
 
+    public String getType() { return animalType; }
+
 
 }
