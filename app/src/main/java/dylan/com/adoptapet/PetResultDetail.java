@@ -1,7 +1,10 @@
 package dylan.com.adoptapet;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -28,6 +31,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
     private PetResult currentPet;
     private View rootView;
 
+    private ImageView favoriteButton;
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -37,6 +42,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
         ImageView toolbarBack = (ImageView) findViewById(R.id.toolbarBackButton);
         ImageView shareButton = (ImageView) findViewById( R.id.shareButton );
+        favoriteButton = (ImageView) findViewById( R.id.favoriteButton );
 
         rootView = findViewById( R.id.root );
 
@@ -45,8 +51,10 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         toolbarBack.setOnClickListener(this);
 
         shareButton.setOnClickListener( this );
+        favoriteButton.setOnClickListener( this );
 
         initDetailLayout();
+        initFavoriteStatus();
     }
 
     public void initDetailLayout() {
@@ -121,6 +129,20 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         if ( currentPet.getBestPhoto( 2 ) != null ) {
             imageContainer.startFlipping();
         }
+
+    }
+
+    public void initFavoriteStatus() {
+        SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
+        Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
+
+        if ( result.getCount() == 0 ) {
+            favoriteButton.setImageDrawable( getResources().getDrawable( R.drawable.ic_favorite_border_white_24dp ) );
+        } else {
+            favoriteButton.setImageDrawable( getResources().getDrawable( R.drawable.ic_favorite_white_24dp ) );
+        }
+
+        readable.close();
 
     }
 
@@ -207,6 +229,37 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                         .create();
 
                 shareDialog.show();
+
+                break;
+
+            case R.id.favoriteButton :
+
+                //TODO:: Check if favorited, if yes unfavorite, if not, favorite, make sure to update the icon, just call initFavoriteStatus method
+
+                SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
+                Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
+
+                if ( result.getCount() == 0 ) {
+
+                    AlertDialog confirmFavorite = new AlertDialog.Builder( this )
+                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.favorite_title, null ) )
+                            .setMessage( "Would you like to add " + currentPet.getName() + " to your favorites?" )
+                            .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //TODO:: Insert item to favorites table and call initFavoriteStatus to adjust icon
+                                }
+                            })
+                            .setNegativeButton( "Cancel", null )
+                            .create();
+
+                    confirmFavorite.show();
+
+                } else {
+                    //TODO:: Unfavorite the item ( Show a dialog asking first? ), call initFavoriteStatus to adjust the icon
+                }
+
+                readable.close();
 
                 break;
 
