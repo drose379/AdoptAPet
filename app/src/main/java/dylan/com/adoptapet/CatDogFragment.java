@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 10/27/15.
  */
-public class CatDogFragment extends Fragment implements View.OnClickListener {
+public class CatDogFragment extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<String> selectedBreeds;
 
@@ -51,15 +52,30 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
     private int selectedType = -1;
 
     @Override
-    public void onAttach( Context context ) {
-        super.onAttach(context);
-        locationManager = ( LocationManager ) context.getSystemService( Context.LOCATION_SERVICE );
-        selectedBreeds = new ArrayList<String>();
-    }
-
-    @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
+
+        locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
+        selectedBreeds = new ArrayList<String>();
+
+        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.searchFab);
+
+        //TODO:: Show a background around animal selector when it is clicked
+
+        drawer = (DrawerLayout) findViewById( R.id.drawer );
+        dogSelect = (ImageView) findViewById( R.id.dogSelect );
+        catSelect = (ImageView) findViewById( R.id.catSelect );
+
+        dogSelect.setOnClickListener( this );
+        catSelect.setOnClickListener( this );
+        searchButton.setOnClickListener( this );
+
+
+        ImageView locationIcon = (ImageView) findViewById(R.id.locationIcon);
+        postalBox = (EditText) findViewById(R.id.postalBox);
+
+        searchButton.setOnClickListener( this );
+        locationIcon.setOnClickListener( this );
 
     }
 
@@ -68,7 +84,7 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
         super.onResume();
 
         if ( SearchResults.badLocation ) {
-            Snackbar.make( getView(), "Please specify a valid location", Snackbar.LENGTH_SHORT ).show();
+            Snackbar.make( drawer, "Please specify a valid location", Snackbar.LENGTH_SHORT ).show();
         }
 
     }
@@ -78,34 +94,6 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
     public void onStop() {
         super.onStop();
     }
-
-
-    @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup v, Bundle savedInstnace ) {
-        View view = inflater.inflate( R.layout.cat_dog_frag, v, false );
-
-        FloatingActionButton searchButton = (FloatingActionButton) view.findViewById(R.id.searchFab);
-
-        //TODO:: Show a background around animal selector when it is clicked
-
-        drawer = (DrawerLayout) view.findViewById( R.id.drawer );
-        dogSelect = (ImageView) view.findViewById( R.id.dogSelect );
-        catSelect = (ImageView) view.findViewById( R.id.catSelect );
-
-        dogSelect.setOnClickListener( this );
-        catSelect.setOnClickListener( this );
-        searchButton.setOnClickListener( this );
-
-
-        ImageView locationIcon = (ImageView) view.findViewById(R.id.locationIcon);
-        postalBox = (EditText) view.findViewById(R.id.postalBox);
-
-        searchButton.setOnClickListener( this );
-        locationIcon.setOnClickListener( this );
-
-        return view;
-    }
-
 
 
     @Override
@@ -123,7 +111,7 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
                 if ( locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                     grabLocationZip();
                 } else {
-                    Snackbar.make( getView(), "Please Enable Location", Snackbar.LENGTH_SHORT ).show();
+                    Snackbar.make( drawer, "Please Enable Location", Snackbar.LENGTH_SHORT ).show();
                 }
 
                 break;
@@ -131,15 +119,15 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
             case R.id.searchFab :
 
                 if ( selectedType != -1 && !postalBox.getText().toString().isEmpty() ) {
-                    Intent details = new Intent( getContext(), PetSearchDetails.class );
+                    Intent details = new Intent( this, PetSearchDetails.class );
                     details.putExtra( "type", selectedType );
                     details.putExtra( "location", postalBox.getText().toString() );
                     startActivity(details);
                 } else {
                     if ( selectedType == -1 ) {
-                        Snackbar.make( getView(), "Please select a type!", Snackbar.LENGTH_SHORT ).show();
+                        Snackbar.make( drawer, "Please select a type!", Snackbar.LENGTH_SHORT ).show();
                     } else {
-                        Snackbar.make( getView(), "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
+                        Snackbar.make( drawer, "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
                     }
                 }
 
@@ -163,14 +151,14 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
 
 
     private void grabLocationZip() {
-        final AlertDialog locationWaiting = new AlertDialog.Builder( getContext() )
-                .setCustomTitle( LayoutInflater.from( getContext()).inflate( R.layout.location_title, null, false ) )
+        final AlertDialog locationWaiting = new AlertDialog.Builder( this )
+                .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.location_title, null, false ) )
                 .setMessage("Waiting For Location")
                 .create();
         locationWaiting.show();
 
-        int permission = getContext().getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getContext().getPackageName());
-        if ( permission == getContext().getPackageManager().PERMISSION_GRANTED ) {
+        int permission = this.getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, this.getPackageName());
+        if ( permission == this.getPackageManager().PERMISSION_GRANTED ) {
 
             Location currentLocation = locationManager.getLastKnownLocation( LocationManager.GPS_PROVIDER );
 
@@ -212,14 +200,14 @@ public class CatDogFragment extends Fragment implements View.OnClickListener {
     }
 
     private void parseLocation( Location location ) {
-        Geocoder geo = new Geocoder( getContext() );
+        Geocoder geo = new Geocoder( this );
         try {
             List<Address> adresses = geo.getFromLocation( location.getLatitude(), location.getLongitude(), 1 );
 
             if ( adresses.size() > 0 ) {
                 postalBox.setText( adresses.get( 0 ).getPostalCode() );
             } else {
-                Snackbar.make( getView(), "Could Not Find Location", Snackbar.LENGTH_SHORT ).show();
+                Snackbar.make( drawer, "Could Not Find Location", Snackbar.LENGTH_SHORT ).show();
             }
 
         } catch ( IOException e) {

@@ -7,19 +7,11 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include layout="@layout/toolbar_menu" />
+    <include layout="@layout/toolbar_menu" android:id="@+id/toolbar" />
 
-        <dylan.com.adoptapet.SlidingTabLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:id="@+id/tabLayout"
-            />
 
-    </android.support.design.widget.AppBarLayout>
+
 
     <include layout="@layout/content_main" />
 
