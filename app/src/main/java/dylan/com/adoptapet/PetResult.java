@@ -123,7 +123,20 @@ public class PetResult implements Serializable {
     }
 
     public String getName() {
-        return name;
+        String finalName = name;
+
+        int dashIndex = name.indexOf( "-" );
+        int parenIndex = name.indexOf( "(" );
+
+        if ( dashIndex != -1 ) {
+            finalName = finalName.substring( 0, dashIndex );
+        } else if ( parenIndex != -1 ) {
+            finalName = finalName.substring( 0, parenIndex );
+        }
+
+        //return dashIndex == -1 ? name : name.substring( 0, dashIndex );
+
+        return finalName;
     }
     public String getBreed() {
         return breed.size() > 1 ? breed.get( 0 ) + " Mix" : breed.get( 0 );

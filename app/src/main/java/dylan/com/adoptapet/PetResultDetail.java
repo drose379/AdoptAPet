@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,7 +123,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         ageText.setText( currentPet.getAge() );
         sizeText.setText( currentPet.getSize() );
         description.setText( currentPet.getDescription() );
-        phoneNumber.setText( currentPet.getContactNumber().isEmpty() ? "N/A" : currentPet.getContactNumber() );
+        phoneNumber.setText( currentPet.getContactNumber().length() < 10 ? "N/A" : currentPet.getContactNumber() );
         location.setText( currentPet.getLocationInfo() );
         email.setText( currentPet.getEmail() );
 
@@ -158,9 +159,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             case R.id.phoneButton :
             case R.id.phoneNumberText :
 
-                if ( !currentPet.getContactNumber().isEmpty() ) {
+                String number = currentPet.getContactNumber().trim();
+
+                boolean isDialable = number.length() >= 10 && number.length() <= 12;
+
+                if ( isDialable ) {
                     Intent dial = new Intent( Intent.ACTION_DIAL );
-                    dial.setData( Uri.parse("tel:" + currentPet.getContactNumber() ) );
+                    dial.setData( Uri.parse("tel:" + number ) );
                     startActivity(dial);
                 } else {
                     Snackbar.make( rootView, "No phone number supplied by this organization", Snackbar.LENGTH_SHORT ).show();
@@ -213,6 +218,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                                         Intent sms = new Intent( Intent.ACTION_SENDTO );
                                         sms.setData( Uri.parse( "smsto:" ) );
                                         sms.putExtra( "sms_body", message ); //edit the message with the correct link with getId()
+                                        sms.putExtra( "exit_on_sent", true ); //test
                                         startActivity( sms );
                                         break;
                                     case 1:
