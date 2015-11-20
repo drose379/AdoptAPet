@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -82,6 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int selectedType = -1;
 
+    private int currentFeatured = -1;
+
+    private NavMenuAdapter navAdapter;
+    private ArrayList<PetResult> featured;
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -100,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawer = (DrawerLayout) findViewById( R.id.drawer );
         navItemsList = (ListView) findViewById( R.id.navItemsList );
-        initNavDrawer();
 
         dogSelect = (ImageView) findViewById( R.id.dogSelect );
         catSelect = (ImageView) findViewById( R.id.catSelect );
@@ -148,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Snackbar.make( drawer, "Please specify a valid location", Snackbar.LENGTH_SHORT ).show();
         }
 
+        initNavDrawer();
+
     }
 
 
@@ -182,21 +189,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
         SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
-        Cursor result = readable.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null, null );
+        Cursor result = readable.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null, null ); /** Difference between rawQuery() and query() etc */
         if ( result.getCount() == 0 ) {
+
+            Log.i("ZIP", String.valueOf( result.getColumnIndex( "zip" ) ));
+
             items.add(new MenuItem()
                             .setType(2)
                             .setName("Please specify location!")
                             .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
             );
 
-        } else {
+        } else if ( featured == null ) {
             /**
              * Make the request with the location
              * When callback comes in, grab the adapter for the listview of nav items, add new MenuItem at pos 0 of type 2 with first PetResult's info
              */
-        }
 
+            result.moveToFirst();
+            String zip = result.getString( 0 );
+
+            try {
+
+                JSONObject requestInfo = new JSONObject();
+                requestInfo.put( "location", zip );
+                requestInfo.put( "age", new JSONArray().put( "senior" ) );
+                requestInfo.put( "type", "dog" ); /** Start with dogs, but once system works, implement other types of animals here too */
+
+                APIHelper.makeRequest( this, zip, new Handler() ,requestInfo );
+
+            } catch ( JSONException e ) {
+                throw new RuntimeException( e.getMessage() );
+            }
+
+            drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+
+                @Override
+                public void onDrawerClosed( View drawer ) {
+                    currentFeatured = ++currentFeatured <= featured.size() ? ++currentFeatured : 0;
+                    PetResult newFeat = featured.get( currentFeatured );
+
+                    MenuItem item = new MenuItem( )
+                            .setName( newFeat.getName() )
+                            .setPhoto( newFeat.getBestPhoto( 1 ) != null ? newFeat.getBestPhoto( 1 ) : newFeat.getBestPhoto( 2 ) );
+
+                    navAdapter.updateFeatured( item );
+
+                }
+
+            });
+
+        }
 
         items.add(new MenuItem()
                         .setType(1)
@@ -209,12 +252,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setLabel("Favorites")
         );
 
-        NavMenuAdapter adapter = new NavMenuAdapter(this, items);
-        navItemsList.setAdapter(adapter);
+        navAdapter = new NavMenuAdapter(this, items);
+        navItemsList.setAdapter(navAdapter);
     }
 
     @Override
     public void getResults( ArrayList<PetResult> featured ) {
+        this.featured = new ArrayList<PetResult>();
+        if ( !featured.isEmpty() ) {
+
+            /**
+             * TAKING CHANCES HERE ON FIRST AND SECOND, NEED TO REALLY MAKE SURE THE IMAGE IS PRESENT
+             */
+            for ( PetResult item : featured ) {
+
+                if ( item.getBestPhoto( 1 ) != null || item.getBestPhoto( 2 ) != null ) {
+                    this.featured.add( item );
+                }
+
+            }
+
+            PetResult first = this.featured.get( 0 );
+            MenuItem firstFeat = new MenuItem()
+                    .setType(2)
+                    .setName( first.getName() )
+                    .setPhoto( first.getBestPhoto( 1 ) != null ? first.getBestPhoto( 1 ) : first.getBestPhoto( 2 ) );
+
+
+            //add to adapter, notify change, custom updateFeatured method
+            currentFeatured = 0;
+            navAdapter.updateFeatured( firstFeat );
+
+
+        } else {
+            /**
+             * Handle the error, no featured
+             */
+        }
 
     }
 
@@ -257,7 +331,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         SQLiteDatabase writeable = new ZipDBHelper( this ).getWritableDatabase();
                         ContentValues vals = new ContentValues();
                         vals.put( "zip", location );
-                        writeable.insert( ZipDBHelper.table_name, null, vals );
+                        writeable.insert(ZipDBHelper.table_name, null, vals);
+
                     }
 
                     if ( selectedType != -1 && selectedType <= 2  ) {
@@ -396,7 +471,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
 
 
 

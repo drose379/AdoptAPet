@@ -47,6 +47,14 @@ public class NavMenuAdapter extends BaseAdapter {
         return 1; //TODO:: Implement the 2 view types the right way, change this to 2
     }
 
+    public void updateFeatured( MenuItem featured ) {
+        if ( items.size() == 3 ) {
+            items.remove( 0 );
+        }
+        items.add( 0, featured );
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView( int item, View recycledView, ViewGroup parent ) {
         MenuItem currentItem = items.get( item );
