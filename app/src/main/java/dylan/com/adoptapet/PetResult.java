@@ -50,7 +50,14 @@ public class PetResult implements Serializable {
         return this;
     }
     public PetResult setAnimalType( String animalType ) {
-        this.animalType = animalType;
+
+        try {
+            JSONObject type = new JSONObject( animalType );
+            this.animalType = type.getString( "0" );
+        } catch ( JSONException e ) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
         return this;
     }
     public PetResult setBreed( JSONArray breeds ) throws JSONException {
@@ -126,7 +133,7 @@ public class PetResult implements Serializable {
         String finalName = name;
 
         int dashIndex = name.indexOf( "-" );
-        int parenIndex = name.indexOf( "(" );
+        int parenIndex = name.indexOf("(");
 
         if ( dashIndex != -1 ) {
             finalName = finalName.substring( 0, dashIndex );
@@ -240,7 +247,9 @@ public class PetResult implements Serializable {
 
     public String getId() { return id; }
 
-    public String getType() { return animalType; }
+    public String getType() {
+        return animalType;
+    }
 
 
 }

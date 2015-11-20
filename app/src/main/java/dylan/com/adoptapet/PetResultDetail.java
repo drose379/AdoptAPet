@@ -65,6 +65,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         LinearLayout topBackdrop = (LinearLayout) findViewById( R.id.topView );
         CircleImageView imageOne = (CircleImageView) findViewById( R.id.petHeadImageOne );
         CircleImageView imageTwo = (CircleImageView) findViewById( R.id.petHeadImageTwo );
+        ImageView animalType = (ImageView) findViewById( R.id.animalTypeIcon );
+        TextView noPhotoText = (TextView) findViewById( R.id.noPhotoText );
         TextView nameText = (TextView) findViewById( R.id.nameText );
         TextView breedText = (TextView) findViewById( R.id.breedText );
         TextView ageText = (TextView) findViewById( R.id.ageText );
@@ -89,19 +91,54 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         navButton.setOnClickListener( this );
         location.setOnClickListener( this );
         mailIcon.setOnClickListener( this );
-        email.setOnClickListener( this );
+        email.setOnClickListener(this);
 
         switch ( currentPet.getSex() ) {
             case "Male" :
-                topBackdrop.setBackgroundColor(getResources().getColor(R.color.colorMaleCard));
-                imageOne.setBorderColorResource(R.color.colorMaleCard);
-                imageTwo.setBorderColorResource(R.color.colorMaleCard);
+                topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorMaleCard) );
+                imageOne.setBorderColorResource( R.color.colorMaleCard );
+                imageTwo.setBorderColorResource( R.color.colorMaleCard );
+                noPhotoText.setTextColor( getResources().getColor(R.color.colorMale) );
                 break;
             case "Female" :
-                topBackdrop.setBackgroundColor(getResources().getColor(R.color.colorFemaleCard));
-                imageOne.setBorderColorResource(R.color.colorFemaleCard);
-                imageTwo.setBorderColorResource(R.color.colorFemaleCard);
+                topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorFemaleCard) );
+                imageOne.setBorderColorResource( R.color.colorFemaleCard );
+                imageTwo.setBorderColorResource( R.color.colorFemaleCard );
+                noPhotoText.setTextColor( getResources().getColor( R.color.colorFemale )  );
                 break;
+        }
+
+        Log.i("Type", currentPet.getType());
+
+        switch ( currentPet.getType() ) {
+            case "Dog" :
+                animalType.setImageDrawable( getResources().getDrawable(R.drawable.ic_dog_100) );
+                break;
+            case "Cat" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_cat_100 ) );
+                break;
+            case "Bird" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_bird_xs ) );
+                break;
+            case "Barnyard" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_sheep_on_bike_xs ) );
+                break;
+            case "Scales, Fins & Other" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_alligator_xs ) );
+                break;
+            case "Small & Furry" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_animation_xs ) );
+                break;
+            case "Pig" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_pig_xs ) );
+                break;
+            case "Rabbit" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_rabbit_xs ) );
+                break;
+            case "Horse" :
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_horse_xs ) );
+                break;
+
         }
 
 
@@ -129,6 +166,10 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         if ( currentPet.getBestPhoto( 2 ) != null ) {
             imageContainer.startFlipping();
+        }
+        else if ( currentPet.getBestPhoto( 1 ) == null && currentPet.getBestPhoto( 2 ) == null ) {
+            imageContainer.setVisibility( View.GONE );
+            noPhotoText.setVisibility( View.VISIBLE );
         }
 
     }

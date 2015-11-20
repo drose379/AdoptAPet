@@ -182,7 +182,7 @@ public class PetResultAdapter extends BaseAdapter {
 
                     backdrop.setBackgroundResource(R.drawable.round_card_male);
 
-                    if ( result.getType().equals( "dog" ) )
+                    if ( result.getType().equals( "Dog" ) )
                         genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male );
                     else
                         genderIcon.setImageResource( R.drawable.ic_male_sign );
@@ -205,7 +205,7 @@ public class PetResultAdapter extends BaseAdapter {
 
                     backdrop.setBackgroundResource(R.drawable.round_card_female);
 
-                    if ( result.getType().equals( "dog" ) )
+                    if ( result.getType().equals( "Dog" ) )
                         genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
                     else
                         genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_female_sign ) );

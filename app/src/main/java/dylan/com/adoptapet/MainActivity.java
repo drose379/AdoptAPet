@@ -1,6 +1,10 @@
 package dylan.com.adoptapet;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -49,7 +53,7 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 10/27/15.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, APIHelper.Callback {
 
     private ArrayList<String> selectedBreeds;
 
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button breedSelectButton;
 
     private DrawerLayout drawer;
+    private ListView navItemsList;
 
     private ImageView dogSelect;
     private ImageView catSelect;
@@ -94,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout searchButton = (LinearLayout) findViewById( R.id.searchButton );
 
         drawer = (DrawerLayout) findViewById( R.id.drawer );
+        navItemsList = (ListView) findViewById( R.id.navItemsList );
+        initNavDrawer();
 
         dogSelect = (ImageView) findViewById( R.id.dogSelect );
         catSelect = (ImageView) findViewById( R.id.catSelect );
@@ -113,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         selectables.add( horseSelect );
         selectables.add( sheepSelect );
         selectables.add( reptileSelect );
-        selectables.add( mouseSelect );
+        selectables.add(mouseSelect);
 
         searchButton.setOnClickListener(this);
 
@@ -124,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         searchButton.setOnClickListener( this );
         locationIcon.setOnClickListener( this );
-        menuButton.setOnClickListener( this );
+        menuButton.setOnClickListener(this);
 
         toolbarTitle.setText("AdoptAPet");
 
@@ -155,6 +162,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void initNavDrawer() {
+
+        //TODO:: Add featured animal as head view in nav drawer
+        /**
+         * Have a List of PetResults for the featured and show a different one each time drawer opens
+         * Must have photo
+         * Must have name
+         *
+         * Make an API call here to get all featured items, use the API helper to be returned with a ArrayList<PetResult>
+         * When the PetResult arraylist of featured animals comes back, populate the first featued item
+         * When drawer closes, change to the next featured item (keep track with an int), go back to beginning of list once hit last item
+         * Featured items MUST have a photo
+         * When clicked, go to PetResultDetail
+         */
+
+
+
+        ArrayList<MenuItem> items = new ArrayList<MenuItem>();
+
+        SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
+        Cursor result = readable.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null, null );
+        if ( result.getCount() == 0 ) {
+            items.add(new MenuItem()
+                            .setType(2)
+                            .setName("Please specify location!")
+                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+            );
+
+        } else {
+            /**
+             * Make the request with the location
+             * When callback comes in, grab the adapter for the listview of nav items, add new MenuItem at pos 0 of type 2 with first PetResult's info
+             */
+        }
+
+
+        items.add(new MenuItem()
+                        .setType(1)
+                        .setIcon(getResources().getDrawable(R.drawable.ic_home_black_24dp))
+                        .setLabel("Home")
+        );
+        items.add(new MenuItem()
+                        .setType(1)
+                        .setIcon(getResources().getDrawable(R.drawable.ic_favorite_black_24dp))
+                        .setLabel("Favorites")
+        );
+
+        NavMenuAdapter adapter = new NavMenuAdapter(this, items);
+        navItemsList.setAdapter(adapter);
+    }
+
+    @Override
+    public void getResults( ArrayList<PetResult> featured ) {
+
+    }
+
     @Override
     @SuppressWarnings("NewApi")
     public void onClick( View v ) {
@@ -179,6 +242,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 String location = postalBox.getText().toString();
                 if ( !location.isEmpty() && location.length() == 5 ) {
+
+                    /**
+                     *
+                     * Check if location is already saved, if not, save it
+                     */
+
+                    ZipDBHelper zipHelper = new ZipDBHelper( this );
+                    SQLiteDatabase db = zipHelper.getReadableDatabase();
+
+                    Cursor result = db.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null );
+
+                    if ( result.getCount() == 0 ) {
+                        SQLiteDatabase writeable = new ZipDBHelper( this ).getWritableDatabase();
+                        ContentValues vals = new ContentValues();
+                        vals.put( "zip", location );
+                        writeable.insert( ZipDBHelper.table_name, null, vals );
+                    }
 
                     if ( selectedType != -1 && selectedType <= 2  ) {
 
