@@ -358,4 +358,16 @@
 
     </string-array>
 
+    <string-array name="other_types">
+
+        <item>Rabbit</item>
+        <item>Small &amp; Furry</item>
+        <item>Horse</item>
+        <item>Bird</item>
+        <item>Pig</item>
+        <item>Barnyard</item>
+        <item>Scales, Fins &amp; Others</item>
+
+    </string-array>
+
 </resources>

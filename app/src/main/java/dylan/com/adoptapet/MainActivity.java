@@ -1,10 +1,15 @@
 package dylan.com.adoptapet;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -32,6 +37,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +61,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView dogSelect;
     private ImageView catSelect;
+    private ImageView pigSelect;
+    private ImageView rabbitSelect;
+    private ImageView birdSelect;
+    private ImageView horseSelect;
+    private ImageView sheepSelect;
+    private ImageView reptileSelect;
+    private ImageView mouseSelect;
+
+    private ArrayList<ImageView> selectables;
 
     private AlertDialog breedSelectDialog;
 
@@ -62,33 +80,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
-        setContentView(R.layout.content_main);
+        setContentView( R.layout.content_main );
 
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        TextView toolbarTitle = (TextView) toolbar.findViewById( R.id.toolbarTitle );
-        ImageView menuButton = (ImageView) toolbar.findViewById( R.id.toolbarMenuButton );
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        ImageView menuButton = (ImageView) toolbar.findViewById(R.id.toolbarMenuButton);
 
-        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.searchFab);
-
-        //TODO:: Show a background around animal selector when it is clicked
-
-        drawer = (DrawerLayout) findViewById( R.id.drawer );
-        dogSelect = (ImageView) findViewById( R.id.dogSelect );
-        catSelect = (ImageView) findViewById( R.id.catSelect );
+        selectables = new ArrayList<ImageView>();
 
         ImageView locationIcon = (ImageView) findViewById(R.id.locationIcon);
         postalBox = (EditText) findViewById(R.id.postalBox);
 
-        dogSelect.setOnClickListener( this );
-        catSelect.setOnClickListener( this );
-        searchButton.setOnClickListener( this );
+        LinearLayout searchButton = (LinearLayout) findViewById( R.id.searchButton );
+
+        drawer = (DrawerLayout) findViewById( R.id.drawer );
+
+        dogSelect = (ImageView) findViewById( R.id.dogSelect );
+        catSelect = (ImageView) findViewById( R.id.catSelect );
+        pigSelect = (ImageView) findViewById( R.id.pigSelect );
+        rabbitSelect = (ImageView) findViewById( R.id.rabbitSelect );
+        birdSelect = (ImageView) findViewById(  R.id.birdSelect );
+        horseSelect = (ImageView) findViewById( R.id.horseSelect );
+        sheepSelect = (ImageView) findViewById( R.id.sheepSelect );
+        reptileSelect = (ImageView) findViewById( R.id.alligatorSelect );
+        mouseSelect = (ImageView) findViewById( R.id.mouseSelect );
+
+        selectables.add( dogSelect );
+        selectables.add( catSelect );
+        selectables.add( pigSelect );
+        selectables.add( rabbitSelect );
+        selectables.add( birdSelect );
+        selectables.add( horseSelect );
+        selectables.add( sheepSelect );
+        selectables.add( reptileSelect );
+        selectables.add( mouseSelect );
+
+        searchButton.setOnClickListener(this);
+
+        for ( ImageView item : selectables ) {
+            item.setOnClickListener( this );
+        }
 
 
         searchButton.setOnClickListener( this );
         locationIcon.setOnClickListener( this );
         menuButton.setOnClickListener( this );
 
-        toolbarTitle.setText( "AdoptAPet" );
+        toolbarTitle.setText("AdoptAPet");
 
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
         selectedBreeds = new ArrayList<String>();
@@ -111,6 +149,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
     }
 
+    public void clearSelectedItems() {
+        for( ImageView item : selectables ) {
+            item.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+        }
+    }
 
     @Override
     @SuppressWarnings("NewApi")
@@ -132,44 +175,145 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.searchFab :
+            case R.id.searchButton :
 
-                if ( selectedType != -1 && !postalBox.getText().toString().isEmpty() ) {
-                    Intent details = new Intent( this, PetSearchDetails.class );
-                    details.putExtra( "type", selectedType );
-                    details.putExtra( "location", postalBox.getText().toString() );
-                    startActivity(details);
-                } else {
-                    if ( selectedType == -1 ) {
-                        Snackbar.make( drawer, "Please select a type!", Snackbar.LENGTH_SHORT ).show();
-                    } else {
-                        Snackbar.make( drawer, "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
+                String location = postalBox.getText().toString();
+                if ( !location.isEmpty() && location.length() == 5 ) {
+
+                    if ( selectedType != -1 && selectedType <= 2  ) {
+
+                        Intent details = new Intent( this, PetSearchDetails.class );
+                        details.putExtra( "type", selectedType );
+                        details.putExtra( "location", postalBox.getText().toString() );
+                        startActivity(details);
+
                     }
+                    else if ( selectedType <= 9 && selectedType >= 3 ) {
+                        /**
+                         * Move directly to SearchResult and pass necessary items
+                         */
+
+                        String type = "";
+
+                        switch ( selectedType ) {
+
+                            case 3:
+                                type = "pig";
+                                break;
+                            case 4 :
+                                type = "rabbit";
+                                break;
+                            case 5 :
+                                type = "bird";
+                                break;
+                            case 6 :
+                                type = "horse";
+                                break;
+                            case 7 :
+                                type = "barnyard";
+                                break;
+                            case 8 :
+                                type = "reptile";
+                                break;
+                            case 9 :
+                                type = "smallfurry";
+                                break;
+
+                        }
+
+                        try {
+
+                            JSONObject request = new JSONObject();
+                            request.put( "location", location );
+                            request.put( "type", type );
+
+                            Intent i = new Intent( this, SearchResults.class );
+                            i.putExtra( "searchItems", request.toString() );
+                            startActivity( i );
+
+
+
+                        } catch ( JSONException e ) {
+                            throw new RuntimeException( e.getMessage() );
+                        }
+
+                    }
+                    else {
+                        Snackbar.make( drawer, "Please select a type!", Snackbar.LENGTH_SHORT ).show();
+                    }
+
+                } else {
+                    Snackbar.make( drawer, "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
                 }
 
                 break;
 
             case R.id.dogSelect :
+                clearSelectedItems();
                 dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarkerer ) );
                 catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+
                 selectedType = 1;
                 break;
 
             case R.id.catSelect :
+                clearSelectedItems();
                 catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarkerer ) );
-                dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+
                 selectedType = 2;
                 break;
-            case R.id.otherSelect :
-                //open dialog to select type of "other" animal
+
+            case R.id.pigSelect :
+                clearSelectedItems();
+                pigSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+
+                selectedType = 3;
+                break;
+            case R.id.rabbitSelect :
+                clearSelectedItems();
+                rabbitSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+
+                selectedType = 4;
+                break;
+            case R.id.birdSelect :
+                clearSelectedItems();
+                birdSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+
+                selectedType = 5;
+                break;
+            case R.id.horseSelect :
+                clearSelectedItems();
+                horseSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+
+                selectedType = 6;
+                break;
+            case R.id.sheepSelect :
+                clearSelectedItems();
+                sheepSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+
+                selectedType = 7;
+                break;
+            case R.id.alligatorSelect :
+                clearSelectedItems();
+                reptileSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+
+                selectedType = 8;
+                break;
+            case R.id.mouseSelect :
+                clearSelectedItems();
+                mouseSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+
+                selectedType = 9;
                 break;
 
             case R.id.toolbarMenuButton :
+
                 if ( drawer.isDrawerOpen( Gravity.LEFT ) ) {
                     drawer.closeDrawer( Gravity.LEFT );
                 } else {
                     drawer.openDrawer( Gravity.LEFT );
                 }
+
                 break;
         }
     }
