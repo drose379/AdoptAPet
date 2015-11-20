@@ -226,12 +226,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public void onDrawerClosed( View drawer ) {
-                    currentFeatured = ++currentFeatured <= featured.size() ? ++currentFeatured : 0;
+
+                    if ( currentFeatured + 1 <= featured.size() - 1 )
+                        currentFeatured = currentFeatured + 1;
+                    else
+                        currentFeatured = 0;
+
+
+
                     PetResult newFeat = featured.get( currentFeatured );
 
                     MenuItem item = new MenuItem( )
                             .setName( newFeat.getName() )
-                            .setPhoto( newFeat.getBestPhoto( 1 ) != null ? newFeat.getBestPhoto( 1 ) : newFeat.getBestPhoto( 2 ) );
+                            .setPhoto( newFeat.getBestPhoto( 1 ) != null ? newFeat.getBestPhoto( 1 ) : newFeat.getBestPhoto( 2 ) )
+                            .setSex( newFeat.getSex() );
 
                     navAdapter.updateFeatured( item );
 
@@ -259,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void getResults( ArrayList<PetResult> featured ) {
         this.featured = new ArrayList<PetResult>();
-        if ( !featured.isEmpty() ) {
+        if ( featured != null && !featured.isEmpty() ) {
 
             /**
              * TAKING CHANCES HERE ON FIRST AND SECOND, NEED TO REALLY MAKE SURE THE IMAGE IS PRESENT
@@ -276,7 +284,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MenuItem firstFeat = new MenuItem()
                     .setType(2)
                     .setName( first.getName() )
-                    .setPhoto( first.getBestPhoto( 1 ) != null ? first.getBestPhoto( 1 ) : first.getBestPhoto( 2 ) );
+                    .setPhoto( first.getBestPhoto( 1 ) != null ? first.getBestPhoto( 1 ) : first.getBestPhoto( 2 ) )
+                    .setSex( first.getSex() );
 
 
             //add to adapter, notify change, custom updateFeatured method

@@ -1,6 +1,7 @@
 package dylan.com.adoptapet;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +71,24 @@ public class NavMenuAdapter extends BaseAdapter {
         } else {
             recycledView = LayoutInflater.from( context ).inflate( R.layout.featured_animal_layout, parent,false );
 
+            View backdrop = recycledView.findViewById( R.id.backdrop );
             CircleImageView headImage = (CircleImageView) recycledView.findViewById( R.id.petImage );
             TextView name = (TextView) recycledView.findViewById( R.id.name );
 
-            headImage.setBorderColorResource( R.color.colorMaleCard );
+            switch ( currentItem.getSex() ) {
+                case "Male" :
+                    backdrop.setBackgroundColor( context.getResources().getColor( R.color.colorMaleCard ) );
+                    headImage.setBorderColorResource( R.color.colorMaleCard );
+                    break;
+                case "Female" :
+                    backdrop.setBackgroundColor( context.getResources().getColor( R.color.colorFemaleCard ) );
+                    headImage.setBorderColorResource( R.color.colorFemaleCard );
+                    break;
+                default :
 
+                    Log.i("SEX", currentItem.getSex());
+            }
+            
             headImage.setBorderWidth( 10 );
 
             Picasso.with( context ).load( currentItem.getImageUrl() ).fit().into( headImage );

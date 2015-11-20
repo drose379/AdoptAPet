@@ -19,6 +19,7 @@ public class MenuItem {
 
     private String imageUrl;
     private String name;
+    private String sex;
 
     private String label;
     private Drawable icon;
@@ -48,6 +49,11 @@ public class MenuItem {
         return this;
     }
 
+    public MenuItem setSex( String sex ) {
+        this.sex = sex;
+        return this;
+    }
+
     public String getLabel() {
         return label;
     }
@@ -56,6 +62,7 @@ public class MenuItem {
     }
     public int getType() {return type;}
     public String getImageUrl() {return imageUrl;}
-    public String getName() {return name;}
+    public String getName() {return "Hi! I'm " + name;}
+    public String getSex() {return sex;}
 
 }
