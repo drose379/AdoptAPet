@@ -59,13 +59,13 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         selectedBreeds = new ArrayList<String>();
 
         Button breedSelect = (Button) findViewById( R.id.breedSelectButton );
-        FloatingActionButton searchFab = (FloatingActionButton) findViewById( R.id.searchFab );
+        LinearLayout searchButton = (LinearLayout) findViewById( R.id.searchButton );
 
         //set the breed select according to type
 
         backButton.setOnClickListener( this );
         breedSelect.setOnClickListener( this );
-        searchFab.setOnClickListener( this );
+        searchButton.setOnClickListener( this );
     }
 
     @Override
@@ -165,7 +165,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
                 break;
 
-            case R.id.searchFab :
+            case R.id.searchButton :
 
                 /**
                  * To grab:

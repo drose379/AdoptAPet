@@ -48,7 +48,8 @@ public class PetResultAdapter extends BaseAdapter {
     private String[] greetingMiddle = {  "My name is", "Call me", "They Call Me", "People call me" };
 
     private int[] femaleIcons = { R.drawable.ic_flower_1,R.drawable.ic_flower_bouquet_3, R.drawable.ic_spring_4 };
-    private int[] maleIcons  = { R.drawable.ic_dog_bone_1, R.drawable.ic_dog_bowl_100, R.drawable.ic_fire_hydrant_100 };
+    private int[] maleDogIcons  = { R.drawable.ic_dog_bone_1, R.drawable.ic_dog_bowl_100, R.drawable.ic_fire_hydrant_100 };
+    private int[] maleOtherIcons = { R.drawable.ic_soccer_sm, R.drawable.ic_basketball_sm, R.drawable.ic_barbell_sm, R.drawable.ic_dumbbell_sm };
     private Random rand;
 
     private Context context;
@@ -93,12 +94,25 @@ public class PetResultAdapter extends BaseAdapter {
         return greetingMiddle[middleRandom];
     }
 
-    public Drawable getMaleIcon() {
-        return context.getResources().getDrawable( maleIcons[rand.nextInt( 2 )] );
+    public Drawable getMaleIcon( PetResult current ) {
+        /**
+         * TODO::
+         * If dog, choose from dog icons
+         * Else, choose from general
+         */
+
+        Drawable selectedIcon = null;
+
+        if ( current.getType().equals( "dog" ) )
+            selectedIcon = context.getResources().getDrawable( maleDogIcons[rand.nextInt( 3 )] );
+        else
+            selectedIcon =  context.getResources().getDrawable( maleOtherIcons[rand.nextInt( 4 )] );
+
+        return selectedIcon;
     }
 
     public Drawable getFemaleIcon() {
-        return context.getResources().getDrawable( femaleIcons[rand.nextInt( 2 )] );
+        return context.getResources().getDrawable( femaleIcons[rand.nextInt( 3 )] );
     }
 
     @Override
@@ -127,7 +141,7 @@ public class PetResultAdapter extends BaseAdapter {
             RequestCreator imageOne = Picasso.with( context ).load( result.getBestPhoto( 1 ) );
             RequestCreator imageTwo = Picasso.with( context ).load( result.getBestPhoto( 2 ) );
 
-            //TODO:: Check for a photo 3 below just in case 2 is NULL and 3 is not
+            //TODO:: ADJUST IF NO PHOTOS AVAILABLE, SET VIS TO GONE, ADJUST CARD
 
             if ( result.getBestPhoto( 2 ) == null ) {
                 imageTwo = Picasso.with( context ).load( result.getBestPhoto( 1 ) );
@@ -136,6 +150,7 @@ public class PetResultAdapter extends BaseAdapter {
             recycledView = recycledView == null ? LayoutInflater.from( context ).inflate( R.layout.pet_card, parent, false ) : recycledView;
 
             ViewFlipper imageParent = (ViewFlipper) recycledView.findViewById( R.id.imageContainer );
+            TextView noPhotoText = (TextView) recycledView.findViewById( R.id.noPhotoText );
             CircleImageView petHeadImage = (CircleImageView) recycledView.findViewById( R.id.petHeadImage );
             CircleImageView petHeadImageTwo = (CircleImageView) recycledView.findViewById( R.id.petHeadImageTwo );
             ImageView genderIcon = (ImageView) recycledView.findViewById( R.id.genderIcon );
@@ -146,8 +161,16 @@ public class PetResultAdapter extends BaseAdapter {
             TextView distanceText = (TextView) recycledView.findViewById( R.id.distanceText );
 
 
-            View backdrop =recycledView.findViewById(R.id.backdrop);
+            View backdrop = recycledView.findViewById(R.id.backdrop);
 
+            if ( result.getBestPhoto( 1 ) == null && result.getBestPhoto( 2 ) == null ) {
+                imageParent.setVisibility(View.GONE);
+                noPhotoText.setVisibility( View.VISIBLE );
+            }
+            else {
+                imageParent.setVisibility(View.VISIBLE);
+                noPhotoText.setVisibility(View.GONE);
+            }
 
             switch ( result.getSex() ) {
                 case "Male" :
@@ -155,16 +178,21 @@ public class PetResultAdapter extends BaseAdapter {
                     petHeadImage.setBorderColorResource(R.color.colorMaleCard);
                     petHeadImageTwo.setBorderColorResource(R.color.colorMaleCard);
                     petHeadImage.setBorderWidth( 10 );
-                    petHeadImageTwo.setBorderWidth( 10 );
+                    petHeadImageTwo.setBorderWidth(10);
 
-                    backdrop.setBackgroundResource( R.drawable.round_card_male );
+                    backdrop.setBackgroundResource(R.drawable.round_card_male);
 
-                    genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male );
+                    if ( result.getType().equals( "dog" ) )
+                        genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male );
+                    else
+                        genderIcon.setImageResource( R.drawable.ic_male_sign );
+
                     genderText.setText("M" );
-                    genderText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
+                    genderText.setTextColor(context.getResources().getColor(R.color.colorMale));
+                    noPhotoText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
 
                     distanceText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
-                    locationIcon.setImageDrawable( getMaleIcon() );
+                    locationIcon.setImageDrawable( getMaleIcon( result ) );
 
                     break;
 
@@ -173,13 +201,17 @@ public class PetResultAdapter extends BaseAdapter {
                     petHeadImage.setBorderColorResource(R.color.colorFemaleCard);
                     petHeadImageTwo.setBorderColorResource(R.color.colorFemaleCard);
                     petHeadImage.setBorderWidth( 10 );
-                    petHeadImageTwo.setBorderWidth( 10 );
+                    petHeadImageTwo.setBorderWidth(10);
 
-                    backdrop.setBackgroundResource( R.drawable.round_card_female );
+                    backdrop.setBackgroundResource(R.drawable.round_card_female);
 
-                    genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
+                    if ( result.getType().equals( "dog" ) )
+                        genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
+                    else
+                        genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_female_sign ) );
                     genderText.setText("F");
-                    genderText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
+                    genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
+                    noPhotoText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
 
                     distanceText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
                     locationIcon.setImageDrawable( getFemaleIcon() );

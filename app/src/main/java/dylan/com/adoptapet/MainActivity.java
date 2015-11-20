@@ -250,15 +250,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.dogSelect :
                 clearSelectedItems();
-                dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarkerer ) );
-                catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+                dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
 
                 selectedType = 1;
                 break;
 
             case R.id.catSelect :
                 clearSelectedItems();
-                catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarkerer ) );
+                catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
 
                 selectedType = 2;
                 break;
