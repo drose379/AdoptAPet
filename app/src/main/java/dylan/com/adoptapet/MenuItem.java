@@ -24,6 +24,13 @@ public class MenuItem {
     private String label;
     private Drawable icon;
 
+    private boolean isCurrent;
+
+    public MenuItem setIsCurrent( boolean is ) {
+        isCurrent = is;
+        return this;
+    }
+
     public MenuItem setType( int type ) {
         this.type = type;
         return this;
@@ -60,9 +67,10 @@ public class MenuItem {
     public Drawable getIcon() {
         return icon;
     }
+    public boolean isCurrent() {return isCurrent;}
     public int getType() {return type;}
     public String getImageUrl() {return imageUrl;}
-    public String getName() {return "Hi! I'm " + name;}
+    public String getName() {return name;}
     public String getSex() {return sex;}
 
 }

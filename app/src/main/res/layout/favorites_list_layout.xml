@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDark"
+        android:id="@+id/drawer"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/toolbar_menu" android:id="@+id/toolbar" />
+
+
+
+        </RelativeLayout>
+
+
+        <!-- Nav items -->
+
+        <ListView
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/colorBackgroundDarker"
+            android:dividerHeight="0dp"
+            android:divider="@null"
+            android:id="@+id/navItemsList"
+            />
+
+    </android.support.v4.widget.DrawerLayout>
+
+
+</LinearLayout>
+
+

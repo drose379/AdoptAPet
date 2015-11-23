@@ -1,7 +1,9 @@
 package dylan.com.adoptapet;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
@@ -12,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -54,7 +57,7 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 10/27/15.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, APIHelper.Callback {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<String> selectedBreeds;
 
@@ -83,10 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int selectedType = -1;
 
-    private int currentFeatured = -1;
-
     private NavMenuAdapter navAdapter;
-    private ArrayList<PetResult> featured;
+
+    private String location = null;
+
+    private BroadcastReceiver featuredReceiver;
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -153,6 +157,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Snackbar.make( drawer, "Please specify a valid location", Snackbar.LENGTH_SHORT ).show();
         }
 
+        if ( featuredReceiver == null ) {
+            featuredReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    updateFeatured();
+                }
+            };
+
+            registerReceiver( featuredReceiver, new IntentFilter( FeaturedPetController.GET_FEATURED ) );
+        }
+
+        checkSavedLocation();
         initNavDrawer();
 
     }
@@ -169,88 +185,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void initNavDrawer() {
-
-        //TODO:: Add featured animal as head view in nav drawer
+    private void checkSavedLocation() {
         /**
-         * Have a List of PetResults for the featured and show a different one each time drawer opens
-         * Must have photo
-         * Must have name
-         *
-         * Make an API call here to get all featured items, use the API helper to be returned with a ArrayList<PetResult>
-         * When the PetResult arraylist of featured animals comes back, populate the first featued item
-         * When drawer closes, change to the next featured item (keep track with an int), go back to beginning of list once hit last item
-         * Featured items MUST have a photo
-         * When clicked, go to PetResultDetail
+         * If location is saved in local Db, populate the EditText automatically for user
          */
 
+        SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
+        Cursor result = readable.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null, null );
 
+        if ( result.getCount() == 1 ) {
+            result.moveToFirst();
+            location = result.getString( result.getColumnIndex( "zip" ) );
+            postalBox.setText( location );
+            FeaturedPetController.getInstance( this ).getFeatured( location, "dog" );
+        }
+
+
+    }
+
+
+    public void initNavDrawer() {
 
         ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
-        SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
-        Cursor result = readable.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null, null ); /** Difference between rawQuery() and query() etc */
-        if ( result.getCount() == 0 ) {
-
-            Log.i("ZIP", String.valueOf( result.getColumnIndex( "zip" ) ));
-
-            items.add(new MenuItem()
-                            .setType(2)
-                            .setName("Please specify location!")
-                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
-            );
-
-        } else if ( featured == null ) {
-            /**
-             * Make the request with the location
-             * When callback comes in, grab the adapter for the listview of nav items, add new MenuItem at pos 0 of type 2 with first PetResult's info
-             */
-
-            result.moveToFirst();
-            String zip = result.getString( 0 );
-
-            try {
-
-                JSONObject requestInfo = new JSONObject();
-                requestInfo.put( "location", zip );
-                requestInfo.put( "age", new JSONArray().put( "senior" ) );
-                requestInfo.put( "type", "dog" ); /** Start with dogs, but once system works, implement other types of animals here too */
-
-                APIHelper.makeRequest( this, zip, new Handler() ,requestInfo );
-
-            } catch ( JSONException e ) {
-                throw new RuntimeException( e.getMessage() );
-            }
-
-            drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+         drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
 
                 @Override
-                public void onDrawerClosed( View drawer ) {
+                public void onDrawerClosed(View drawer) {
+                    FeaturedPetController fc = FeaturedPetController.getInstance( MainActivity.this );
+                    if ( fc.hasNext() ) {
 
-                    if ( currentFeatured + 1 <= featured.size() - 1 )
-                        currentFeatured = currentFeatured + 1;
-                    else
-                        currentFeatured = 0;
+                        PetResult next = fc.next();
 
+                        MenuItem nextFeat = new MenuItem()
+                                .setType( 2 )
+                                .setName( next.getName() )
+                                .setSex( next.getSex() )
+                                .setPhoto( next.getBestPhoto( 1 ) == null ? next.getBestPhoto( 2 ) : next.getBestPhoto( 1 ) );
 
-
-                    PetResult newFeat = featured.get( currentFeatured );
-
-                    MenuItem item = new MenuItem( )
-                            .setName( newFeat.getName() )
-                            .setPhoto( newFeat.getBestPhoto( 1 ) != null ? newFeat.getBestPhoto( 1 ) : newFeat.getBestPhoto( 2 ) )
-                            .setSex( newFeat.getSex() );
-
-                    navAdapter.updateFeatured( item );
-
+                        navAdapter.updateFeatured( nextFeat );
+                    }
                 }
 
+         });
+
+            navItemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView parent, View view, int item, long id) {
+                    switch (item) {
+                        case 0:
+
+                            //get petResult, start detail activity
+
+                            drawer.closeDrawer( Gravity.LEFT );
+
+                            break;
+                        case 1:
+                            drawer.closeDrawer( Gravity.LEFT );
+                            break;
+                        case 2:
+
+                            Intent favorites = new Intent( MainActivity.this, FavoritesList.class );
+                            startActivity( favorites );
+
+                            break;
+                    }
+                }
             });
 
+
+        if ( location == null ) {
+            items.add( new MenuItem()
+                    .setType( 2 )
+                    .setName( "Please Specify Location" )
+                    .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                    .setSex( "Male" )
+
+            );
+        } else {
+            //add please wait
+            items.add( new MenuItem()
+                    .setType( 2 )
+                    .setName( "Grabbing Featured!" )
+                    .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                    .setSex( "Male" )
+            );
         }
 
         items.add(new MenuItem()
                         .setType(1)
+                        .setIsCurrent( true )
                         .setIcon(getResources().getDrawable(R.drawable.ic_home_black_24dp))
                         .setLabel("Home")
         );
@@ -262,44 +286,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         navAdapter = new NavMenuAdapter(this, items);
         navItemsList.setAdapter(navAdapter);
+
     }
 
-    @Override
-    public void getResults( ArrayList<PetResult> featured ) {
-        this.featured = new ArrayList<PetResult>();
-        if ( featured != null && !featured.isEmpty() ) {
+    public void updateFeatured() {
+        FeaturedPetController featController = FeaturedPetController.getInstance( this );
 
-            /**
-             * TAKING CHANCES HERE ON FIRST AND SECOND, NEED TO REALLY MAKE SURE THE IMAGE IS PRESENT
-             */
-            for ( PetResult item : featured ) {
+        if ( featController.hasNext() ) {
+            PetResult firstFeat = featController.next();
+            MenuItem first = new MenuItem()
+                    .setType( 2 )
+                    .setName( firstFeat.getName() )
+                    .setSex( firstFeat.getSex() )
+                    .setPhoto( firstFeat.getBestPhoto( 1 ) == null ? firstFeat.getBestPhoto( 2 ) : firstFeat.getBestPhoto( 1 ) );
 
-                if ( item.getBestPhoto( 1 ) != null || item.getBestPhoto( 2 ) != null ) {
-                    this.featured.add( item );
-                }
-
-            }
-
-            PetResult first = this.featured.get( 0 );
-            MenuItem firstFeat = new MenuItem()
-                    .setType(2)
-                    .setName( first.getName() )
-                    .setPhoto( first.getBestPhoto( 1 ) != null ? first.getBestPhoto( 1 ) : first.getBestPhoto( 2 ) )
-                    .setSex( first.getSex() );
-
-
-            //add to adapter, notify change, custom updateFeatured method
-            currentFeatured = 0;
-            navAdapter.updateFeatured( firstFeat );
-
-
-        } else {
-            /**
-             * Handle the error, no featured
-             */
+            navAdapter.updateFeatured( first );
         }
 
     }
+
+
 
     @Override
     @SuppressWarnings("NewApi")

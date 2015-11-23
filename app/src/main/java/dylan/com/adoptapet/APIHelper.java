@@ -29,12 +29,11 @@ public class APIHelper {
         void getResults( ArrayList<PetResult> results );
     }
 
-    private static Context context;
 
     public static String lastOffset = null;
 
     public static void makeRequest( final Callback callback, final String clientZip, final Handler h, final JSONObject criteria ) {
-        APIHelper.context = (Context) callback;
+
 
         OkHttpClient client = new OkHttpClient();
         /**

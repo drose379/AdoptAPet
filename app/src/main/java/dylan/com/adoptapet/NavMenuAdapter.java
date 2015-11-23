@@ -66,6 +66,11 @@ public class NavMenuAdapter extends BaseAdapter {
             ImageView icon = (ImageView) recycledView.findViewById( R.id.itemIcon );
             TextView label = (TextView) recycledView.findViewById( R.id.itemLabel );
 
+            if ( currentItem.isCurrent() )
+                label.setTextColor( context.getResources().getColor( R.color.colorPrimary ) );
+            else
+                label.setTextColor( context.getResources().getColor( R.color.colorBlack ) );
+
             icon.setImageDrawable( currentItem.getIcon() );
             label.setText( currentItem.getLabel() );
         } else {
@@ -88,11 +93,15 @@ public class NavMenuAdapter extends BaseAdapter {
 
                     Log.i("SEX", currentItem.getSex());
             }
-            
+
             headImage.setBorderWidth( 10 );
 
             Picasso.with( context ).load( currentItem.getImageUrl() ).fit().into( headImage );
-            name.setText( currentItem.getName() );
+
+            if ( currentItem.getName().equals( "Grabbing Featured!") || currentItem.getName().equals( "Please Specify Location" ) )
+                name.setText( currentItem.getName() );
+            else
+            name.setText( "Hi! I'm " + currentItem.getName() );
         }
 
 
