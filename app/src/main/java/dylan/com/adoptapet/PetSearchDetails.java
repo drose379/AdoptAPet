@@ -6,7 +6,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,10 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
     private View root;
 
+    private Button showOptions;
+    private LinearLayout moreOptions;
+    private ScrollView scrollParent;
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -52,11 +59,16 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
         title.setText( "Search Details" );
 
+        moreOptions = (LinearLayout) findViewById( R.id.moreOptions );
+        showOptions = (Button) findViewById( R.id.showMoreOptions );
+        scrollParent = (ScrollView) findViewById( R.id.scroller );
+
         root = findViewById(R.id.root);
 
         animalType = getIntent().getIntExtra("type", 1);
         location = getIntent().getStringExtra( "location" );
         selectedBreeds = new ArrayList<String>();
+
 
         Button breedSelect = (Button) findViewById( R.id.breedSelectButton );
         LinearLayout searchButton = (LinearLayout) findViewById( R.id.searchButton );
@@ -66,6 +78,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         backButton.setOnClickListener( this );
         breedSelect.setOnClickListener( this );
         searchButton.setOnClickListener( this );
+        showOptions.setOnClickListener( this );
     }
 
     @Override
@@ -188,6 +201,19 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
                 CheckBox ageAdult = (CheckBox) findViewById(R.id.adult);
                 CheckBox ageSenior = (CheckBox) findViewById(R.id.senior);
 
+                SwitchCompat altered = (SwitchCompat) findViewById( R.id.alteredSwitch );
+                SwitchCompat noClaws = (SwitchCompat) findViewById( R.id.clawsSwitch );
+                SwitchCompat hasShots = (SwitchCompat) findViewById( R.id.shotsSwitch );
+                SwitchCompat houseTrained = (SwitchCompat) findViewById( R.id.houseSwitch );
+                SwitchCompat goodWithDogs = (SwitchCompat) findViewById( R.id.dogsSwitch );
+                SwitchCompat goodWithCats = (SwitchCompat) findViewById( R.id.catsSwitch );
+                SwitchCompat goodWithKids = (SwitchCompat) findViewById( R.id.kidsSwitch );
+                SwitchCompat specialNeeds = (SwitchCompat) findViewById( R.id.specialSwitch );
+
+                /**
+                 * TODO, generate JSONArray of selected options and add to requestObject, to be handled by API
+                 */
+
                 CheckBox[] genderBoxes = { maleGender, femaleGender };
                 CheckBox[] sizeBoxes = { sizeSmall, sizeMedium, sizeLarge, sizeXL };
                 CheckBox[] ageBoxes = { ageBaby, ageYoung, ageAdult, ageSenior };
@@ -250,6 +276,34 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
                 break;
 
+            case R.id.showMoreOptions :
+
+                /**
+                 * TODO: Align the Select Breeds button to the left, and the More Options button to the the right of it
+                 * Keep the more options in the same spot
+                 */
+
+                switch( moreOptions.getVisibility() ) {
+                    case View.VISIBLE :
+                        moreOptions.animate().alpha(0);
+                        moreOptions.setVisibility(View.GONE);
+                        break;
+                    case View.GONE :
+                        moreOptions.setVisibility(View.VISIBLE);
+                        moreOptions.animate().alpha(1);
+
+                        moreOptions.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                scrollParent.fullScroll( View.FOCUS_DOWN );
+                            }
+                        });
+
+                        break;
+                }
+
+
+            break;
         }
 
     }

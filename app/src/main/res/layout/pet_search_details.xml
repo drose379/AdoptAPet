@@ -11,22 +11,45 @@
     <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:layout_below="@id/toolbar"
         android:id="@+id/midBox"
         >
 
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:text="Select Breeds"
-            android:id="@+id/breedSelectButton"
-            />
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:text="Breeds"
+                android:id="@+id/breedSelectButton"
+                />
+
+            <Button
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_margin="10dp"
+                android:text="More"
+                android:id="@+id/showMoreOptions"
+                />
+
+        </LinearLayout>
+
+
+
 
         <ListView
             android:layout_width="wrap_content"
@@ -43,9 +66,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/midBox"
         android:layout_marginBottom="65dp"
+        android:id="@+id/scroller"
         >
 
 
@@ -216,13 +240,15 @@
 
         </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/ageSelect"
+                android:alpha="0"
+                android:visibility="gone"
+                android:id="@+id/moreOptions"
                 >
 
 
@@ -238,6 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="Spayed / Neutered"
                         />
 
@@ -264,6 +291,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="No Claws"
                         />
 
@@ -288,6 +316,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="Has Shots"
                         />
 
@@ -312,6 +341,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="House Trained"
                         />
 
@@ -336,6 +366,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="Good With Dogs"
                         />
 
@@ -360,6 +391,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="Good With Cats"
                         />
 
@@ -384,6 +416,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="Good With Kids"
                         />
 
@@ -408,6 +441,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"
                         android:text="Has Special Needs"
                         />
 
