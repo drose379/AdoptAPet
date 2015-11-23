@@ -6,10 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -27,12 +29,14 @@ import dylan.com.adoptapet.R;
 /**
  * Created by Dylan Rose on 11/22/15.
  */
-public class FavoritesList extends AppCompatActivity implements View.OnClickListener {
+public class FavoritesList extends AppCompatActivity implements View.OnClickListener, APIHelper.Callback {
 
     private DrawerLayout drawer;
 
     private NavMenuAdapter navAdapter;
     private ListView navItemsList;
+
+    private AlertDialog loadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -40,17 +44,23 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.favorites_list_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
-        ImageView menuButton = (ImageView) findViewById(R.id.toolbarMenuButton);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        ImageView menuButton = (ImageView) toolbar.findViewById(R.id.toolbarMenuButton);
 
         drawer = (DrawerLayout) findViewById( R.id.drawer );
         navItemsList = (ListView) findViewById( R.id.navItemsList );
 
         toolbarTitle.setText("My Favorites");
-        menuButton.setOnClickListener( this );
+        menuButton.setOnClickListener(this);
 
         initNavDrawer();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadFavorites();
     }
 
     public void initNavDrawer() {
@@ -119,16 +129,21 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                         .setIsCurrent(true)
         );
 
-        navItemsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+        navItemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick( AdapterView parent, View view, int item, long id ) {
-                switch( item ) {
+            public void onItemClick(AdapterView parent, View view, int item, long id) {
+                switch (item) {
 
-                    case 0 :
+                    case 0:
+
+                        PetResult selected = FeaturedPetController.getInstance(FavoritesList.this).getCurrent();
+                        Intent detail = new Intent(FavoritesList.this, PetResultDetail.class);
+                        detail.putExtra("pet", selected);
+                        startActivity(detail);
 
                         break;
 
-                    case 1 :
+                    case 1:
 
                         finish();
 
@@ -169,10 +184,77 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+    public void loadFavorites() {
+        showLoadingDialog();
+
+        JSONArray favoriteIds = new JSONArray();
+
+        SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
+        Cursor results = readable.rawQuery("SELECT id FROM " + FavoritesDBHelper.table_name, null, null);
+
+        if ( results.getCount() > 0 ) {
+
+            results.moveToPosition( -1 );
+
+            while ( results.moveToNext() ) {
+                favoriteIds.put( results.getString( results.getColumnIndex( "id" ) ) );
+            }
+
+
+            APIHelper.makeFavoritesRequest( this, grabLocation(), favoriteIds, new Handler( ) );
+
+
+        } else {
+            /**
+             * Show a "No Favorites" notice and set ListView to GONE
+             */
+        }
+
+    }
+
+    @Override
+    public void getResults( final ArrayList<PetResult> results ) {
+
+        ListView favoritesList = (ListView) findViewById( R.id.favoritesList );
+        PetResultAdapter adapter = new PetResultAdapter( this, false, results );
+
+        favoritesList.setAdapter( adapter );
+
+        favoritesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent detail = new Intent( FavoritesList.this, PetResultDetail.class );
+                detail.putExtra( "pet", results.get( position ) );
+                startActivity( detail );
+            }
+        });
+
+        loadingDialog.dismiss();
+    }
+
+    public String grabLocation() {
+        SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
+        Cursor result = readable.rawQuery( "SELECT zip FROM " + ZipDBHelper.table_name, null, null  );
+
+        result.moveToFirst();
+
+        return result.getString( result.getColumnIndex( "zip" ) );
+    }
+
+    public void showLoadingDialog() {
+        loadingDialog = new AlertDialog.Builder( this )
+                .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.loading_title, null ) )
+                .setMessage( "Grabbing your favorites!" )
+                .create();
+
+        loadingDialog.show();
+    }
+
+
     @Override
     public void onClick( View v ) {
         switch ( v.getId() ) {
-
             case R.id.toolbarMenuButton :
 
                 drawer.openDrawer( Gravity.LEFT );
@@ -181,6 +263,8 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
 
         }
     }
+
+
 
 
 }

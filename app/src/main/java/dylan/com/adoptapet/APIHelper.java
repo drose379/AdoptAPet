@@ -61,6 +61,44 @@ public class APIHelper {
 
     }
 
+    public static void makeFavoritesRequest( final Callback callback, final String location, JSONArray ids, final Handler h ) {
+
+        JSONObject requestInfo = new JSONObject();
+
+        try {
+
+            requestInfo.put( "location", location );
+            requestInfo.put( "ids", ids );
+
+        } catch ( JSONException e ) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+
+        OkHttpClient httpClient = new OkHttpClient();
+
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), requestInfo.toString());
+
+        Request r  = new Request.Builder()
+                .post( body )
+                .url( "http://104.236.15.47/AdoptAPetAPI/favoriteInit.php" )
+                .build();
+
+        httpClient.newCall( r ).enqueue(new com.squareup.okhttp.Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result = response.body().string();
+                parseResults( result, location, h, callback );
+            }
+        });
+
+    }
+
     private static void parseResults( String result, String clientLocation, final Handler h, final Callback callback ) {
 
 
@@ -74,7 +112,9 @@ public class APIHelper {
 
                 JSONArray petResults = resultObject.getJSONArray( "masterItems" );
 
-                lastOffset = resultObject.getJSONObject( "lastOffset" ).getString( "0" );
+                if ( !resultObject.isNull( "lastOffset" )) {
+                    lastOffset = resultObject.getJSONObject("lastOffset").getString("0");
+                }
 
                 for (int i = 0; i < petResults.length(); i++) {
                     JSONObject pet = petResults.getJSONObject(i);

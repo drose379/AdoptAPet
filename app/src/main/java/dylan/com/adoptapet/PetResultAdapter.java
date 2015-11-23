@@ -39,6 +39,8 @@ public class PetResultAdapter extends BaseAdapter {
         void loadMore();
     }
 
+    private boolean shouldCallback;
+
     private static final int TYPE_CARD = 0;
     private static int TYPE_LOAD_BUTTON = 1;
 
@@ -58,8 +60,13 @@ public class PetResultAdapter extends BaseAdapter {
 
     private View loadMoreView;
 
-    public PetResultAdapter( Context context, ArrayList<PetResult> pets ) {
-        callback = (Callback) context;
+    public PetResultAdapter( Context context, boolean shouldBeCallback, ArrayList<PetResult> pets ) {
+        shouldCallback = shouldBeCallback;
+
+        if ( shouldBeCallback ) {
+            callback = (Callback) context;
+        }
+
         this.context = context;
         this.pets = pets;
 
@@ -68,7 +75,7 @@ public class PetResultAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return pets.size() + 1;
+        return shouldCallback ? pets.size() + 1 : pets.size();
     }
 
     @Override

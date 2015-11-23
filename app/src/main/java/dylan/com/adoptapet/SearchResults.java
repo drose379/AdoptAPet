@@ -129,7 +129,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             if ( results.size() > 0 ) {
                 badLocation = false;
                 if ( resultAdapter == null ) {
-                    resultAdapter = new PetResultAdapter( this, results );
+                    resultAdapter = new PetResultAdapter( this, true, results );
                     resultList.setAdapter( resultAdapter );
                 } else {
 
