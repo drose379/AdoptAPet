@@ -94,4 +94,8 @@ public class FeaturedPetController implements APIHelper.Callback {
         return featuredItems.get( currentItem );
     }
 
+    public PetResult getCurrent() {
+        return featuredItems.get( currentItem );
+    }
+
 }

@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .setType( 2 )
                                 .setName( next.getName() )
                                 .setSex( next.getSex() )
-                                .setPhoto( next.getBestPhoto( 1 ) == null ? next.getBestPhoto( 2 ) : next.getBestPhoto( 1 ) );
+                                .setPhoto(next.getBestPhoto(1) == null ? next.getBestPhoto(2) : next.getBestPhoto(1));
 
                         navAdapter.updateFeatured( nextFeat );
                     }
@@ -235,7 +235,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switch (item) {
                         case 0:
 
-                            //get petResult, start detail activity
+                            PetResult selected = FeaturedPetController.getInstance( MainActivity.this ).getCurrent();
+                            Intent detail = new Intent( MainActivity.this, PetResultDetail.class );
+                            detail.putExtra( "pet", selected );
+                            startActivity( detail );
 
                             drawer.closeDrawer( Gravity.LEFT );
 
