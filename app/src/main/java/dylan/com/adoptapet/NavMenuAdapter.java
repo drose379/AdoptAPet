@@ -52,6 +52,7 @@ public class NavMenuAdapter extends BaseAdapter {
         if ( items.size() == 3 ) {
             items.remove( 0 );
         }
+
         items.add( 0, featured );
         notifyDataSetChanged();
     }

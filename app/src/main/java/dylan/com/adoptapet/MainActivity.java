@@ -248,6 +248,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Intent favorites = new Intent( MainActivity.this, FavoritesList.class );
                             startActivity( favorites );
 
+                            drawer.closeDrawer( Gravity.LEFT );
+
                             break;
                     }
                 }

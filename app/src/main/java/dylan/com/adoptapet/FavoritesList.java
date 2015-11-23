@@ -57,15 +57,117 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
 
         ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
+
+        FeaturedPetController fc = FeaturedPetController.getInstance( this );
+
+        if ( fc.hasNext() ) {
+
+            PetResult next = fc.next();
+
+            items.add( new MenuItem()
+                    .setType( 2 )
+                    .setName( next.getName() )
+                    .setSex( next.getSex() )
+                    .setPhoto( next.getBestPhoto( 1 ) == null ? next.getBestPhoto( 2 ) : next.getBestPhoto( 1 ) )
+            );
+        } else {
+
+            SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
+            Cursor result = readable.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null, null );
+
+            if ( result.getCount() == 0 ) {
+
+                items.add( new MenuItem()
+                        .setType( 2 )
+                        .setName( "Please Provide Location!" )
+                        .setSex( "Male" )
+                        .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                );
+
+            } else {
+
+                items.add( new MenuItem()
+                        .setType( 2 )
+                        .setName( "Grabbing Featured" )
+                        .setSex( "Male" )
+                        .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                );
+
+            }
+
+        }
+
+        /** Add rest of items, make sure Favorites isCurrent( true ) */
+
         drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed( View drawer ) {
-
+                updateFeatured();
             }
         });
 
+        items.add(new MenuItem()
+                        .setType(1)
+                        .setIcon(getResources().getDrawable(R.drawable.ic_home_black_24dp))
+                        .setLabel("Home")
+        );
+
+        items.add(new MenuItem()
+                        .setType(1)
+                        .setIcon(getResources().getDrawable(R.drawable.ic_favorite_black_24dp))
+                        .setLabel("Favorites")
+                        .setIsCurrent(true)
+        );
+
+        navItemsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick( AdapterView parent, View view, int item, long id ) {
+                switch( item ) {
+
+                    case 0 :
+
+                        break;
+
+                    case 1 :
+
+                        finish();
+
+                        break;
+
+                    case 2:
+
+                        drawer.closeDrawer(Gravity.LEFT);
+
+                        break;
+
+                }
+            }
+        });
+
+
+        navAdapter = new NavMenuAdapter( this, items );
+        navItemsList.setAdapter(navAdapter);
+
     }
 
+
+    public void updateFeatured() {
+        FeaturedPetController fc = FeaturedPetController.getInstance( this );
+        if ( fc.hasNext() ) {
+
+            PetResult next = fc.next();
+
+            MenuItem nextFeat = new MenuItem()
+                    .setType( 2 )
+                    .setName( next.getName() )
+                    .setSex( next.getSex() )
+                    .setPhoto( next.getBestPhoto( 1 )  == null ? next.getBestPhoto( 2 ) : next.getBestPhoto( 1 ) );
+
+
+            if ( navAdapter != null )
+                navAdapter.updateFeatured(nextFeat);
+        }
+    }
 
     @Override
     public void onClick( View v ) {
