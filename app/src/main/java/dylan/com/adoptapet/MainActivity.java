@@ -254,6 +254,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             drawer.closeDrawer( Gravity.LEFT );
 
                             break;
+                        case 3 :
+                            Intent shelters = new Intent( MainActivity.this, ShelterList.class );
+                            startActivity( shelters );
+                             break;
                     }
                 }
             });
@@ -268,7 +272,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             );
         } else {
-            //add please wait
             items.add( new MenuItem()
                     .setType( 2 )
                     .setName( "Grabbing Featured!" )

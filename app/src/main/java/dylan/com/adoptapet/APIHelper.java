@@ -29,6 +29,10 @@ public class APIHelper {
         void getResults( ArrayList<PetResult> results );
     }
 
+    public interface SheltersCallback {
+        void getShelterResults( ArrayList<ShelterResult> results );
+    }
+
 
     public static String lastOffset = null;
 
@@ -94,6 +98,39 @@ public class APIHelper {
             public void onResponse(Response response) throws IOException {
                 String result = response.body().string();
                 parseResults( result, location, h, callback );
+            }
+        });
+
+    }
+
+    public static void getShelters( String location, SheltersCallback callback, Handler h ) {
+
+        OkHttpClient httpClient = new OkHttpClient();
+
+        JSONObject requestObject;
+
+        try {
+            requestObject = new JSONObject();
+            requestObject.put( "location", location );
+        } catch ( JSONException e ) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+        RequestBody body = RequestBody.create( MediaType.parse( "text/plain" ), requestObject.toString() );
+        Request req = new Request.Builder()
+                .post( body )
+                .url( "http://104.236.15.47/AdoptAPetAPI/shelterInit.php" )
+                .build();
+
+        httpClient.newCall( req ).enqueue(new com.squareup.okhttp.Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
             }
         });
 
