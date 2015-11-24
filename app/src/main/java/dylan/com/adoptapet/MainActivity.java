@@ -289,8 +289,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setLabel("Favorites")
         );
 
+        items.add( new MenuItem()
+                .setType( 1 )
+                .setIcon( getResources().getDrawable( R.drawable.ic_pets_black_24dp ) )
+                .setLabel( "Shelters" )
+        );
+
         navAdapter = new NavMenuAdapter(this, items);
-        navItemsList.setAdapter(navAdapter);
+        navItemsList.setAdapter( navAdapter );
 
     }
 

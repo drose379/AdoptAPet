@@ -129,6 +129,12 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                         .setIsCurrent(true)
         );
 
+        items.add( new MenuItem()
+                .setType( 1 )
+                .setIcon( getResources().getDrawable( R.drawable.ic_pets_black_24dp ) )
+                .setLabel( "Shelters" )
+        );
+
         navItemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int item, long id) {

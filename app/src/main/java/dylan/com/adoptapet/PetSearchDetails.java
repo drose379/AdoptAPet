@@ -202,13 +202,23 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
                 CheckBox ageSenior = (CheckBox) findViewById(R.id.senior);
 
                 SwitchCompat altered = (SwitchCompat) findViewById( R.id.alteredSwitch );
+                altered.setTag("altered");
                 SwitchCompat noClaws = (SwitchCompat) findViewById( R.id.clawsSwitch );
+                noClaws.setTag( "noClaws" );
                 SwitchCompat hasShots = (SwitchCompat) findViewById( R.id.shotsSwitch );
+                hasShots.setTag( "hasShots" );
                 SwitchCompat houseTrained = (SwitchCompat) findViewById( R.id.houseSwitch );
+                houseTrained.setTag( "housebroken" );
                 SwitchCompat goodWithDogs = (SwitchCompat) findViewById( R.id.dogsSwitch );
+                goodWithDogs.setTag( "noDogs" );
                 SwitchCompat goodWithCats = (SwitchCompat) findViewById( R.id.catsSwitch );
+                goodWithCats.setTag( "noCats" );
                 SwitchCompat goodWithKids = (SwitchCompat) findViewById( R.id.kidsSwitch );
+                goodWithKids.setTag( "noKids" );
                 SwitchCompat specialNeeds = (SwitchCompat) findViewById( R.id.specialSwitch );
+                specialNeeds.setTag( "specialNeeds" );
+
+                SwitchCompat[] options = new SwitchCompat[] {altered, noClaws, hasShots, houseTrained, goodWithDogs, goodWithCats, goodWithKids, specialNeeds};
 
                 /**
                  * TODO, generate JSONArray of selected options and add to requestObject, to be handled by API
@@ -225,6 +235,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
                     JSONArray genderSelected = new JSONArray();
                     JSONArray ageSelected = new JSONArray();
                     JSONArray sizeSelected = new JSONArray();
+                    JSONArray optionsSelected = new JSONArray();
 
                     for ( CheckBox box : genderBoxes ) {
                         if ( box.isChecked() ) {
@@ -244,11 +255,18 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
                         }
                     }
 
+                    for ( SwitchCompat option : options ) {
+                        if ( option.isChecked() ) {
+                            optionsSelected.put( option.getTag() );
+                        }
+                    }
+
                     JSONArray breeds = new JSONArray( this.selectedBreeds.toArray() );
 
                     requestInfo.put( "location", location );
                     requestInfo.put( "type", animalType == 1 ? "dog" : "cat" );
                     requestInfo.put( "breeds", breeds );
+                    requestInfo.put( "options", optionsSelected );
                     requestInfo.put( "genders", genderSelected );
                     requestInfo.put( "sizes", sizeSelected );
                     requestInfo.put("ages", ageSelected);
