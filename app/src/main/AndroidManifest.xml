@@ -25,6 +25,7 @@
         <activity android:name=".PetSearchDetails" />
 
         <activity android:name=".FavoritesList" />
+        <activity android:name=".ShelterList" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
