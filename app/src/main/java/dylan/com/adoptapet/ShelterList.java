@@ -120,6 +120,14 @@ public class ShelterList extends AppCompatActivity {
                 shelterList.setVisibility( View.VISIBLE );
                 ShelterResultAdapter adapter = new ShelterResultAdapter( ShelterList.this, results );
                 shelterList.setAdapter( adapter );
+
+                /**
+                 * TODO:: Add click listener to shelter card, inflates dialog for dif actions with shelter
+                 * Call
+                 * Map
+                 * Email
+                 */
+
             }
         }, new Handler());
 
