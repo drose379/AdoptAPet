@@ -81,6 +81,8 @@ public class ShelterList extends AppCompatActivity {
                          vals.put( "zip", location );
                          writeable.insert(ZipDBHelper.table_name, null, vals);
 
+                         writeable.close();
+
                          getLocation.dismiss();
                          grabShelters();
 
@@ -93,6 +95,8 @@ public class ShelterList extends AppCompatActivity {
 
         }
 
+        readable.close();
+
     }
 
     public void grabShelters() {
@@ -101,18 +105,21 @@ public class ShelterList extends AppCompatActivity {
          */
 
         SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
-        Cursor result = readable.rawQuery( "SELECT zip FROM " + ZipDBHelper.table_name, null, null );
+        Cursor result = readable.rawQuery("SELECT zip FROM " + ZipDBHelper.table_name, null, null);
 
         result.moveToFirst();
 
         String location = result.getString( result.getColumnIndex( "zip" ) );
 
+        readable.close();
+
         APIHelper.getShelters( location, new APIHelper.SheltersCallback() {
             @Override
             public void getShelterResults( ArrayList<ShelterResult> results ) {
-                /**
-                 * Populate the list with results
-                 */
+                loader.setVisibility( View.GONE );
+                shelterList.setVisibility( View.VISIBLE );
+                ShelterResultAdapter adapter = new ShelterResultAdapter( ShelterList.this, results );
+                shelterList.setAdapter( adapter );
             }
         }, new Handler());
 

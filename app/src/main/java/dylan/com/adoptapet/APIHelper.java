@@ -103,7 +103,7 @@ public class APIHelper {
 
     }
 
-    public static void getShelters( String location, SheltersCallback callback, Handler h ) {
+    public static void getShelters( String location, final SheltersCallback callback, final Handler h ) {
 
         OkHttpClient httpClient = new OkHttpClient();
 
@@ -130,7 +130,10 @@ public class APIHelper {
 
             @Override
             public void onResponse(Response response) throws IOException {
-
+                /**
+                 * Need to build a parseShelterResults to create an ArrayList of ShelterResults
+                 */
+                parseShelterResults( response.body().string(), h, callback );
             }
         });
 
@@ -200,5 +203,44 @@ public class APIHelper {
         }
     }
 
+    private static void parseShelterResults( String result, final Handler h, final SheltersCallback callback ) {
+
+        final ArrayList<ShelterResult> results = new ArrayList<ShelterResult>();
+
+        try {
+
+            JSONArray shelters = new JSONArray( result );
+
+            for( int i = 0; i < shelters.length(); i++ ) {
+
+                JSONObject shelter = shelters.getJSONObject( i );
+
+                results.add( new ShelterResult()
+                        .setId( shelter.getString( "id" ) )
+                        .setName( shelter.getString( "name" ) )
+                        .setAddress( shelter.getString( "address" ) )
+                        .setCity( shelter.getString( "city" ) )
+                        .setState( shelter.getString( "state" ) )
+                        .setCountry( shelter.getString( "country" ) )
+                        .setPhone( shelter.getString( "phone" ) )
+                        .setFax( shelter.getString( "fax" ) )
+                        .setEmail( shelter.getString( "email" ) )
+                );
+
+            }
+
+
+        } catch ( JSONException e ) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+        h.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.getShelterResults(results);
+            }
+        } );
+
+    }
 
 }

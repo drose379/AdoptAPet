@@ -84,6 +84,8 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
              */
         }
 
+        readable.close();
+
     }
 
     @Override
@@ -112,7 +114,11 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
 
         result.moveToFirst();
 
-        return result.getString( result.getColumnIndex( "zip" ) );
+        String location = result.getString( result.getColumnIndex( "zip" ) );
+
+        readable.close();
+
+        return location;
     }
 
     public void showLoadingDialog() {

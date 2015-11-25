@@ -19,7 +19,11 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDark"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:visibility="gone"
+        android:layout_below="@id/toolbar"
         android:id="@+id/shelterList"
         />
 
