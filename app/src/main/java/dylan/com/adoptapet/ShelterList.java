@@ -170,10 +170,27 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
     public void onItemClick(AdapterView parent, View item, int which, long id) {
 
         final ShelterResult selectedShelter = (ShelterResult) shelterList.getAdapter().getItem(which);
+        ArrayList<String> shelterMenuOptions = new ArrayList<String>();
+
+
+
+        if ( !selectedShelter.getPhone().trim().isEmpty() )
+            shelterMenuOptions.add( "Call" );
+
+        if ( !selectedShelter.getAddress().trim().isEmpty() || !selectedShelter.getState().trim().isEmpty() || !selectedShelter.getCity().trim().isEmpty() )
+            shelterMenuOptions.add( "Map" );
+
+        if ( !selectedShelter.getEmail().trim().isEmpty() )
+            shelterMenuOptions.add( "Email" );
+
+        shelterMenuOptions.add( "Animals" );
+
+        String[] optionsFinal = new String[shelterMenuOptions.size()];
+
 
         shelterOptions = new AlertDialog.Builder(ShelterList.this)
                 .setCustomTitle(LayoutInflater.from(ShelterList.this).inflate(R.layout.shelter_title, null))
-                .setItems(new String[]{"Call", "Map", "Email", "See Animals"}, new DialogInterface.OnClickListener() {
+                .setItems( shelterMenuOptions.toArray( optionsFinal ), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
