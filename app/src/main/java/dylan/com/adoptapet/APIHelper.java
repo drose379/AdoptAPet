@@ -59,7 +59,7 @@ public class APIHelper {
             @Override
             public void onResponse(Response response) throws IOException {
                 String results = response.body().string();
-                parseResults(results, clientZip, h, callback);
+                parseResults(results, h, callback);
             }
         });
 
@@ -97,7 +97,7 @@ public class APIHelper {
             @Override
             public void onResponse(Response response) throws IOException {
                 String result = response.body().string();
-                parseResults( result, location, h, callback );
+                parseResults( result, h, callback );
             }
         });
 
@@ -116,7 +116,7 @@ public class APIHelper {
             throw new RuntimeException( e.getMessage() );
         }
 
-        RequestBody body = RequestBody.create( MediaType.parse( "text/plain" ), requestObject.toString() );
+        RequestBody body = RequestBody.create( MediaType.parse("text/plain"), requestObject.toString() );
         Request req = new Request.Builder()
                 .post( body )
                 .url( "http://104.236.15.47/AdoptAPetAPI/shelterInit.php" )
@@ -133,13 +133,37 @@ public class APIHelper {
                 /**
                  * Need to build a parseShelterResults to create an ArrayList of ShelterResults
                  */
-                parseShelterResults( response.body().string(), h, callback );
+                parseShelterResults(response.body().string(), h, callback);
             }
         });
 
     }
 
-    private static void parseResults( String result, String clientLocation, final Handler h, final Callback callback ) {
+    public static void makeShelterAnimalsRequest( String shelterId, final Callback callback, final Handler h ) {
+
+        OkHttpClient httpClient = new OkHttpClient();
+
+        RequestBody body = RequestBody.create( MediaType.parse( "text/plain" ), shelterId );
+        Request req = new Request.Builder()
+                .post( body )
+                .url( "http://104.236.15.47/AdoptAPetAPI/shelterAnimalInit.php" )
+                .build();
+        httpClient.newCall( req ).enqueue(new com.squareup.okhttp.Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String results = response.body().string();
+                parseResults( results, h, callback );
+            }
+        });
+
+    }
+
+    private static void parseResults( String result, final Handler h, final Callback callback ) {
 
 
         final ArrayList<PetResult> results = new ArrayList<PetResult>();
@@ -202,6 +226,7 @@ public class APIHelper {
             h.post( r );
         }
     }
+
 
     private static void parseShelterResults( String result, final Handler h, final SheltersCallback callback ) {
 

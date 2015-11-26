@@ -39,6 +39,19 @@ public class ShelterResultAdapter extends BaseAdapter {
         return 0;
     }
 
+    public int getItemIndex( String name ) {
+        int index = 0;
+
+        for ( int i = 0; i < results.size(); i++ ) {
+            if ( results.get( i ).getName().equals( name ) ) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
+    }
+
     private String generateLocationText( ShelterResult shelter ) {
         String location = "";
 

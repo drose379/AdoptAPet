@@ -91,6 +91,8 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
     @Override
     public void getResults( final ArrayList<PetResult> results ) {
 
+        Log.i("FAVS", String.valueOf( results.size() ));
+
         ListView favoritesList = (ListView) findViewById( R.id.favoritesList );
         PetResultAdapter adapter = new PetResultAdapter( this, false, results );
 

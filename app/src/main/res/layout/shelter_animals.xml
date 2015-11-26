@@ -3,11 +3,9 @@
     android:orientation="vertical"
     android:background="@color/colorBackgroundDark"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/root"
-    >
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_back_search" android:id="@+id/toolbar" />
+    <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
 
 
     <ProgressBar
@@ -26,7 +24,7 @@
         android:dividerHeight="0dp"
         android:visibility="gone"
         android:layout_below="@id/toolbar"
-        android:id="@+id/shelterList"
+        android:id="@+id/results"
         />
 
 </RelativeLayout>

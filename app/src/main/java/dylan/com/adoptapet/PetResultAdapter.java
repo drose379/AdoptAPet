@@ -75,7 +75,15 @@ public class PetResultAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return shouldCallback ? pets.size() + 1 : pets.size();
+        int count = 0;
+
+        if ( shouldCallback ) {
+            count = pets.size() + 1;
+        } else {
+            count = pets.size();
+        }
+
+        return count;
     }
 
     @Override

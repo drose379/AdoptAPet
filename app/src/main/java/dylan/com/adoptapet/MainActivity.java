@@ -257,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         case 3 :
                             Intent shelters = new Intent( MainActivity.this, ShelterList.class );
                             startActivity( shelters );
+
+                            drawer.closeDrawer( Gravity.LEFT );
                              break;
                     }
                 }
