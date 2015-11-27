@@ -157,6 +157,13 @@ public class PetResultAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void stopLoadingMore() {
+        /**
+         * TODO:: Change boolean for loadMore to false, check for this before calling callback.loadMore in the getView()
+         * TODO:: Also, remove the loading card from the last item in the ListView
+         */
+    }
+
     @Override
     public View getView( int item, View recycledView, ViewGroup parent ) {
 

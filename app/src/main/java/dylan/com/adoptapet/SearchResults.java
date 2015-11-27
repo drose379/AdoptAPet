@@ -149,11 +149,21 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
                 noResultsImage.setVisibility( View.GONE );
                 noResultText.setVisibility( View.GONE );
-            } else {
+            } else if ( APIHelper.lastOffset.equals( "50" ) ) {
+
+                Log.i("OFFSET", APIHelper.lastOffset);
+
                 badLocation = false;
                 resultList.setVisibility( View.GONE );
                 noResultsImage.setVisibility( View.VISIBLE );
-                noResultsImage.setVisibility( View.VISIBLE );
+                noResultText.setVisibility( View.VISIBLE );
+
+            } else {
+                /**
+                 * TODO::Tried to load more, but no more results, need to stop trying to load more
+                 */
+
+                resultAdapter.stopLoadingMore();
             }
 
         } else {

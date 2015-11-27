@@ -96,7 +96,6 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
         }
 
 
-
         //typeOptions.setSelection( types.size() - 1 );
 
         final String[] finalTypes = new String[types.size()];
