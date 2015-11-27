@@ -146,6 +146,17 @@ public class PetResultAdapter extends BaseAdapter {
         }
     }
 
+    public void updateAnimalType( ArrayList<PetResult> items ) {
+        pets.clear();
+        for ( PetResult item : items ) {
+            pets.add( item );
+        }
+
+        Log.i("NEWANIM", String.valueOf( items.size() ));
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView( int item, View recycledView, ViewGroup parent ) {
 

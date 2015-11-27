@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -170,7 +171,7 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
     public void onItemClick(AdapterView parent, View item, int which, long id) {
 
         final ShelterResult selectedShelter = (ShelterResult) shelterList.getAdapter().getItem(which);
-        ArrayList<String> shelterMenuOptions = new ArrayList<String>();
+        final ArrayList<String> shelterMenuOptions = new ArrayList<String>();
 
 
 
@@ -194,18 +195,37 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        switch (which) {
 
-                            case 0:
+
+                        switch (shelterMenuOptions.get( which )) {
+
+                            case "Call":
+
+                                String phoneNumber = selectedShelter.getPhone().trim();
+
+                                Intent phone = new Intent( Intent.ACTION_DIAL );
+                                phone.setData( Uri.parse( "tel:" + phoneNumber ) );
+                                startActivity( phone );
 
                                 break;
-                            case 1:
+                            case "Map" :
+
+                                Uri mapUri = Uri.parse( "geo:0,0?q=" + selectedShelter.getAddress() + "," + selectedShelter.getState() + "," + selectedShelter.getCity()  );
+                                Intent map = new Intent( Intent.ACTION_VIEW, mapUri );
+                                map.setPackage( "com.google.android.apps.maps" );
+                                startActivity( map );
 
                                 break;
-                            case 2:
+                            case "Email" :
+
+                                Intent mail = new Intent( Intent.ACTION_SENDTO );
+                                mail.setData( Uri.parse( "mailto:" + selectedShelter.getEmail() ) );
+                                mail.putExtra( Intent.EXTRA_SUBJECT, "Interested in - " + selectedShelter.getName() );
+
+                                startActivity( mail );
 
                                 break;
-                            case 3:
+                            case "Animals" :
 
                                 Intent shelterAnimals = new Intent(ShelterList.this, ShelterAnimalResults.class);
                                 shelterAnimals.putExtra("shelterId", selectedShelter.getId());

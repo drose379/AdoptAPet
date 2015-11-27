@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorBackgroundDark"
     android:layout_width="match_parent"
@@ -16,6 +17,15 @@
         android:id="@+id/loader"
         />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:paddingLeft="10dp"
+        android:background="@color/colorBackgroundDarkerer"
+        android:id="@+id/typeSelect"
+        />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +33,7 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:visibility="gone"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/typeSelect"
         android:id="@+id/results"
         />
 
