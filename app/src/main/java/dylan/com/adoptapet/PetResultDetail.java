@@ -22,6 +22,8 @@ import android.widget.ViewFlipper;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -333,6 +335,15 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         vals.put( FavoritesDBHelper.id_col, currentPet.getId() );
         vals.put( FavoritesDBHelper.name_col, currentPet.getName() );
         vals.put( FavoritesDBHelper.photo_col, currentPet.getBestPhoto(1) );
+        vals.put( FavoritesDBHelper.breed_col, currentPet.getBreed() );
+        vals.put( FavoritesDBHelper.isMix_col, currentPet.isMix() );
+        vals.put( FavoritesDBHelper.age_col, currentPet.getAge() );
+        vals.put( FavoritesDBHelper.sex_col, currentPet.getSex() );
+        vals.put( FavoritesDBHelper.size_col, currentPet.getSize() );
+        vals.put( FavoritesDBHelper.description_col, currentPet.getDescription() );
+        vals.put( FavoritesDBHelper.contactInfo_col, currentPet.getContactInfo().toString() );
+        vals.put( FavoritesDBHelper.lastupdated_col, String.valueOf( System.currentTimeMillis() ) );
+
 
         SQLiteDatabase writeable = new FavoritesDBHelper( this ).getWritableDatabase();
         writeable.insert( FavoritesDBHelper.table_name, null, vals );

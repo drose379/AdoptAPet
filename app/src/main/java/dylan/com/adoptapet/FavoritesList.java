@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -31,7 +32,7 @@ import dylan.com.adoptapet.R;
  */
 public class FavoritesList extends AppCompatActivity implements View.OnClickListener, APIHelper.Callback {
 
-    private AlertDialog loadingDialog;
+    private ProgressBar loader;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -41,6 +42,8 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
         ImageView backButton = (ImageView) toolbar.findViewById(R.id.toolbarBackButton);
+
+        loader = (ProgressBar) findViewById( R.id.loader );
 
 
         toolbarTitle.setText("My Favorites");
@@ -59,56 +62,16 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
 
 
     public void loadFavorites() {
-        showLoadingDialog();
 
-        JSONArray favoriteIds = new JSONArray();
-
-        SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
-        Cursor results = readable.rawQuery("SELECT id FROM " + FavoritesDBHelper.table_name, null, null);
-
-        if ( results.getCount() > 0 ) {
-
-            results.moveToPosition( -1 );
-
-            while ( results.moveToNext() ) {
-                favoriteIds.put( results.getString( results.getColumnIndex( "id" ) ) );
-            }
-
-
-            APIHelper.makeFavoritesRequest( this, grabLocation(), favoriteIds, new Handler( ) );
-
-
-        } else {
-            /**
-             * Show a "No Favorites" notice and set ListView to GONE
-             */
-        }
-
-        readable.close();
+        ArrayList<PetResult> favorites = new ArrayList<>();
+        /**
+         * Loop over favorites table, add to the favorites ArrayList, pass to adapter, set Loader to GONE, set Listview to VISIBLE
+         * Check if lastUpdated is more then a day, if yes, send to the API to get updated, when they come back, update the individual items in the ArrayList, notifyDataUpdate
+         */
 
     }
 
-    @Override
-    public void getResults( final ArrayList<PetResult> results ) {
 
-        Log.i("FAVS", String.valueOf( results.size() ));
-
-        ListView favoritesList = (ListView) findViewById( R.id.favoritesList );
-        PetResultAdapter adapter = new PetResultAdapter( this, false, results );
-
-        favoritesList.setAdapter( adapter );
-
-        favoritesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent detail = new Intent( FavoritesList.this, PetResultDetail.class );
-                detail.putExtra( "pet", results.get( position ) );
-                startActivity( detail );
-            }
-        });
-
-        loadingDialog.dismiss();
-    }
 
     public String grabLocation() {
         SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
@@ -123,14 +86,13 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
         return location;
     }
 
-    public void showLoadingDialog() {
-        loadingDialog = new AlertDialog.Builder( this )
-                .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.loading_title, null ) )
-                .setMessage( "Grabbing your favorites!" )
-                .create();
-
-        loadingDialog.show();
+    @Override
+    public void getResults( ArrayList<PetResult> results ) {
+        /**
+         * Only used to update favorites that were last updated more then 1 day ago, check for each one
+         */
     }
+
 
 
     @Override

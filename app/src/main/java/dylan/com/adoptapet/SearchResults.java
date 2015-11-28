@@ -161,6 +161,9 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             } else {
                 /**
                  * TODO::Tried to load more, but no more results, need to stop trying to load more
+                 * TODO:: Implement functionality for method below
+                 *
+                 * If no results are found, offer options to expand results based on what the user searched, If searched for Large, offer button to search for XL and M
                  */
 
                 resultAdapter.stopLoadingMore();

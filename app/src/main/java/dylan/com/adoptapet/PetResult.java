@@ -241,6 +241,18 @@ public class PetResult implements Serializable {
         //return contactInfo.get( "address" ) + ", " + contactInfo.get( "city" ) + ", " + contactInfo.get( "state" );
     }
 
+    public JSONObject getContactInfo() {
+        JSONObject contactInfo = new JSONObject();
+        try {
+            contactInfo.put( "phone", getContactNumber() );
+            contactInfo.put( "email", getEmail() );
+        }
+        catch ( JSONException e ) {
+            throw new RuntimeException( e.getMessage() );
+        }
+        return contactInfo;
+    }
+
     public String getEmail( ) {
         return contactInfo.get( "email" );
     }
@@ -249,6 +261,10 @@ public class PetResult implements Serializable {
 
     public String getType() {
         return animalType;
+    }
+
+    public boolean isMix() {
+        return isMix;
     }
 
 

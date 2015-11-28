@@ -13,10 +13,19 @@
 
             <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
 
+            <ProgressBar
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/loader"
+                />
+
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/toolbar"
+                android:visibility="gone"
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 android:id="@+id/favoritesList"

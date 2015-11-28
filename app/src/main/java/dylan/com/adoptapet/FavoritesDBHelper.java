@@ -12,10 +12,19 @@ public class FavoritesDBHelper extends SQLiteOpenHelper {
     private static String db_name = "pet_favorites";
     public static String table_name = "favorites";
 
+    public static String id_col = "id";
     public static String type_col = "type";
     public static String name_col = "name";
-    public static String id_col = "id";
     public static String photo_col = "photo";
+    public static String breed_col = "breed";
+    public static String isMix_col = "isMix";
+    public static String age_col = "age";
+    public static String sex_col = "sex";
+    public static String size_col = "size";
+    public static String extras_col = "extras";
+    public static String description_col = "description";
+    public static String contactInfo_col = "contactInfo";
+    public static String lastupdated_col = "lastUpdated";
 
     //TODO:: column names
 
@@ -25,7 +34,20 @@ public class FavoritesDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate( SQLiteDatabase db ) {
-        String query = "CREATE TABLE favorites ( id TEXT, type TEXT, name TEXT, photo TEXT )";
+        String query = "CREATE TABLE favorites ( " +
+                "id TEXT," +
+                "type TEXT, " +
+                "name TEXT," +
+                "photo TEXT," +
+                "breed TEXT," +
+                "isMix TEXT," +
+                "age TEXT," +
+                "sex TEXT," +
+                "size TEXT," +
+                "extras TEXT," +
+                "description TEXT," +
+                "contactInfo TEXT," +
+                "lastUpdated )"; //TODO:: Save entire PetResult to localDB
         db.execSQL( query );
     }
 
