@@ -31,6 +31,7 @@ public class PetResult implements Serializable {
     private String id;
     private String animalType;
     private ArrayList<String> breed;
+    private String breedsRaw;
     private boolean isMix;
     private String age;
     private String sex;
@@ -39,6 +40,7 @@ public class PetResult implements Serializable {
     private String description;
     private ArrayList<String> photoUrls;
     private HashMap<String,String> contactInfo;
+    private String contactInfoRaw;
     private String distanceFromClient;
 
     public PetResult setName( String name ) {
@@ -55,13 +57,19 @@ public class PetResult implements Serializable {
             JSONObject type = new JSONObject( animalType );
             this.animalType = type.getString( "0" );
         } catch ( JSONException e ) {
-            throw new RuntimeException( e.getMessage() );
+            if ( !animalType.isEmpty() ) {
+                this.animalType = animalType;
+            } else {
+                throw new RuntimeException( e.getMessage() );
+            }
+
         }
 
         return this;
     }
     public PetResult setBreed( JSONArray breeds ) throws JSONException {
         this.breed = new ArrayList<String>();
+        this.breedsRaw = breeds.toString();
 
         for ( int i = 0; i < breeds.length(); i++ ) {
             this.breed.add( breeds.getString( i ) );
@@ -111,6 +119,8 @@ public class PetResult implements Serializable {
     public PetResult setContactInfo( JSONObject contactInfo ) throws JSONException {
         //TODO Convert json object to hashmap;
 
+        this.contactInfoRaw = contactInfo.toString();
+
         this.contactInfo = new HashMap<String,String>();
 
         this.contactInfo.put( "name", contactInfo.getString( "name" ) );
@@ -152,6 +162,8 @@ public class PetResult implements Serializable {
     public ArrayList<String> getBreeds() {
         return breed;
     }
+
+    public String getBreedsRaw() { return breedsRaw; }
 
     public String getSex() {
         return sex;
@@ -241,16 +253,8 @@ public class PetResult implements Serializable {
         //return contactInfo.get( "address" ) + ", " + contactInfo.get( "city" ) + ", " + contactInfo.get( "state" );
     }
 
-    public JSONObject getContactInfo() {
-        JSONObject contactInfo = new JSONObject();
-        try {
-            contactInfo.put( "phone", getContactNumber() );
-            contactInfo.put( "email", getEmail() );
-        }
-        catch ( JSONException e ) {
-            throw new RuntimeException( e.getMessage() );
-        }
-        return contactInfo;
+    public String getContactInfoRaw() {
+        return contactInfoRaw;
     }
 
     public String getEmail( ) {

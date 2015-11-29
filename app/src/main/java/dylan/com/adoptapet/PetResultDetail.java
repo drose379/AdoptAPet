@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -35,6 +38,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
     private View rootView;
 
     private ImageView favoriteButton;
+
+    private ViewFlipper imageContainer;
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -82,18 +87,19 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         ImageView navButton = (ImageView) findViewById( R.id.navButton );
         ImageView mailIcon = (ImageView) findViewById( R.id.emailIcon );
 
-        ViewFlipper imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
+        imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
 
 
         Picasso.with( this ).load( currentPet.getBestPhoto( 1 ) ).fit().into(imageOne);
         Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) ).fit().into(imageTwo);
 
-        phoneButton.setOnClickListener( this );
+        phoneButton.setOnClickListener(this);
         phoneNumber.setOnClickListener( this );
         navButton.setOnClickListener( this );
         location.setOnClickListener( this );
         mailIcon.setOnClickListener( this );
         email.setOnClickListener(this);
+        imageContainer.setOnClickListener(this);
 
         switch ( currentPet.getSex() ) {
             case "Male" :
@@ -325,6 +331,18 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 readable.close();
 
                 break;
+
+            case R.id.imageContainer :
+
+                ImageView currentImage = (ImageView) imageContainer.getCurrentView();
+
+                /**
+                 * Show the image clicked in a larger view
+                 */
+
+
+                break;
+
         }
 
     }
@@ -335,14 +353,15 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         vals.put( FavoritesDBHelper.id_col, currentPet.getId() );
         vals.put( FavoritesDBHelper.name_col, currentPet.getName() );
         vals.put( FavoritesDBHelper.photo_col, currentPet.getBestPhoto(1) );
-        vals.put( FavoritesDBHelper.breed_col, currentPet.getBreed() );
+        vals.put( FavoritesDBHelper.breed_col, currentPet.getBreedsRaw() );
         vals.put( FavoritesDBHelper.isMix_col, currentPet.isMix() );
         vals.put( FavoritesDBHelper.age_col, currentPet.getAge() );
         vals.put( FavoritesDBHelper.sex_col, currentPet.getSex() );
         vals.put( FavoritesDBHelper.size_col, currentPet.getSize() );
         vals.put( FavoritesDBHelper.description_col, currentPet.getDescription() );
-        vals.put( FavoritesDBHelper.contactInfo_col, currentPet.getContactInfo().toString() );
-        vals.put( FavoritesDBHelper.lastupdated_col, String.valueOf( System.currentTimeMillis() ) );
+        vals.put( FavoritesDBHelper.contactInfo_col, currentPet.getContactInfoRaw() );
+        vals.put(FavoritesDBHelper.lastupdated_col, String.valueOf(System.currentTimeMillis()));
+
 
 
         SQLiteDatabase writeable = new FavoritesDBHelper( this ).getWritableDatabase();
