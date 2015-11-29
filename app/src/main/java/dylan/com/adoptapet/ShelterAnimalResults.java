@@ -96,45 +96,52 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
         }
 
 
-        //typeOptions.setSelection( types.size() - 1 );
+       if ( types.size() > 2 ) {
 
-        final String[] finalTypes = new String[types.size()];
-        ArrayAdapter<String> adapter = new ArrayAdapter<>( this, android.R.layout.simple_dropdown_item_1line, types.toArray( finalTypes ) );
+           typeOptions.setVisibility( View.VISIBLE );
 
-        typeOptions.setAdapter( adapter );
+           final String[] finalTypes = new String[types.size()];
+           ArrayAdapter<String> adapter = new ArrayAdapter<>( this, android.R.layout.simple_dropdown_item_1line, types.toArray( finalTypes ) );
 
-        typeOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+           typeOptions.setAdapter( adapter );
 
-                String type = finalTypes[position];
+           typeOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+               @Override
+               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                ArrayList<PetResult> tempItems = new ArrayList<PetResult>();
+                   String type = finalTypes[position];
+
+                   ArrayList<PetResult> tempItems = new ArrayList<PetResult>();
 
 
-                for ( PetResult item : master ) {
-                    if ( item.getType().equals( type ) ) {
-                        tempItems.add( item );
-                    }
-                    else if ( type.equals( "Any" ) )
-                        tempItems.add( item );
-                }
+                   for (PetResult item : master) {
+                       if (item.getType().equals(type)) {
+                           tempItems.add(item);
+                       } else if (type.equals("Any"))
+                           tempItems.add(item);
+                   }
 
-                Log.i("MASTERSIZE", String.valueOf( master.size() ));
 
-                PetResultAdapter adapter = (PetResultAdapter) animalsList.getAdapter();
-                adapter.updateAnimalType( tempItems );
+                   PetResultAdapter adapter = (PetResultAdapter) animalsList.getAdapter();
+                   adapter.updateAnimalType(tempItems);
 
-                animalsList.smoothScrollToPosition( 0 );
+                   animalsList.smoothScrollToPosition(0);
 
-            }
+               }
 
-            @Override
-            public void onNothingSelected(AdapterView parent) {
+               @Override
+               public void onNothingSelected(AdapterView parent) {
 
-            }
+               }
 
-        });
+           });
+
+
+
+       } else {
+            typeOptions.setVisibility( View.GONE );
+       }
+
 
     }
 

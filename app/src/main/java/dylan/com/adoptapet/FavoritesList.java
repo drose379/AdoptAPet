@@ -192,7 +192,7 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                             tempItems.add( item );
                         }
                     }
-                    
+
                     listAdapter.updateAnimalType(tempItems);
                     favoritesList.smoothScrollToPosition(0);
 

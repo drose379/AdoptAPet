@@ -353,16 +353,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                      * Check if location is already saved, if not, save it
                      */
 
-                    ZipDBHelper zipHelper = new ZipDBHelper( this );
-                    SQLiteDatabase db = zipHelper.getReadableDatabase();
+                    SQLiteDatabase readableDb = new ZipDBHelper( this ).getReadableDatabase();
 
-                    Cursor result = db.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null );
+                    Cursor result = readableDb.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null );
 
                     if ( result.getCount() == 0 ) {
                         SQLiteDatabase writeable = new ZipDBHelper( this ).getWritableDatabase();
                         ContentValues vals = new ContentValues();
                         vals.put( "zip", location );
                         writeable.insert(ZipDBHelper.table_name, null, vals);
+                        writeable.close();
+
+                    }
+                    else if ( result.getCount() == 1 ) {
+
+                        /**
+                         * Read the current saved
+                         * Check if it is equal to the newly entered
+                         * If not, save the newly and remove the current.
+                         */
+
+                        result.moveToFirst();
+                        String currentSaved = result.getString( result.getColumnIndex( "zip" ) );
+                        readableDb.close();
+
+                        if ( !currentSaved.equals( location ) ) {
+                            /**
+                             * Update the old with the new
+                             */
+
+                            SQLiteDatabase writeable = new ZipDBHelper( this ).getWritableDatabase();
+
+                            ContentValues vals = new ContentValues();
+                            vals.put( "zip", location );
+                            writeable.update( ZipDBHelper.table_name, vals, "zip = ?", new String[] { currentSaved } );
+
+                            writeable.close();
+                        }
+
+
 
                     }
 
@@ -370,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Intent details = new Intent( this, PetSearchDetails.class );
                         details.putExtra( "type", selectedType );
-                        details.putExtra( "location", postalBox.getText().toString() );
+                        details.putExtra("location", postalBox.getText().toString());
                         startActivity(details);
 
                     }
