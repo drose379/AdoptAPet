@@ -56,7 +56,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         currentPet = (PetResult) getIntent().getSerializableExtra("pet");
         toolbarTitle.setText( currentPet.getName() + "\'s Details" );
-        toolbarBack.setOnClickListener(this);
+        toolbarBack.setOnClickListener( this );
 
         shareButton.setOnClickListener( this );
         favoriteButton.setOnClickListener( this );

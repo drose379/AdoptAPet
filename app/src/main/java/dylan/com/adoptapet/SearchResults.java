@@ -22,6 +22,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,15 +39,17 @@ import java.util.List;
 public class SearchResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener, AdapterView.OnItemClickListener,
                                                                 PetResultAdapter.Callback{
 
-    private AlertDialog loadingDialog;
+    private ProgressBar loading;
     private ListView resultList;
     private ImageView noResultsImage;
     private TextView noResultText;
+    private TextView badLocationText;
 
     private JSONObject searchItems;
 
-    private BroadcastReceiver loadMore;
     private PetResultAdapter resultAdapter;
+
+    private int attempt = 0;
 
     public static boolean badLocation = false;
 
@@ -55,12 +58,15 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         super.onCreate(savedInstance);
         setContentView(R.layout.search_results);
 
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ImageView toolbarBack = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
+        ImageView toolbarBack = (ImageView) toolbar.findViewById(R.id.toolbarBackButton);
+
+        loading = (ProgressBar) findViewById( R.id.loader );
 
         noResultsImage = (ImageView) findViewById( R.id.noResultImage );
         noResultText = (TextView) findViewById( R.id.noResultsText );
+        badLocationText = (TextView) findViewById( R.id.badLocationText );
 
         toolbarTitle.setText( "Results" );
         toolbarBack.setOnClickListener(this);
@@ -70,12 +76,6 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
         Intent i = getIntent();
         if ( i.getStringExtra("searchItems") != null ) {
-
-            loadingDialog = new AlertDialog.Builder( this )
-                    .setCustomTitle(LayoutInflater.from( this ).inflate(R.layout.loading_title, null, false))
-                    .setMessage("Searching...")
-                    .create();
-            loadingDialog.show();
 
             try {
 
@@ -113,7 +113,9 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
     @Override
     public void onItemClick( AdapterView parent, View view, int item, long id ) {
 
-        if ( item < parent.getAdapter().getCount() - 1 ) {
+        int type = parent.getAdapter().getItemViewType( item );
+
+        if ( type == 0 ) {
             PetResult itemClicked = (PetResult) resultList.getItemAtPosition( item );
             Intent petDetail = new Intent(this, PetResultDetail.class);
             petDetail.putExtra("pet", itemClicked);
@@ -124,7 +126,8 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
     @Override
     public void getResults( ArrayList<PetResult> results ) {
-        loadingDialog.dismiss();
+        loading.setVisibility( View.GONE );
+
         if ( results != null ) {
             if ( results.size() > 0 ) {
                 badLocation = false;
@@ -149,7 +152,12 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
                 noResultsImage.setVisibility( View.GONE );
                 noResultText.setVisibility( View.GONE );
-            } else if ( APIHelper.lastOffset.equals( "50" ) ) {
+                badLocationText.setVisibility( View.GONE );
+            } else if ( APIHelper.lastOffset.equals( "100" ) ) {
+
+                /**
+                 * Means that even the first search returned nothing, show no result text
+                 */
 
                 Log.i("OFFSET", APIHelper.lastOffset);
 
@@ -171,8 +179,28 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
 
         } else {
 
-            finish();
-            badLocation = true;
+            if ( attempt <= 2 ) {
+                try {
+                    APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
+                } catch ( JSONException e ) {
+                    throw new RuntimeException( e.getMessage() );
+                }
+
+                Log.i("ATTEMPT", "ATTEMPTED");
+            } else {
+                /**
+                 * Show an error message, have button to go back home and try again
+                 */
+
+                resultList.setVisibility( View.GONE );
+                noResultsImage.setVisibility( View.VISIBLE );
+                badLocationText.setVisibility( View.VISIBLE );
+
+
+            }
+
+            attempt++;
+
 
         }
 

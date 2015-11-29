@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FeaturedPetController.getInstance( this ).getFeatured( location, "dog" );
         }
 
+        readable.close();
 
     }
 

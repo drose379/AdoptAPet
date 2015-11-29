@@ -137,7 +137,13 @@ public class PetResultAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType( int item ) {
-        return item < pets.size() ? TYPE_CARD : TYPE_LOAD_BUTTON;
+        if ( shouldCallback ) {
+            return item < pets.size() ? TYPE_CARD : TYPE_LOAD_BUTTON;
+        } else {
+            Log.i("TYPE", "GETITEMVIEWTYPE SHOULD RETURN TYPE_CARD");
+            return TYPE_CARD;
+        }
+
     }
 
     public void updateData( ArrayList<PetResult> newItems ) {
@@ -162,6 +168,10 @@ public class PetResultAdapter extends BaseAdapter {
          * TODO:: Change boolean for loadMore to false, check for this before calling callback.loadMore in the getView()
          * TODO:: Also, remove the loading card from the last item in the ListView
          */
+
+        shouldCallback = false;
+        Log.i("STOP_LOAD", "END OF RESULTS!");
+
     }
 
     @Override

@@ -6,6 +6,7 @@
     <string name="no_photo">No Photo Available</string>
     <string name="provide_location">Please provide location so we can find shelters!</string>
     <string name="no_favorites">You have not favorited any animals yet!</string>
+    <string name="bad_search">There has been an issue with your search, check your provided zip code is correct</string>
 
     <string-array name="dog_breeds">
 
