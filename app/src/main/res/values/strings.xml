@@ -5,6 +5,7 @@
     <string name="no_results">Sorry, no results found, please widen your search criteria!</string>
     <string name="no_photo">No Photo Available</string>
     <string name="provide_location">Please provide location so we can find shelters!</string>
+    <string name="no_favorites">You have not favorited any animals yet!</string>
 
     <string-array name="dog_breeds">
 
