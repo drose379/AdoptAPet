@@ -27,7 +27,7 @@
         <activity android:name=".FavoritesList" />
         <activity android:name=".ShelterList" />
         <activity android:name=".ShelterAnimalResults" />
-        <activity android:name=".FullImageViewer" />
+        <activity android:name=".FullImageViewer" android:theme="@style/AppTheme.Black" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

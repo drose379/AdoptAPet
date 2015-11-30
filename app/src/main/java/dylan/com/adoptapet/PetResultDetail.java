@@ -356,12 +356,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 }
 
-
-               // Intent fullImageView = new Intent( this, FullImageViewer.class );
-                //fullImageView.putExtra( "image", imageBitmap );
-                //startActivity( fullImageView );
-
-
                 break;
 
         }

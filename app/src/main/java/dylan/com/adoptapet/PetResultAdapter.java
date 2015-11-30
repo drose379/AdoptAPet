@@ -187,92 +187,103 @@ public class PetResultAdapter extends BaseAdapter {
                 imageTwo = Picasso.with( context ).load( result.getBestPhoto( 1 ) );
             }
 
-            recycledView = recycledView == null ? LayoutInflater.from( context ).inflate( R.layout.pet_card, parent, false ) : recycledView;
+            /**
+             * ******************************* Start view loading ***********************
+             */
 
-            ViewFlipper imageParent = (ViewFlipper) recycledView.findViewById( R.id.imageContainer );
-            TextView noPhotoText = (TextView) recycledView.findViewById( R.id.noPhotoText );
-            CircleImageView petHeadImage = (CircleImageView) recycledView.findViewById( R.id.petHeadImage );
-            CircleImageView petHeadImageTwo = (CircleImageView) recycledView.findViewById( R.id.petHeadImageTwo );
-            ImageView genderIcon = (ImageView) recycledView.findViewById( R.id.genderIcon );
-            ImageView locationIcon = (ImageView) recycledView.findViewById( R.id.locationIcon );
-            TextView petHeadGreeting = (TextView) recycledView.findViewById( R.id.petHeadGreeting );
-            TextView petHeadBasicInfo = (TextView) recycledView.findViewById( R.id.petHeadDescription );
-            TextView genderText = (TextView) recycledView.findViewById( R.id.genderText );
-            TextView distanceText = (TextView) recycledView.findViewById( R.id.distanceText );
+            PetCardViewHolder cardViewHolder;
+
+            if ( recycledView == null ) {
+                recycledView = LayoutInflater.from( context ).inflate( R.layout.pet_card, parent, false );
+
+                cardViewHolder = new PetCardViewHolder();
+
+                cardViewHolder.backdrop = recycledView.findViewById( R.id.backdrop );
+                cardViewHolder.imageParent = (ViewFlipper) recycledView.findViewById( R.id.imageContainer );
+                cardViewHolder.noPhotoText = (TextView) recycledView.findViewById( R.id.noPhotoText );
+                cardViewHolder.petHeadImage = (CircleImageView) recycledView.findViewById( R.id.petHeadImage );
+                cardViewHolder.petHeadImageTwo = (CircleImageView) recycledView.findViewById( R.id.petHeadImageTwo );
+                cardViewHolder.genderIcon = (ImageView) recycledView.findViewById( R.id.genderIcon );
+                cardViewHolder.locationIcon = (ImageView) recycledView.findViewById( R.id.locationIcon );
+                cardViewHolder.petHeadGreeting = (TextView) recycledView.findViewById( R.id.petHeadGreeting );
+                cardViewHolder.petHeadBasicInfo = (TextView) recycledView.findViewById( R.id.petHeadDescription );
+                cardViewHolder.genderText = (TextView) recycledView.findViewById( R.id.genderText );
+
+                recycledView.setTag( cardViewHolder );
+            }
 
 
-            View backdrop = recycledView.findViewById(R.id.backdrop);
+            cardViewHolder = (PetCardViewHolder) recycledView.getTag();
 
             if ( result.getBestPhoto( 1 ) == null && result.getBestPhoto( 2 ) == null ) {
-                imageParent.setVisibility(View.GONE);
-                noPhotoText.setVisibility( View.VISIBLE );
+                cardViewHolder.imageParent.setVisibility(View.GONE);
+                cardViewHolder.noPhotoText.setVisibility( View.VISIBLE );
             }
             else {
-                imageParent.setVisibility(View.VISIBLE);
-                noPhotoText.setVisibility(View.GONE);
+                cardViewHolder.imageParent.setVisibility(View.VISIBLE);
+                cardViewHolder.noPhotoText.setVisibility(View.GONE);
             }
 
             switch ( result.getSex() ) {
                 case "Male" :
 
-                    petHeadImage.setBorderColorResource(R.color.colorMaleCard);
-                    petHeadImageTwo.setBorderColorResource(R.color.colorMaleCard);
-                    petHeadImage.setBorderWidth( 10 );
-                    petHeadImageTwo.setBorderWidth(10);
+                    cardViewHolder.petHeadImage.setBorderColorResource(R.color.colorMaleCard);
+                    cardViewHolder.petHeadImageTwo.setBorderColorResource(R.color.colorMaleCard);
+                    cardViewHolder.petHeadImage.setBorderWidth( 10 );
+                    cardViewHolder.petHeadImageTwo.setBorderWidth(10);
 
-                    backdrop.setBackgroundResource(R.drawable.round_card_male);
+                    cardViewHolder.backdrop.setBackgroundResource(R.drawable.round_card_male);
 
                     if ( result.getType().equals( "Dog" ) )
-                        genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male );
+                        cardViewHolder.genderIcon.setImageResource( R.drawable.ic_dog_footprint_100_male );
                     else
-                        genderIcon.setImageResource( R.drawable.ic_male_sign );
+                        cardViewHolder.genderIcon.setImageResource( R.drawable.ic_male_sign );
 
-                    genderText.setText("M" );
-                    genderText.setTextColor(context.getResources().getColor(R.color.colorMale));
-                    noPhotoText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
+                    cardViewHolder.genderText.setText("M" );
+                    cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorMale));
+                    cardViewHolder.noPhotoText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
+                    cardViewHolder.locationIcon.setImageDrawable( getMaleIcon( result ) );
 
-                    distanceText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
-                    locationIcon.setImageDrawable( getMaleIcon( result ) );
 
                     break;
 
                 case "Female" :
 
-                    petHeadImage.setBorderColorResource(R.color.colorFemaleCard);
-                    petHeadImageTwo.setBorderColorResource(R.color.colorFemaleCard);
-                    petHeadImage.setBorderWidth( 10 );
-                    petHeadImageTwo.setBorderWidth(10);
+                    cardViewHolder.petHeadImage.setBorderColorResource(R.color.colorFemaleCard);
+                    cardViewHolder.petHeadImageTwo.setBorderColorResource(R.color.colorFemaleCard);
+                    cardViewHolder.petHeadImage.setBorderWidth( 10 );
+                    cardViewHolder.petHeadImageTwo.setBorderWidth(10);
 
-                    backdrop.setBackgroundResource(R.drawable.round_card_female);
+                    cardViewHolder.backdrop.setBackgroundResource(R.drawable.round_card_female);
 
-                    if ( result.getType().equals( "Dog" ) )
-                        genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_dog_footprint_female));
-                    else
-                        genderIcon.setImageDrawable( context.getResources().getDrawable( R.drawable.ic_female_sign ) );
-                    genderText.setText("F");
-                    genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
-                    noPhotoText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
+                    if ( result.getType().equals( "Dog" ) ) {
+                        cardViewHolder.genderIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_dog_footprint_female));
+                        cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
+                    }
+                    else {
+                        cardViewHolder.genderIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_female_sign));
+                        cardViewHolder.genderText.setText("F");
+                        cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
+                        cardViewHolder.noPhotoText.setTextColor(context.getResources().getColor(R.color.colorFemale));
 
-                    distanceText.setTextColor( context.getResources().getColor( R.color.colorFemale ) );
-                    locationIcon.setImageDrawable( getFemaleIcon() );
+                        cardViewHolder.locationIcon.setImageDrawable(getFemaleIcon());
+                    }
 
                     break;
             }
 
-            String distance = result.getDistance() + " Mi";
-            distanceText.setText( distance );
 
-            imageOne.fit().into( petHeadImage );
-            imageTwo.fit().into( petHeadImageTwo );
+            imageOne.fit().into( cardViewHolder.petHeadImage );
+            imageTwo.fit().into( cardViewHolder.petHeadImageTwo );
 
             String basicInfo = getBasicInfoText() + " " + result.getName() + "\nI am a " + result.getBreed();
 
-            petHeadGreeting.setText( getGreetingText() );
-            petHeadBasicInfo.setText( basicInfo );
+            cardViewHolder.petHeadGreeting.setText( getGreetingText() );
+            cardViewHolder.petHeadBasicInfo.setText( basicInfo );
 
-            imageParent.setInAnimation(context, android.R.anim.fade_in);
-            imageParent.setOutAnimation( context, android.R.anim.fade_out );
-            imageParent.startFlipping();
+            cardViewHolder.imageParent.setInAnimation(context, android.R.anim.fade_in);
+            cardViewHolder.imageParent.setOutAnimation( context, android.R.anim.fade_out );
+            cardViewHolder.imageParent.startFlipping();
 
         } else {
 
@@ -284,6 +295,23 @@ public class PetResultAdapter extends BaseAdapter {
         }
 
         return recycledView;
+    }
+
+
+
+
+
+    class PetCardViewHolder {
+        public ViewFlipper imageParent;
+        public TextView noPhotoText;
+        public CircleImageView petHeadImage;
+        public CircleImageView petHeadImageTwo;
+        public ImageView genderIcon;
+        public ImageView locationIcon;
+        public TextView petHeadGreeting;
+        public TextView petHeadBasicInfo;
+        public TextView genderText;
+        public View backdrop;
     }
 
 }

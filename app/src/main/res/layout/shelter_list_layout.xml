@@ -25,6 +25,7 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:visibility="gone"
+        android:fastScrollEnabled="true"
         android:layout_below="@id/toolbar"
         android:id="@+id/shelterList"
         />
