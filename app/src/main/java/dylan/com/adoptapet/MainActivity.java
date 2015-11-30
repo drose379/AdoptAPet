@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         checkSavedLocation();
         initNavDrawer();
+        nextFeaturedPet();
 
     }
 
@@ -213,19 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public void onDrawerClosed(View drawer) {
-                    FeaturedPetController fc = FeaturedPetController.getInstance( MainActivity.this );
-                    if ( fc.hasNext() ) {
-
-                        PetResult next = fc.next();
-
-                        MenuItem nextFeat = new MenuItem()
-                                .setType( 2 )
-                                .setName( next.getName() )
-                                .setSex( next.getSex() )
-                                .setPhoto(next.getBestPhoto(1) == null ? next.getBestPhoto(2) : next.getBestPhoto(1));
-
-                        navAdapter.updateFeatured( nextFeat );
-                    }
+                    nextFeaturedPet();
                 }
 
          });
@@ -318,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
 
         navAdapter = new NavMenuAdapter(this, items);
-        navItemsList.setAdapter( navAdapter );
+        navItemsList.setAdapter(navAdapter);
 
     }
 
@@ -338,6 +327,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    public void nextFeaturedPet() {
+        FeaturedPetController fc = FeaturedPetController.getInstance( MainActivity.this );
+        if ( fc.hasNext() ) {
+
+            PetResult next = fc.next();
+
+            MenuItem nextFeat = new MenuItem()
+                    .setType( 2 )
+                    .setName( next.getName() )
+                    .setSex( next.getSex() )
+                    .setPhoto(next.getBestPhoto(1) == null ? next.getBestPhoto(2) : next.getBestPhoto(1));
+
+            navAdapter.updateFeatured( nextFeat );
+        }
+    }
 
 
     @Override
