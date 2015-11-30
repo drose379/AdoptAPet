@@ -83,7 +83,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
                 APIHelper.makeRequest( this, searchItems.getString( "location" ),  new Handler(), searchItems);
 
             } catch ( JSONException e ) {
-                 throw new RuntimeException( e.getMessage() );
+                Snackbar.make( findViewById( R.id.root), getResources().getString( R.string.error ), Snackbar.LENGTH_SHORT).show();
             }
 
         }
@@ -96,7 +96,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             searchItems.put( "offset", APIHelper.lastOffset );
             APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
         } catch ( JSONException e ) {
-            throw new RuntimeException( e.getMessage() );
+            Snackbar.make( findViewById( R.id.root), getResources().getString( R.string.error ), Snackbar.LENGTH_SHORT).show();
         }
 
     }
@@ -183,7 +183,7 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
                 try {
                     APIHelper.makeRequest( SearchResults.this, searchItems.getString( "location" ),new Handler(), searchItems );
                 } catch ( JSONException e ) {
-                    throw new RuntimeException( e.getMessage() );
+                    Snackbar.make( findViewById( R.id.root), getResources().getString( R.string.error ), Snackbar.LENGTH_SHORT).show();
                 }
 
                 Log.i("ATTEMPT", "ATTEMPTED");

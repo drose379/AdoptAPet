@@ -23,6 +23,9 @@ public class FeaturedPetController implements APIHelper.Callback {
     private int currentItem = -1;
     private ArrayList<PetResult> featuredItems;
 
+    private String location;
+    private String type;
+
 
     public static FeaturedPetController getInstance( Context context ) {
         featuredPetController = featuredPetController == null ? new FeaturedPetController( context ) : featuredPetController;
@@ -42,6 +45,10 @@ public class FeaturedPetController implements APIHelper.Callback {
     }
 
     public void getFeatured( String location, String type ) {
+
+        this.location = location;
+        this.type = type;
+
         try {
 
             JSONObject requestInfo = new JSONObject();
@@ -64,16 +71,22 @@ public class FeaturedPetController implements APIHelper.Callback {
          * Start the int count at -1
          * Will call next() to move the counter to 0 and get the first item
          */
-
-        for ( PetResult result : results ) {
-            if ( result.getBestPhoto( 1 ) != null || result.getBestPhoto( 2 ) != null ) {
-                featuredItems.add( result );
+        if ( results != null ) {
+            for (PetResult result : results) {
+                if (result.getBestPhoto(1) != null || result.getBestPhoto(2) != null) {
+                    featuredItems.add(result);
+                }
             }
-        }
 
-        Intent featuredBroadcast = new Intent( GET_FEATURED );
-        featuredBroadcast.putExtra( "featured", featuredItems );
-        context.sendBroadcast( featuredBroadcast );
+            Intent featuredBroadcast = new Intent(GET_FEATURED);
+            featuredBroadcast.putExtra("featured", featuredItems);
+            context.sendBroadcast(featuredBroadcast);
+        } else {
+            /**
+             * Make the request again
+             */
+            getFeatured( location, type );
+        }
 
     }
 

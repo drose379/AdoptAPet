@@ -140,7 +140,6 @@ public class PetResultAdapter extends BaseAdapter {
         if ( shouldCallback ) {
             return item < pets.size() ? TYPE_CARD : TYPE_LOAD_BUTTON;
         } else {
-            Log.i("TYPE", "GETITEMVIEWTYPE SHOULD RETURN TYPE_CARD");
             return TYPE_CARD;
         }
 
@@ -157,8 +156,6 @@ public class PetResultAdapter extends BaseAdapter {
         for ( PetResult item : items ) {
             pets.add( item );
         }
-
-        Log.i("NEWANIM", String.valueOf( items.size() ));
 
         notifyDataSetChanged();
     }

@@ -283,7 +283,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
 
                 } catch ( JSONException e ) {
-                    throw new RuntimeException( e.getMessage() );
+                    Snackbar.make( findViewById( R.id.root ), getResources().getString( R.string.error ),Snackbar.LENGTH_SHORT ).show();
                 }
 
                 break;

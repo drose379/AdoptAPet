@@ -7,6 +7,9 @@
     <string name="provide_location">Please provide location so we can find shelters!</string>
     <string name="no_favorites">You have not favorited any animals yet!</string>
     <string name="bad_search">There has been an issue with your search, check your provided zip code is correct</string>
+    <string name="network_issue">There has been an issue finding your location, please try again</string>
+    <string name="location_possible_issue">There may be an isssue with the location you provided, please try again</string>
+    <string name="error">There has been an error, please try again</string>
 
     <string-array name="dog_breeds">
 

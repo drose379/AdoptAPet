@@ -450,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                         } catch ( JSONException e ) {
-                            throw new RuntimeException( e.getMessage() );
+                            Snackbar.make( findViewById( R.id.drawer ), getResources().getString( R.string.location_possible_issue ), Snackbar.LENGTH_SHORT ).show();
                         }
 
                     }
@@ -587,6 +587,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void parseLocation( Location location ) {
         Geocoder geo = new Geocoder( this );
         try {
+
             List<Address> adresses = geo.getFromLocation( location.getLatitude(), location.getLongitude(), 1 );
 
             if ( adresses.size() > 0 ) {
@@ -596,7 +597,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         } catch ( IOException e) {
-            throw new RuntimeException( e.getMessage() );
+            Snackbar.make( findViewById( R.id.drawer ), getResources().getString( R.string.network_issue), Snackbar.LENGTH_SHORT ).show();
         }
 
     }

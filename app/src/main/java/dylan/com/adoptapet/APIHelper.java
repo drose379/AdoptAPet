@@ -65,43 +65,7 @@ public class APIHelper {
 
     }
 
-    public static void makeFavoritesRequest( final Callback callback, final String location, JSONArray ids, final Handler h ) {
 
-        JSONObject requestInfo = new JSONObject();
-
-        try {
-
-            requestInfo.put( "location", location );
-            requestInfo.put( "ids", ids );
-
-        } catch ( JSONException e ) {
-            throw new RuntimeException( e.getMessage() );
-        }
-
-
-        OkHttpClient httpClient = new OkHttpClient();
-
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), requestInfo.toString());
-
-        Request r  = new Request.Builder()
-                .post( body )
-                .url( "http://104.236.15.47/AdoptAPetAPI/favoriteInit.php" )
-                .build();
-
-        httpClient.newCall( r ).enqueue(new com.squareup.okhttp.Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String result = response.body().string();
-                parseResults( result, h, callback );
-            }
-        });
-
-    }
 
     public static void getShelters( String location, final SheltersCallback callback, final Handler h ) {
 
@@ -113,7 +77,7 @@ public class APIHelper {
             requestObject = new JSONObject();
             requestObject.put( "location", location );
         } catch ( JSONException e ) {
-            throw new RuntimeException( e.getMessage() );
+            requestObject = new JSONObject();
         }
 
         RequestBody body = RequestBody.create( MediaType.parse("text/plain"), requestObject.toString() );
@@ -213,7 +177,14 @@ public class APIHelper {
                 h.post(r);
 
             } catch (JSONException e) {
-                throw new RuntimeException(e.getMessage());
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.getResults( null );
+                    }
+                };
+
+                h.post( r );
             }
 
         } else {
@@ -256,7 +227,16 @@ public class APIHelper {
 
 
         } catch ( JSONException e ) {
-            throw new RuntimeException( e.getMessage() );
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    callback.getShelterResults( null );
+                }
+            };
+
+            h.post( r );
+
+            //h.post(callback.getShelterResults( null );
         }
 
         h.post(new Runnable() {

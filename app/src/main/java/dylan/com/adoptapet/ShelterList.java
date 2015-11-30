@@ -42,6 +42,8 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
 
     private String[] shelterNames;
 
+    private String location;
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -136,7 +138,7 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
 
         result.moveToFirst();
 
-        String location = result.getString(result.getColumnIndex("zip"));
+        location = result.getString(result.getColumnIndex("zip"));
 
         readable.close();
 
@@ -147,19 +149,27 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
     @Override
     public void getShelterResults( ArrayList<ShelterResult> results ) {
 
+        if ( results != null ) {
+            shelterNames = new String[results.size()];
 
-        shelterNames = new String[results.size()];
+            for (int i = 0; i < results.size(); i++) {
+                shelterNames[i] = results.get(i).getName();
+            }
 
-        for (int i = 0; i < results.size(); i++) {
-            shelterNames[i] = results.get(i).getName();
+            loader.setVisibility(View.GONE);
+            shelterList.setVisibility(View.VISIBLE);
+
+            ShelterResultAdapter adapter = new ShelterResultAdapter(ShelterList.this, results);
+            shelterList.setAdapter(adapter);
+            shelterList.setOnItemClickListener(this);
+        } else {
+
+            /**
+             * Try again
+             */
+            APIHelper.getShelters(location, this, new Handler());
+
         }
-
-        loader.setVisibility(View.GONE);
-        shelterList.setVisibility(View.VISIBLE);
-
-        ShelterResultAdapter adapter = new ShelterResultAdapter(ShelterList.this, results);
-        shelterList.setAdapter(adapter);
-        shelterList.setOnItemClickListener( this );
 
 
     }
