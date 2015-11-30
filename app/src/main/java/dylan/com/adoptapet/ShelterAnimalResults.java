@@ -28,6 +28,7 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
     private String shelterName;
     private ListView animalsList;
     private ProgressBar loader;
+    private TextView noResults;
 
 
     @Override
@@ -43,38 +44,46 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
 
         animalsList = (ListView) findViewById( R.id.results );
         loader = (ProgressBar) findViewById( R.id.loader );
+        noResults = (TextView) findViewById( R.id.noResults );
 
         shelterId = getIntent().getStringExtra( "shelterId" );
         shelterName = getIntent().getStringExtra( "shelterName" );
 
         toolbarTitle.setText(shelterName);
 
-        APIHelper.makeShelterAnimalsRequest( shelterId, this, new Handler() );
+        APIHelper.makeShelterAnimalsRequest(shelterId, this, new Handler());
 
     }
 
     @Override
     public void getResults( final ArrayList<PetResult> results ) {
-        PetResultAdapter adapter = new PetResultAdapter( this, false, results );
-        animalsList.setAdapter( adapter );
+        if ( results != null && results.size() > 0 ) {
 
-        animalsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view, int which, long id) {
+            PetResultAdapter adapter = new PetResultAdapter(this, false, results);
+            animalsList.setAdapter(adapter);
 
-                PetResult selectedAnimal = results.get(which);
+            animalsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView parent, View view, int which, long id) {
 
-                Intent details = new Intent(ShelterAnimalResults.this, PetResultDetail.class);
-                details.putExtra("pet", selectedAnimal);
-                startActivity(details);
+                    PetResult selectedAnimal = results.get(which);
 
-            }
-        });
+                    Intent details = new Intent(ShelterAnimalResults.this, PetResultDetail.class);
+                    details.putExtra("pet", selectedAnimal);
+                    startActivity(details);
 
-        loader.setVisibility(View.GONE);
-        animalsList.setVisibility(View.VISIBLE);
+                }
+            });
 
-        initAnimalTypeSelect( results );
+            loader.setVisibility(View.GONE);
+            animalsList.setVisibility(View.VISIBLE);
+
+            initAnimalTypeSelect(results);
+        } else {
+            animalsList.setVisibility( View.GONE );
+            loader.setVisibility( View.GONE );
+            noResults.setVisibility( View.VISIBLE );
+        }
 
     }
 

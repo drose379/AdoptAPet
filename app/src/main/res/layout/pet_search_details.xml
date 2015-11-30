@@ -284,6 +284,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:orientation="horizontal"
+                    android:id="@+id/clawsParent"
                     >
 
                     <TextView

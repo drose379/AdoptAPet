@@ -3,6 +3,7 @@
     <string name="app_name">AdoptAPet</string>
     <string name="action_settings">Settings</string>
     <string name="no_results">Sorry, no results found, please widen your search criteria!</string>
+    <string name="no_results_shelter">Sorry, this shelter does not have any animals listed at the moment. </string>
     <string name="no_photo">No Photo Available</string>
     <string name="provide_location">Please provide location so we can find shelters!</string>
     <string name="no_favorites">You have not favorited any animals yet!</string>

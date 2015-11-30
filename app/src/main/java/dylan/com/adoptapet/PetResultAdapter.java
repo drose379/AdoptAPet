@@ -258,16 +258,16 @@ public class PetResultAdapter extends BaseAdapter {
 
                     if ( result.getType().equals( "Dog" ) ) {
                         cardViewHolder.genderIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_dog_footprint_female));
-                        cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
+
                     }
                     else {
                         cardViewHolder.genderIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_female_sign));
-                        cardViewHolder.genderText.setText("F");
-                        cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
-                        cardViewHolder.noPhotoText.setTextColor(context.getResources().getColor(R.color.colorFemale));
 
-                        cardViewHolder.locationIcon.setImageDrawable(getFemaleIcon());
                     }
+                    cardViewHolder.genderText.setText("F");
+                    cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
+                    cardViewHolder.noPhotoText.setTextColor(context.getResources().getColor(R.color.colorFemale));
+                    cardViewHolder.locationIcon.setImageDrawable(getFemaleIcon());
 
                     break;
             }

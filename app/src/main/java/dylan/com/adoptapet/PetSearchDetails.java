@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,15 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         breedSelect.setOnClickListener( this );
         searchButton.setOnClickListener( this );
         showOptions.setOnClickListener( this );
+
+        shouldShowClawsOption();
+    }
+
+    private void shouldShowClawsOption() {
+        if ( animalType == 1 ) {
+            RelativeLayout clawsContainer = (RelativeLayout) findViewById( R.id.clawsParent );
+            clawsContainer.setVisibility( View.GONE );
+        }
     }
 
     @Override
