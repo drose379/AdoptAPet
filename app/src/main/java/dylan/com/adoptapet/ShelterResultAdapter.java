@@ -98,39 +98,61 @@ public class ShelterResultAdapter extends BaseAdapter {
     @Override
     public View getView( int which, View recycledView, ViewGroup parent ) {
         ShelterResult shelter = results.get( which );
-        recycledView = recycledView == null ? LayoutInflater.from( context ).inflate( R.layout.shelter_card, parent, false ) : recycledView;
 
-        TextView shelterName = (TextView) recycledView.findViewById( R.id.shelterName );
-        TextView location = (TextView) recycledView.findViewById( R.id.shelterLocation );
-        TextView phone = (TextView) recycledView.findViewById( R.id.shelterPhone );
-        TextView email = (TextView) recycledView.findViewById( R.id.shelterEmail );
+        ShelterResultViewHolder viewHolder;
 
-        LinearLayout phoneLayout = (LinearLayout) recycledView.findViewById( R.id.phoneContainer );
-        LinearLayout emailLayout = (LinearLayout) recycledView.findViewById( R.id.emailContainer );
+        if ( recycledView == null ) {
+            recycledView = LayoutInflater.from( context ).inflate( R.layout.shelter_card, parent, false );
+
+            viewHolder = new ShelterResultViewHolder();
+
+            viewHolder.shelterName = (TextView) recycledView.findViewById( R.id.shelterName );
+            viewHolder.location = (TextView) recycledView.findViewById( R.id.shelterLocation );
+            viewHolder.phone = (TextView) recycledView.findViewById( R.id.shelterPhone );
+            viewHolder.email = (TextView) recycledView.findViewById( R.id.shelterEmail );
+            viewHolder.phoneLayout = (LinearLayout) recycledView.findViewById( R.id.phoneContainer );
+            viewHolder.emailLayout = (LinearLayout) recycledView.findViewById( R.id.emailContainer );
+
+            recycledView.setTag( viewHolder );
+
+        }
+
+        viewHolder = (ShelterResultViewHolder) recycledView.getTag();
+
 
         /**
          * TODO:: GET RID OF SHELTER NAME ICON, MOVE SHELTER NAME TO MIDDLE, GIVE IT A BACKGROUND OF DARKER THEN CARD REST
          */
 
-        shelterName.setText( shelter.getName() );
-        location.setText( generateLocationText(shelter) );
+        viewHolder.shelterName.setText( shelter.getName() );
+        viewHolder.location.setText( generateLocationText(shelter) );
 
         if ( !shelter.getPhone().trim().isEmpty() ) {
-            phone.setText(shelter.getPhone());
-            phoneLayout.setVisibility(View.VISIBLE);
+            viewHolder.phone.setText(shelter.getPhone());
+            viewHolder.phoneLayout.setVisibility(View.VISIBLE);
         } else {
-            phoneLayout.setVisibility( View.GONE );
+            viewHolder.phoneLayout.setVisibility( View.GONE );
         }
 
         if ( !shelter.getEmail().isEmpty() ) {
-            email.setText( shelter.getEmail() );
-            emailLayout.setVisibility( View.VISIBLE );
+            viewHolder.email.setText( shelter.getEmail() );
+            viewHolder.emailLayout.setVisibility( View.VISIBLE );
         } else {
-            emailLayout.setVisibility( View.GONE );
+            viewHolder.emailLayout.setVisibility( View.GONE );
         }
 
 
         return recycledView;
+    }
+
+    public class ShelterResultViewHolder {
+        public TextView shelterName;
+        public TextView location;
+        public TextView phone;
+        public TextView email;
+
+        public LinearLayout phoneLayout;
+        public LinearLayout emailLayout;
     }
 
 }
