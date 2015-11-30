@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.ViewFlipper;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+
+import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -339,6 +342,24 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 /**
                  * Show the image clicked in a larger view
                  */
+
+                if ( currentImage != null ) {
+                    Bitmap imageBitmap = ((BitmapDrawable) currentImage.getDrawable()).getBitmap();
+                    ByteArrayOutputStream bitmapOutput = new ByteArrayOutputStream();
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bitmapOutput );
+                    byte[] bitmapBytes = bitmapOutput.toByteArray();
+
+                    Intent fullImageView = new Intent( this, FullImageViewer.class );
+                    fullImageView.putExtra( "image", bitmapBytes );
+                    fullImageView.putExtra( "name", currentPet.getName() );
+                    startActivity( fullImageView );
+
+                }
+
+
+               // Intent fullImageView = new Intent( this, FullImageViewer.class );
+                //fullImageView.putExtra( "image", imageBitmap );
+                //startActivity( fullImageView );
 
 
                 break;
