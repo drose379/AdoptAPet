@@ -261,6 +261,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             drawer.closeDrawer( Gravity.LEFT );
                              break;
+                        case 4 :
+
+                            /**
+                             * About activity
+                             */
+
+                            Intent aboutApp = new Intent( MainActivity.this, AboutActivity.class );
+                            startActivity( aboutApp );
+
+                            break;
                     }
                 }
             });
@@ -299,6 +309,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setType( 1 )
                 .setIcon( getResources().getDrawable( R.drawable.ic_pets_black_24dp ) )
                 .setLabel( "Shelters" )
+        );
+
+        items.add( new MenuItem()
+                .setType( 1 )
+                .setIcon( getResources().getDrawable( R.drawable.ic_info_black_24dp ) )
+                .setLabel( "About" )
         );
 
         navAdapter = new NavMenuAdapter(this, items);

@@ -49,7 +49,7 @@ public class NavMenuAdapter extends BaseAdapter {
     }
 
     public void updateFeatured( MenuItem featured ) {
-        if ( items.size() == 4 ) {
+        if ( items.size() == 5 ) {
             items.remove( 0 );
         }
 
