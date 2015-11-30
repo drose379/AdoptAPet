@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
-        setContentView( R.layout.content_main );
+        setContentView(R.layout.content_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
@@ -127,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         selectables.add( rabbitSelect );
         selectables.add( birdSelect );
         selectables.add( horseSelect );
-        selectables.add( sheepSelect );
-        selectables.add( reptileSelect );
+        selectables.add(sheepSelect);
+        selectables.add(reptileSelect);
         selectables.add(mouseSelect);
 
         searchButton.setOnClickListener(this);
@@ -147,6 +148,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
         selectedBreeds = new ArrayList<String>();
 
+        InputMethodManager keyboard = (InputMethodManager)getSystemService( Context.INPUT_METHOD_SERVICE );
+        keyboard.hideSoftInputFromWindow( findViewById( R.id.drawer ).getWindowToken(), 0 );
+
+        Log.i("PARENT", "ONCREATE called");
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("PARENT", "ONPAUSE CALLED");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("PARENT", "ONDESTROY CALLED");
     }
 
     @Override
@@ -259,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Intent aboutApp = new Intent( MainActivity.this, AboutActivity.class );
                             startActivity( aboutApp );
 
+                            drawer.closeDrawer( Gravity.LEFT );
                             break;
                     }
                 }

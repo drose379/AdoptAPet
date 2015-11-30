@@ -132,7 +132,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_bird_xs ) );
                 break;
             case "Barnyard" :
-                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_sheep_on_bike_xs ) );
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_barn_xs ) );
                 break;
             case "Scales, Fins & Other" :
                 animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_alligator_xs ) );

@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SearchResults" />
+        <activity android:name=".SearchResults"  />
 
         <activity android:name=".PetResultDetail" />
 
-        <activity android:name=".PetSearchDetails" />
+        <activity android:name=".PetSearchDetails" /> <!-- Add Meta-Data tag to support 4.0 and lower -->
 
         <activity android:name=".FavoritesList" />
         <activity android:name=".ShelterList" />

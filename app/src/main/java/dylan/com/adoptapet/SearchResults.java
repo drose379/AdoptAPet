@@ -16,8 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -59,8 +58,11 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         setContentView(R.layout.search_results);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ImageView toolbarBack = (ImageView) toolbar.findViewById(R.id.toolbarBackButton);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+        getSupportActionBar().setTitle( "Results" );
+        //TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        //ImageView toolbarBack = (ImageView) toolbar.findViewById(R.id.toolbarBackButton);
 
         loading = (ProgressBar) findViewById( R.id.loader );
 
@@ -68,8 +70,8 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
         noResultText = (TextView) findViewById( R.id.noResultsText );
         badLocationText = (TextView) findViewById( R.id.badLocationText );
 
-        toolbarTitle.setText( "Results" );
-        toolbarBack.setOnClickListener(this);
+        //toolbarTitle.setText( "Results" );
+        //toolbarBack.setOnClickListener(this);
 
         resultList = (ListView) findViewById( R.id.petResultsList );
         resultList.setOnItemClickListener(this);
@@ -87,6 +89,16 @@ public class SearchResults extends AppCompatActivity implements APIHelper.Callba
             }
 
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 
     @Override

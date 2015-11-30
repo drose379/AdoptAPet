@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -54,11 +53,15 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstance);
         setContentView(R.layout.pet_search_details);
 
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ImageView backButton = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        //ImageView backButton = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
 
-        title.setText( "Search Details" );
+        //title.setText( "Search Details" );
+
+        setSupportActionBar( toolbar );
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle( "Search Details" );
 
         moreOptions = (LinearLayout) findViewById( R.id.moreOptions );
         showOptions = (Button) findViewById( R.id.showMoreOptions );
@@ -76,12 +79,24 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
         //set the breed select according to type
 
-        backButton.setOnClickListener( this );
+        //backButton.setOnClickListener( this );
         breedSelect.setOnClickListener( this );
         searchButton.setOnClickListener( this );
         showOptions.setOnClickListener( this );
 
         shouldShowClawsOption();
+
+        Log.i("CREATE", "On Create called");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+        switch( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 
     private void shouldShowClawsOption() {
@@ -293,14 +308,9 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
 
                 } catch ( JSONException e ) {
+                    Log.i("JSONException", e.getMessage());
                     Snackbar.make( findViewById( R.id.root ), getResources().getString( R.string.error ),Snackbar.LENGTH_SHORT ).show();
                 }
-
-                break;
-
-            case R.id.toolbarBackButton :
-
-                finish();
 
                 break;
 

@@ -8,7 +8,7 @@
     android:id="@+id/root"
     >
 
-    <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
+    <include layout="@layout/toolbar_blank" android:id="@+id/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"

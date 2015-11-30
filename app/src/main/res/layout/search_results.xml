@@ -10,7 +10,7 @@
         android:id="@+id/toolbarContainer"
         >
 
-        <include layout="@layout/toolbar_back" android:id="@+id/toolbar"/>
+        <include layout="@layout/toolbar_blank" android:id="@+id/toolbar"/>
 
 
     </android.support.design.widget.AppBarLayout>
