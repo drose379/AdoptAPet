@@ -1,5 +1,7 @@
 package dylan.com.adoptapet;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +47,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
     private ViewFlipper imageContainer;
 
     private MenuItem favoriteMenuItem;
+
+    //TODO:: Add copy this pets link to clipboard
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -156,7 +160,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 AlertDialog shareDialog = new AlertDialog.Builder( this )
                         .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.share_title, null ) )
-                        .setItems(new CharSequence[]{"Text Message", "E-Mail"}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{"Text Message", "E-Mail", "Copy To Clipboard"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick( DialogInterface dialog, int which ) {
 
@@ -178,6 +182,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                                         mail.setData( Uri.parse( "mailto:" ) );
                                         mail.putExtra( Intent.EXTRA_TEXT, message);
                                         startActivity( mail );
+                                        break;
+                                    case 2:
+                                        ClipboardManager clipboard = (ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
+                                        ClipData clipData = ClipData.newPlainText( "Pet", url );
+                                        clipboard.setPrimaryClip( clipData );
+
+                                        Snackbar.make( rootView, "Copied!", Snackbar.LENGTH_SHORT ).show();
                                         break;
                                 }
 

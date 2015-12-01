@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -148,11 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
         selectedBreeds = new ArrayList<String>();
 
-        InputMethodManager keyboard = (InputMethodManager)getSystemService( Context.INPUT_METHOD_SERVICE );
-        keyboard.hideSoftInputFromWindow( findViewById( R.id.drawer ).getWindowToken(), 0 );
-
-        Log.i("PARENT", "ONCREATE called");
-
     }
 
     @Override
@@ -216,8 +212,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             result.moveToFirst();
             location = result.getString( result.getColumnIndex( "zip" ) );
             postalBox.setText( location );
+            postalBox.clearFocus();
             FeaturedPetController.getInstance( this ).getFeatured( location, "dog" );
         }
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
 
         readable.close();
 
