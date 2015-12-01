@@ -7,7 +7,7 @@
     android:id="@+id/root"
     >
 
-    <include layout="@layout/toolbar_back_search" android:id="@+id/toolbar" />
+    <include layout="@layout/toolbar_blank" android:id="@+id/toolbar" />
 
 
     <ProgressBar

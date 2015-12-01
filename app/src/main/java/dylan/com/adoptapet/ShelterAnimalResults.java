@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -22,7 +22,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 /**
  * Created by dylan on 11/25/15.
  */
-public class ShelterAnimalResults extends AppCompatActivity implements APIHelper.Callback, View.OnClickListener {
+public class ShelterAnimalResults extends AppCompatActivity implements APIHelper.Callback {
 
     private String shelterId;
     private String shelterName;
@@ -37,10 +37,9 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
         setContentView(R.layout.shelter_animals);
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
-        ImageView backButton = (ImageView) findViewById( R.id.toolbarBackButton );
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
 
-        backButton.setOnClickListener( this );
 
         animalsList = (ListView) findViewById( R.id.results );
         loader = (ProgressBar) findViewById( R.id.loader );
@@ -49,10 +48,20 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
         shelterId = getIntent().getStringExtra( "shelterId" );
         shelterName = getIntent().getStringExtra( "shelterName" );
 
-        toolbarTitle.setText(shelterName);
+        getSupportActionBar().setTitle(shelterName);
 
         APIHelper.makeShelterAnimalsRequest(shelterId, this, new Handler());
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 
     @Override
@@ -92,82 +101,64 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
          * Looks over each type of animal in list, populates the dropdown to filter animal types
          */
 
-        final ArrayList<PetResult> master = new ArrayList<PetResult>( results ); // Why is this necessary, if using arraylist passed in, it loses items
+        final ArrayList<PetResult> master = new ArrayList<PetResult>(results); // Why is this necessary, if using arraylist passed in, it loses items
 
-        Spinner typeOptions = (Spinner) findViewById( R.id.typeSelect );
+        Spinner typeOptions = (Spinner) findViewById(R.id.typeSelect);
 
         ArrayList<String> types = new ArrayList<String>();
         types.add("Any");
 
-        for ( PetResult item : master ) {
-            if ( !types.contains( item.getType() ) )
-                types.add( item.getType() );
+        for (PetResult item : master) {
+            if (!types.contains(item.getType()))
+                types.add(item.getType());
         }
 
 
-       if ( types.size() > 2 ) {
+        if (types.size() > 2) {
 
-           typeOptions.setVisibility( View.VISIBLE );
+            typeOptions.setVisibility(View.VISIBLE);
 
-           final String[] finalTypes = new String[types.size()];
-           ArrayAdapter<String> adapter = new ArrayAdapter<>( this, android.R.layout.simple_dropdown_item_1line, types.toArray( finalTypes ) );
+            final String[] finalTypes = new String[types.size()];
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, types.toArray(finalTypes));
 
-           typeOptions.setAdapter( adapter );
+            typeOptions.setAdapter(adapter);
 
-           typeOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-               @Override
-               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            typeOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                   String type = finalTypes[position];
+                    String type = finalTypes[position];
 
-                   ArrayList<PetResult> tempItems = new ArrayList<PetResult>();
-
-
-                   for (PetResult item : master) {
-                       if (item.getType().equals(type)) {
-                           tempItems.add(item);
-                       } else if (type.equals("Any"))
-                           tempItems.add(item);
-                   }
+                    ArrayList<PetResult> tempItems = new ArrayList<PetResult>();
 
 
-                   PetResultAdapter adapter = (PetResultAdapter) animalsList.getAdapter();
-                   adapter.updateAnimalType(tempItems);
-
-                   animalsList.smoothScrollToPosition(0);
-
-               }
-
-               @Override
-               public void onNothingSelected(AdapterView parent) {
-
-               }
-
-           });
+                    for (PetResult item : master) {
+                        if (item.getType().equals(type)) {
+                            tempItems.add(item);
+                        } else if (type.equals("Any"))
+                            tempItems.add(item);
+                    }
 
 
+                    PetResultAdapter adapter = (PetResultAdapter) animalsList.getAdapter();
+                    adapter.updateAnimalType(tempItems);
 
-       } else {
-            typeOptions.setVisibility( View.GONE );
-       }
+                    animalsList.smoothScrollToPosition(0);
 
+                }
 
-    }
+                @Override
+                public void onNothingSelected(AdapterView parent) {
 
-    @Override
-    public void onClick( View v ) {
+                }
 
-        switch ( v.getId() ) {
-
-            case R.id.toolbarBackButton :
-                finish();
-                break;
-
-            case R.id.searchButton :
+            });
 
 
-                break;
+        } else {
+            typeOptions.setVisibility(View.GONE);
         }
+
 
     }
 

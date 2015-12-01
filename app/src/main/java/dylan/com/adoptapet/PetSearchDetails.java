@@ -57,8 +57,6 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         //TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
         //ImageView backButton = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
 
-        //title.setText( "Search Details" );
-
         setSupportActionBar( toolbar );
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle( "Search Details" );

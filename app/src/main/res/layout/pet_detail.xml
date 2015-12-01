@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/root">
 
-    <include layout="@layout/toolbar_pet_detail" android:id="@+id/toolbar" />
+    <include layout="@layout/toolbar_blank" android:id="@+id/toolbar" />
 
 
 

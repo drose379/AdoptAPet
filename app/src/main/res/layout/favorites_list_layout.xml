@@ -11,7 +11,7 @@
             android:background="@color/colorBackgroundDark"
             >
 
-            <include layout="@layout/toolbar_back" android:id="@+id/toolbar" />
+            <include layout="@layout/toolbar_blank" android:id="@+id/toolbar" />
 
             <ProgressBar
                 android:layout_width="80dp"

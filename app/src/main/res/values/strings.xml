@@ -11,6 +11,8 @@
     <string name="network_issue">There has been an issue finding your location, please try again</string>
     <string name="location_possible_issue">There may be an isssue with the location you provided, please try again</string>
     <string name="error">There has been an error, please try again</string>
+    <string name="open_drawer">Open Navigation Drawer</string>
+    <string name="close_drawer">Close Navigation Drawer</string>
 
     <string name="icons8_description">All colored icons you see used throughout this app were created by Icons8, you can find these awesome icons at www.icons8.com</string>
     <string name="petfinder_description">All animal data you see in this application comes from the PetFinder database, PetFinder is home of about 296,000 adoptable pets!</string>

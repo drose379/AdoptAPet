@@ -228,76 +228,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
-         drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+        drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
 
-                @Override
-                public void onDrawerClosed(View drawer) {
-                    nextFeaturedPet();
+            @Override
+            public void onDrawerClosed(View drawer) {
+                nextFeaturedPet();
+            }
+
+        });
+
+        navItemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int item, long id) {
+                switch (item) {
+                    case 0:
+
+                        PetResult selected = FeaturedPetController.getInstance( MainActivity.this ).getCurrent();
+                        Intent detail = new Intent( MainActivity.this, PetResultDetail.class );
+                        detail.putExtra( "pet", selected );
+                        startActivity( detail );
+
+                        drawer.closeDrawer( Gravity.LEFT );
+
+                        break;
+                    case 1:
+                        drawer.closeDrawer( Gravity.LEFT );
+                        break;
+                    case 2:
+
+                        Intent favorites = new Intent( MainActivity.this, FavoritesList.class );
+                        startActivity( favorites );
+
+                        drawer.closeDrawer( Gravity.LEFT );
+
+                        break;
+                    case 3 :
+                        Intent shelters = new Intent( MainActivity.this, ShelterList.class );
+                        startActivity( shelters );
+
+                        drawer.closeDrawer( Gravity.LEFT );
+                        break;
+                    case 4 :
+
+                        /**
+                         * About activity
+                         */
+
+                        Intent aboutApp = new Intent( MainActivity.this, AboutActivity.class );
+                        startActivity( aboutApp );
+
+                        drawer.closeDrawer( Gravity.LEFT );
+                        break;
                 }
-
-         });
-
-            navItemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView parent, View view, int item, long id) {
-                    switch (item) {
-                        case 0:
-
-                            PetResult selected = FeaturedPetController.getInstance( MainActivity.this ).getCurrent();
-                            Intent detail = new Intent( MainActivity.this, PetResultDetail.class );
-                            detail.putExtra( "pet", selected );
-                            startActivity( detail );
-
-                            drawer.closeDrawer( Gravity.LEFT );
-
-                            break;
-                        case 1:
-                            drawer.closeDrawer( Gravity.LEFT );
-                            break;
-                        case 2:
-
-                            Intent favorites = new Intent( MainActivity.this, FavoritesList.class );
-                            startActivity( favorites );
-
-                            drawer.closeDrawer( Gravity.LEFT );
-
-                            break;
-                        case 3 :
-                            Intent shelters = new Intent( MainActivity.this, ShelterList.class );
-                            startActivity( shelters );
-
-                            drawer.closeDrawer( Gravity.LEFT );
-                             break;
-                        case 4 :
-
-                            /**
-                             * About activity
-                             */
-
-                            Intent aboutApp = new Intent( MainActivity.this, AboutActivity.class );
-                            startActivity( aboutApp );
-
-                            drawer.closeDrawer( Gravity.LEFT );
-                            break;
-                    }
-                }
-            });
+            }
+        });
 
 
         if ( location == null ) {
             items.add( new MenuItem()
-                    .setType( 2 )
-                    .setName( "Please Specify Location" )
-                    .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
-                    .setSex( "Male" )
+                            .setType( 2 )
+                            .setName( "Please Specify Location" )
+                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                            .setSex( "Male" )
 
             );
         } else {
             items.add( new MenuItem()
-                    .setType( 2 )
-                    .setName( "Grabbing Featured!" )
-                    .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
-                    .setSex( "Male" )
+                            .setType( 2 )
+                            .setName( "Grabbing Featured!" )
+                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                            .setSex( "Male" )
             );
         }
 
@@ -314,15 +314,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
 
         items.add( new MenuItem()
-                .setType( 1 )
-                .setIcon( getResources().getDrawable( R.drawable.ic_pets_black_24dp ) )
-                .setLabel( "Shelters" )
+                        .setType( 1 )
+                        .setIcon( getResources().getDrawable( R.drawable.ic_pets_black_24dp ) )
+                        .setLabel( "Shelters" )
         );
 
         items.add( new MenuItem()
-                .setType( 1 )
-                .setIcon( getResources().getDrawable( R.drawable.ic_info_black_24dp ) )
-                .setLabel( "About" )
+                        .setType( 1 )
+                        .setIcon( getResources().getDrawable( R.drawable.ic_info_black_24dp ) )
+                        .setLabel( "About" )
         );
 
         navAdapter = new NavMenuAdapter(this, items);

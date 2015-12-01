@@ -17,8 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,28 +44,155 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
     private ViewFlipper imageContainer;
 
+    private MenuItem favoriteMenuItem;
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
         setContentView(R.layout.pet_detail);
 
+        currentPet = (PetResult) getIntent().getSerializableExtra("pet");
+
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
-        ImageView toolbarBack = (ImageView) findViewById(R.id.toolbarBackButton);
-        ImageView shareButton = (ImageView) findViewById( R.id.shareButton );
-        favoriteButton = (ImageView) findViewById( R.id.favoriteButton );
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(currentPet.getName() + "\'s details");
+        //TODO:: Add the favorite and share buttons to the toolbar
+
+        //TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
+        //ImageView toolbarBack = (ImageView) findViewById(R.id.toolbarBackButton);
+        //ImageView shareButton = (ImageView) findViewById( R.id.shareButton );
+        //favoriteButton = (ImageView) findViewById( R.id.favoriteButton );
 
         rootView = findViewById( R.id.root );
 
-        currentPet = (PetResult) getIntent().getSerializableExtra("pet");
-        toolbarTitle.setText( currentPet.getName() + "\'s Details" );
-        toolbarBack.setOnClickListener( this );
 
-        shareButton.setOnClickListener( this );
-        favoriteButton.setOnClickListener( this );
+       // toolbarTitle.setText( currentPet.getName() + "\'s Details" );
+       // toolbarBack.setOnClickListener( this );
+
+        //shareButton.setOnClickListener( this );
+        //favoriteButton.setOnClickListener( this );
 
         initDetailLayout();
-        initFavoriteStatus();
+        //initFavoriteStatus();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        MenuInflater inflater = getMenuInflater();
+
+        SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
+        Cursor result = readable.rawQuery("SELECT * FROM favorites WHERE id = :id", new String[]{currentPet.getId()});
+
+        if ( result.getCount() == 0 ) {
+            inflater.inflate( R.menu.pet_detail_toolbar_items, menu );
+        } else {
+            inflater.inflate(R.menu.pet_detail_toolbar_favorited, menu);
+        }
+
+        favoriteMenuItem = menu.getItem( 0 );
+
+        readable.close();
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                return true;
+
+            case R.id.favoriteItem :
+
+                SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
+                Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
+
+                if ( result.getCount() == 0 ) {
+
+                    AlertDialog confirmFavorite = new AlertDialog.Builder( this )
+                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.favorite_title, null ) )
+                            .setMessage( "Would you like to add " + currentPet.getName() + " to your favorites?" )
+                            .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    addToFavorites();
+                                    initFavoriteStatus();
+                                }
+                            })
+                            .setNegativeButton( "Cancel", null )
+                            .create();
+
+                    confirmFavorite.show();
+
+                } else {
+
+                    AlertDialog confirmUnfavorite = new AlertDialog.Builder( this )
+                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.unfavorite_title ,null ) )
+                            .setMessage( "Would you like to remove " + currentPet.getName() + " from your favorites?" )
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removeFromFavorites();
+                                    initFavoriteStatus();
+                                }
+                            })
+                            .setNegativeButton( "No", null )
+                            .create();
+
+                    confirmUnfavorite.show();
+
+                }
+
+                readable.close();
+
+
+                break;
+
+            case R.id.shareIcon :
+
+
+                AlertDialog shareDialog = new AlertDialog.Builder( this )
+                        .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.share_title, null ) )
+                        .setItems(new CharSequence[]{"Text Message", "E-Mail"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick( DialogInterface dialog, int which ) {
+
+                                String gender = currentPet.getSex().equals( "Male" ) ? "him" : "her";
+                                String url = "https://www.petfinder.com/petdetail/" + currentPet.getId();
+                                String message = "I thought you may be interested in adopting " + currentPet.getName() +
+                                        ", you can find " + gender + " here: " + url;
+
+                                switch (which) {
+                                    case 0:
+                                        Intent sms = new Intent( Intent.ACTION_SENDTO );
+                                        sms.setData( Uri.parse( "smsto:" ) );
+                                        sms.putExtra( "sms_body", message ); //edit the message with the correct link with getId()
+                                        sms.putExtra( "exit_on_sent", true ); //test
+                                        startActivity( sms );
+                                        break;
+                                    case 1:
+                                        Intent mail = new Intent( Intent.ACTION_SENDTO );
+                                        mail.setData( Uri.parse( "mailto:" ) );
+                                        mail.putExtra( Intent.EXTRA_TEXT, message);
+                                        startActivity( mail );
+                                        break;
+                                }
+
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .create();
+
+                shareDialog.show();
+
+
+                break;
+
+        }
+        return super.onOptionsItemSelected( item );
     }
 
     public void initDetailLayout() {
@@ -185,19 +312,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public void initFavoriteStatus() {
-        SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
-        Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
-
-        if ( result.getCount() == 0 ) {
-            favoriteButton.setImageDrawable( getResources().getDrawable( R.drawable.ic_favorite_border_white_24dp ) );
-        } else {
-            favoriteButton.setImageDrawable( getResources().getDrawable( R.drawable.ic_favorite_white_24dp ) );
-        }
-
-        readable.close();
-
-    }
 
     @Override
     public void onClick( View view ) {
@@ -254,84 +368,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
             case R.id.shareButton :
 
-                AlertDialog shareDialog = new AlertDialog.Builder( this )
-                        .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.share_title, null ) )
-                        .setItems(new CharSequence[]{"Text Message", "E-Mail"}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick( DialogInterface dialog, int which ) {
 
-                                String gender = currentPet.getSex().equals( "Male" ) ? "him" : "her";
-                                String url = "https://www.petfinder.com/petdetail/" + currentPet.getId();
-                                String message = "I thought you may be interested in adopting " + currentPet.getName() +
-                                        ", you can find " + gender + " here: " + url;
-
-                                switch (which) {
-                                    case 0:
-                                        Intent sms = new Intent( Intent.ACTION_SENDTO );
-                                        sms.setData( Uri.parse( "smsto:" ) );
-                                        sms.putExtra( "sms_body", message ); //edit the message with the correct link with getId()
-                                        sms.putExtra( "exit_on_sent", true ); //test
-                                        startActivity( sms );
-                                        break;
-                                    case 1:
-                                        Intent mail = new Intent( Intent.ACTION_SENDTO );
-                                        mail.setData( Uri.parse( "mailto:" ) );
-                                        mail.putExtra( Intent.EXTRA_TEXT, message);
-                                        startActivity( mail );
-                                        break;
-                                }
-
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .create();
-
-                shareDialog.show();
 
                 break;
 
             case R.id.favoriteButton :
 
-                SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
-                Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
 
-                if ( result.getCount() == 0 ) {
-
-                    AlertDialog confirmFavorite = new AlertDialog.Builder( this )
-                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.favorite_title, null ) )
-                            .setMessage( "Would you like to add " + currentPet.getName() + " to your favorites?" )
-                            .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    addToFavorites();
-                                    initFavoriteStatus();
-                                }
-                            })
-                            .setNegativeButton( "Cancel", null )
-                            .create();
-
-                    confirmFavorite.show();
-
-                } else {
-
-                    AlertDialog confirmUnfavorite = new AlertDialog.Builder( this )
-                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.unfavorite_title ,null ) )
-                            .setMessage( "Would you like to remove " + currentPet.getName() + " from your favorites?" )
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removeFromFavorites();
-                                    initFavoriteStatus();
-                                }
-                            })
-                            .setNegativeButton( "No", null )
-                            .create();
-
-                    confirmUnfavorite.show();
-
-                }
-
-                readable.close();
 
                 break;
 
@@ -352,13 +395,31 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                     Intent fullImageView = new Intent( this, FullImageViewer.class );
                     fullImageView.putExtra( "image", bitmapBytes );
                     fullImageView.putExtra( "name", currentPet.getName() );
-                    startActivity( fullImageView );
+                    startActivity(fullImageView);
 
                 }
 
                 break;
 
         }
+
+    }
+
+    private void initFavoriteStatus() {
+        SQLiteDatabase readable = new FavoritesDBHelper( this ).getReadableDatabase();
+        Cursor result = readable.rawQuery( "SELECT * FROM favorites WHERE id = :id", new String[] { currentPet.getId() } );
+
+        //invalidateOptionsMenu();
+
+        if ( result.getCount() == 0 ) {
+            favoriteMenuItem.setIcon( getResources().getDrawable( R.drawable.ic_favorite_border_white_24dp ) );
+        } else {
+            favoriteMenuItem.setIcon( getResources().getDrawable( R.drawable.ic_favorite_white_24dp ) );
+        }
+
+
+
+        readable.close();
 
     }
 

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -37,17 +37,25 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.favorites_list_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ImageView backButton = (ImageView) toolbar.findViewById(R.id.toolbarBackButton);
+        setSupportActionBar( toolbar );
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+        getSupportActionBar().setTitle( "My Favorites" );
 
         loader = (ProgressBar) findViewById(R.id.loader);
         favoritesList = (ListView) findViewById(R.id.favoritesList);
         noFavorites = (TextView) findViewById(R.id.noFavorites);
 
+    }
 
-        toolbarTitle.setText("My Favorites");
-        backButton.setOnClickListener(this);
-
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+        switch( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 
     @Override
@@ -58,7 +66,7 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void loadFavorites() {
+    private void loadFavorites() {
 
         final ArrayList<PetResult> favorites = new ArrayList<>();
         /**

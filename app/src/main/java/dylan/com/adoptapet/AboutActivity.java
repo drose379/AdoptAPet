@@ -3,7 +3,7 @@ package dylan.com.adoptapet;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,23 +15,16 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
-        setContentView( R.layout.about_activity_layout );
+        setContentView(R.layout.about_activity_layout);
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ImageView backButton = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+        getSupportActionBar().setTitle( "About" );
 
-        title.setText( "About" );
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                switch ( v.getId() ) {
-                    case R.id.toolbarBackButton :
-                        finish();
-                        break;
-                }
-            }
-        });
+        //TODO:: Update the toolbar here, then update the toolbar in the MainActivity
+
+
 
         /**
          * Need to create layout, show details about Icons8 and PetFinder and how they were used
@@ -40,6 +33,18 @@ public class AboutActivity extends AppCompatActivity {
             * Pet donation buttons on registered animals
          */
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+
+        switch ( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected( item );
     }
 
 }

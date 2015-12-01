@@ -13,9 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,7 +30,7 @@ import java.util.Arrays;
 /**
  * Created by dylan on 11/23/15.
  */
-public class ShelterList extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, APIHelper.SheltersCallback {
+public class ShelterList extends AppCompatActivity implements AdapterView.OnItemClickListener, APIHelper.SheltersCallback {
 
     private RelativeLayout root;
     private ProgressBar loader;
@@ -52,13 +50,8 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
         root = (RelativeLayout) findViewById( R.id.root );
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        ImageView backButton = (ImageView) toolbar.findViewById(R.id.toolbarBackButton);
-        ImageView searchButton = (ImageView) toolbar.findViewById( R.id.searchButton );
-        TextView title = (TextView) toolbar.findViewById( R.id.toolbarTitle );
-
-        title.setText( "Shelters Near Me" );
-        backButton.setOnClickListener( this );
-        searchButton.setOnClickListener( this );
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
 
         loader = (ProgressBar) findViewById( R.id.loader );
         shelterList = (ListView) findViewById( R.id.shelterList );
@@ -66,7 +59,29 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
         checkLocation();
     }
 
-    public void checkLocation() {
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.shelter_list_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( android.view.MenuItem item ) {
+
+        switch ( item.getItemId() ) {
+            case android.R.id.home :
+                finish();
+                break;
+            case R.id.searchButton :
+                initSearchDialog();
+                break;
+        }
+
+        return super.onOptionsItemSelected( item );
+    }
+
+    private void checkLocation() {
 
         SQLiteDatabase readable = new ZipDBHelper( this ).getReadableDatabase();
         Cursor result = readable.rawQuery("SELECT zip FROM " + ZipDBHelper.table_name, null, null);
@@ -310,20 +325,6 @@ public class ShelterList extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    @Override
-    public void onClick( View v) {
-        switch ( v.getId() ) {
-            case R.id.toolbarBackButton :
-                finish();
-                break;
 
-            case R.id.searchButton :
-
-                initSearchDialog();
-
-                break;
-
-            }
-        }
 
 }
