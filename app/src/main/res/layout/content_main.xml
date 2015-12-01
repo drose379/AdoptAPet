@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
-
     <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,13 +40,13 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Click Icon or Enter Here"
+                    android:hint="Zip Code"
                     android:inputType="number"
                     android:id="@+id/postalBox"
                     />
 
             </LinearLayout>
-
+<!--
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,13 +59,13 @@
                 android:layout_below="@id/topBox"
                 android:id="@+id/headText"
                 />
-
+-->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:layout_below="@id/headText"
+                android:layout_below="@id/topBox"
                 android:layout_marginTop="10dp"
                 >
 
@@ -116,34 +113,112 @@
                     android:id="@+id/topSub"
                     >
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_pig_sm"
-                        android:id="@+id/pigSelect"
-                        />
-                    <ImageView
+                        android:id="@+id/pigSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_pig_sm"
+                            android:id="@+id/pigSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Pig"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_rabbit_sm"
-                        android:id="@+id/rabbitSelect"
-                        />
-                    <ImageView
+                        android:id="@+id/rabbitSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_rabbit_sm"
+                            android:id="@+id/rabbitSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Rabbit"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_bird_sm"
-                        android:id="@+id/birdSelect"
-                        />
-                    <ImageView
+                        android:id="@+id/birdSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_bird_sm"
+                            android:id="@+id/birdSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Bird"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_horse_sm"
-                        android:id="@+id/horseSelect"
-                        />
+                        android:id="@+id/horseSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_horse_sm"
+                            android:id="@+id/horseSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Horse"
+                            />
+
+                    </LinearLayout>
+
+
+
 
                 </LinearLayout>
 
@@ -155,27 +230,86 @@
                     android:layout_below="@id/topSub"
                     >
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_barn_sm"
-                        android:id="@+id/sheepSelect"
-                        />
-                    <ImageView
+                        android:id="@+id/sheepSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_barn_sm"
+                            android:id="@+id/sheepSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Barnyard"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_turtle_sm"
-                        android:id="@+id/alligatorSelect"
-                        />
-                    <ImageView
+                        android:id="@+id/alligatorSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_turtle_sm"
+                            android:id="@+id/alligatorSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Reptile"
+                            />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:padding="15dp"
-                        android:src="@drawable/ic_mouse_sm"
-                        android:id="@+id/mouseSelect"
-                        />
+                        android:id="@+id/mouseSelectParent"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_mouse_sm"
+                            android:id="@+id/mouseSelect"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="10sp"
+                            android:text="Small &amp; Furry"
+                            />
+
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 

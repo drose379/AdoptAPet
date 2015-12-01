@@ -59,7 +59,7 @@ public class APIHelper {
             @Override
             public void onResponse(Response response) throws IOException {
                 String results = response.body().string();
-                parseResults(results, h, callback);
+                parseResults(results, h, callback );
             }
         });
 
@@ -128,7 +128,6 @@ public class APIHelper {
     }
 
     private static void parseResults( String result, final Handler h, final Callback callback ) {
-
 
         final ArrayList<PetResult> results = new ArrayList<PetResult>();
 

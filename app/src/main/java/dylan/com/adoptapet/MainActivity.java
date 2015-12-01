@@ -61,8 +61,6 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ArrayList<String> selectedBreeds;
-
     private LocationManager locationManager;
     private EditText postalBox;
     private Button breedSelectButton;
@@ -72,15 +70,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView dogSelect;
     private ImageView catSelect;
-    private ImageView pigSelect;
-    private ImageView rabbitSelect;
-    private ImageView birdSelect;
-    private ImageView horseSelect;
-    private ImageView sheepSelect;
-    private ImageView reptileSelect;
-    private ImageView mouseSelect;
+    private LinearLayout pigSelectParent;
+    private LinearLayout rabbitSelect;
+    private LinearLayout birdSelect;
+    private LinearLayout horseSelect;
+    private LinearLayout sheepSelect;
+    private LinearLayout reptileSelect;
+    private LinearLayout mouseSelect;
 
-    private ArrayList<ImageView> selectables;
+    private ArrayList<LinearLayout> selectables;
 
     private AlertDialog breedSelectDialog;
 
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
         ImageView menuButton = (ImageView) toolbar.findViewById(R.id.toolbarMenuButton);
 
-        selectables = new ArrayList<ImageView>();
+        selectables = new ArrayList<LinearLayout>();
 
         ImageView locationIcon = (ImageView) findViewById(R.id.locationIcon);
         postalBox = (EditText) findViewById(R.id.postalBox);
@@ -115,39 +113,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         dogSelect = (ImageView) findViewById( R.id.dogSelect );
         catSelect = (ImageView) findViewById( R.id.catSelect );
-        pigSelect = (ImageView) findViewById( R.id.pigSelect );
-        rabbitSelect = (ImageView) findViewById( R.id.rabbitSelect );
-        birdSelect = (ImageView) findViewById(  R.id.birdSelect );
-        horseSelect = (ImageView) findViewById( R.id.horseSelect );
-        sheepSelect = (ImageView) findViewById( R.id.sheepSelect );
-        reptileSelect = (ImageView) findViewById( R.id.alligatorSelect );
-        mouseSelect = (ImageView) findViewById( R.id.mouseSelect );
+        pigSelectParent = (LinearLayout) findViewById( R.id.pigSelectParent );
+        rabbitSelect = (LinearLayout) findViewById( R.id.rabbitSelectParent );
+        birdSelect = (LinearLayout) findViewById(  R.id.birdSelectParent );
+        horseSelect = (LinearLayout) findViewById( R.id.horseSelectParent );
+        sheepSelect = (LinearLayout) findViewById( R.id.sheepSelectParent );
+        reptileSelect = (LinearLayout) findViewById( R.id.alligatorSelectParent );
+        mouseSelect = (LinearLayout) findViewById( R.id.mouseSelectParent );
 
-        selectables.add( dogSelect );
-        selectables.add( catSelect );
-        selectables.add( pigSelect );
+
+        selectables.add( pigSelectParent );
         selectables.add( rabbitSelect );
         selectables.add( birdSelect );
-        selectables.add( horseSelect );
+        selectables.add(horseSelect);
         selectables.add(sheepSelect);
         selectables.add(reptileSelect);
         selectables.add(mouseSelect);
 
-        searchButton.setOnClickListener(this);
+        pigSelectParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pigSelectParent.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+            }
+        });
 
-        for ( ImageView item : selectables ) {
+
+
+        for ( LinearLayout item : selectables ) {
             item.setOnClickListener( this );
         }
 
+        dogSelect.setOnClickListener(this );
+        catSelect.setOnClickListener( this );
 
-        searchButton.setOnClickListener( this );
+        searchButton.setOnClickListener(this);
         locationIcon.setOnClickListener( this );
         menuButton.setOnClickListener(this);
 
         toolbarTitle.setText("AdoptAPet");
 
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
-        selectedBreeds = new ArrayList<String>();
 
     }
 
@@ -195,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void clearSelectedItems() {
-        for( ImageView item : selectables ) {
+        for( LinearLayout item : selectables ) {
             item.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
         }
     }
@@ -517,43 +522,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selectedType = 2;
                 break;
 
-            case R.id.pigSelect :
+            case R.id.pigSelectParent :
                 clearSelectedItems();
-                pigSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+                pigSelectParent.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
 
                 selectedType = 3;
                 break;
-            case R.id.rabbitSelect :
+            case R.id.rabbitSelectParent :
                 clearSelectedItems();
                 rabbitSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
 
                 selectedType = 4;
                 break;
-            case R.id.birdSelect :
+            case R.id.birdSelectParent :
                 clearSelectedItems();
                 birdSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
 
                 selectedType = 5;
                 break;
-            case R.id.horseSelect :
+            case R.id.horseSelectParent :
                 clearSelectedItems();
                 horseSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
 
                 selectedType = 6;
                 break;
-            case R.id.sheepSelect :
+            case R.id.sheepSelectParent :
                 clearSelectedItems();
                 sheepSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
 
                 selectedType = 7;
                 break;
-            case R.id.alligatorSelect :
+            case R.id.alligatorSelectParent :
                 clearSelectedItems();
                 reptileSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
 
                 selectedType = 8;
                 break;
-            case R.id.mouseSelect :
+            case R.id.mouseSelectParent :
                 clearSelectedItems();
                 mouseSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
 

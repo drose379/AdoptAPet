@@ -160,7 +160,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 AlertDialog shareDialog = new AlertDialog.Builder( this )
                         .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.share_title, null ) )
-                        .setItems(new CharSequence[]{"Text Message", "E-Mail", "Copy To Clipboard"}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{"Text Message", "E-Mail", "Copy URL To Clipboard"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick( DialogInterface dialog, int which ) {
 

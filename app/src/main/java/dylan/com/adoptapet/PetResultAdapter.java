@@ -242,7 +242,7 @@ public class PetResultAdapter extends BaseAdapter {
                     cardViewHolder.genderText.setText("M" );
                     cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorMale));
                     cardViewHolder.noPhotoText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
-                    cardViewHolder.locationIcon.setImageDrawable( getMaleIcon( result ) );
+                    //cardViewHolder.locationIcon.setImageDrawable( getMaleIcon( result ) );
 
 
                     break;
@@ -267,7 +267,7 @@ public class PetResultAdapter extends BaseAdapter {
                     cardViewHolder.genderText.setText("F");
                     cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorFemale));
                     cardViewHolder.noPhotoText.setTextColor(context.getResources().getColor(R.color.colorFemale));
-                    cardViewHolder.locationIcon.setImageDrawable(getFemaleIcon());
+                    //cardViewHolder.locationIcon.setImageDrawable(getFemaleIcon());
 
                     break;
             }

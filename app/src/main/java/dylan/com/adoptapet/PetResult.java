@@ -1,6 +1,7 @@
 package dylan.com.adoptapet;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -135,6 +136,13 @@ public class PetResult implements Serializable {
         return this;
     }
 
+    public PetResult setIsFavorited( Context context, String id ) {
+
+        SQLiteDatabase readable = new FavoritesDBHelper( context ).getReadableDatabase();
+
+        return this;
+    }
+
     public void setDistanceFromClient( String distance) {
         distanceFromClient = distance;
     }
@@ -196,7 +204,6 @@ public class PetResult implements Serializable {
 
         return url;
     }
-
 
     public String getDistance() {
         return distanceFromClient;
