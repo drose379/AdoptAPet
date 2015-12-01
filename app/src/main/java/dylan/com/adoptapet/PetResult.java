@@ -43,6 +43,7 @@ public class PetResult implements Serializable {
     private HashMap<String,String> contactInfo;
     private String contactInfoRaw;
     private String distanceFromClient;
+    private String shelterId;
 
     public PetResult setName( String name ) {
         this.name = name;
@@ -84,6 +85,11 @@ public class PetResult implements Serializable {
     }
     public PetResult setAge( String age ) {
         this.age = age;
+        return this;
+    }
+
+    public PetResult setShelterId( String id ) {
+        this.shelterId = id;
         return this;
     }
 
@@ -225,6 +231,8 @@ public class PetResult implements Serializable {
     public String getDescription() {
         return description;
     }
+
+    public String getShelterId() {return shelterId;}
 
 
     public String getContactNumber() {

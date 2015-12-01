@@ -31,6 +31,9 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
     private TextView noResults;
 
 
+    //TODO:: Make an independent request to get the shelterNmae if it is not passed through the intent
+    //TODO:: Need to check if the shelterName intnet extra is null, if yes, then initiate the shelter name grab using the shelterID (shelterID is required)
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -48,7 +51,7 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
         shelterId = getIntent().getStringExtra( "shelterId" );
         shelterName = getIntent().getStringExtra( "shelterName" );
 
-        getSupportActionBar().setTitle(shelterName);
+        getSupportActionBar().setTitle( shelterName );
 
         APIHelper.makeShelterAnimalsRequest(shelterId, this, new Handler());
 

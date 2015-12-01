@@ -158,7 +158,8 @@ public class APIHelper {
                             .setExtras(pet.getJSONArray("extras"))
                             .setDescription(pet.getString("description"))
                             .setPhotos(pet.getJSONArray("photos"))
-                            .setContactInfo(pet.getJSONObject("contactInfo"));
+                            .setContactInfo(pet.getJSONObject("contactInfo"))
+                            .setShelterId( pet.getString("shelterId") );
 
                     //petResult.setDistanceFromClient( DistanceUtil.zipDistance( context, petResult.getZip(), clientLocation ) );
                     petResult.setDistanceFromClient( "5" ); //TODO:: INSTEAD OF DOING DISTANCE CALCULATION, JUST SHOW STATE EX: MA, NH, ETC

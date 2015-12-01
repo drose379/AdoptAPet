@@ -16,4 +16,11 @@
         app:showAsAction="always"
         />
 
+    <item
+        android:id="@+id/moreButton"
+        android:title="More From This Shelter"
+        app:showAsAction="never"
+        />
+
+
 </menu>

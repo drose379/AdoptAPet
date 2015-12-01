@@ -48,7 +48,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
     private MenuItem favoriteMenuItem;
 
-    //TODO:: Add copy this pets link to clipboard
+    //TODO:: The menu button looks as if it has more padding then the rest of the buttons, look into this
+    //TODO:: Implement the More from this shelter button functionality, descripbed in G.O.D file
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -62,24 +63,10 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(currentPet.getName() + "\'s details");
-        //TODO:: Add the favorite and share buttons to the toolbar
-
-        //TextView toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
-        //ImageView toolbarBack = (ImageView) findViewById(R.id.toolbarBackButton);
-        //ImageView shareButton = (ImageView) findViewById( R.id.shareButton );
-        //favoriteButton = (ImageView) findViewById( R.id.favoriteButton );
 
         rootView = findViewById( R.id.root );
 
-
-       // toolbarTitle.setText( currentPet.getName() + "\'s Details" );
-       // toolbarBack.setOnClickListener( this );
-
-        //shareButton.setOnClickListener( this );
-        //favoriteButton.setOnClickListener( this );
-
         initDetailLayout();
-        //initFavoriteStatus();
     }
 
     @Override
@@ -96,6 +83,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         }
 
         favoriteMenuItem = menu.getItem( 0 );
+
+        Log.i("MORE_BUTTON", menu.getItem( 2 ).getTitle().toString() );
 
         readable.close();
 
@@ -153,7 +142,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 readable.close();
 
 
-                break;
+                return true;
 
             case R.id.shareIcon :
 
@@ -199,6 +188,20 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 shareDialog.show();
 
+
+                return true;
+
+            case R.id.moreButton :
+
+                /**
+                 * Get the current pets shelterID, pass that through intent to ShelterAnimalResults
+                 */
+
+                Intent shelterAnimals = new Intent( this, ShelterAnimalResults.class );
+                shelterAnimals.putExtra( "shelterId", currentPet.getShelterId() );
+                shelterAnimals.putExtra( "shelterName", "Need to get name!" );
+
+                startActivity( shelterAnimals );
 
                 break;
 
