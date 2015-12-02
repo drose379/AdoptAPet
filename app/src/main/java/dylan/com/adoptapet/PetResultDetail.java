@@ -61,7 +61,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
         getSupportActionBar().setTitle(currentPet.getName() + "\'s details");
 
         rootView = findViewById( R.id.root );

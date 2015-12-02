@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             item.setOnClickListener( this );
         }
 
-        dogSelect.setOnClickListener(this );
-        catSelect.setOnClickListener( this );
+        dogSelect.setOnClickListener(this);
+        catSelect.setOnClickListener(this);
 
         searchButton.setOnClickListener(this);
         locationIcon.setOnClickListener( this );
@@ -199,7 +199,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
     }
 
-    public void clearSelectedItems() {
+    private void clearSelectedItems() {
+
+        dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+        catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+
         for( LinearLayout item : selectables ) {
             item.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
         }
