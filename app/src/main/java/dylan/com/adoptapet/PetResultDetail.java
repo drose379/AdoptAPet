@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import org.json.JSONArray;
 
@@ -239,9 +240,8 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
 
-
-        Picasso.with( this ).load( currentPet.getBestPhoto( 1 ) ).fit().into(imageOne);
-        Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) ).fit().into(imageTwo);
+        RequestCreator imageOneLoad = Picasso.with( this ).load(currentPet.getBestPhoto(1));
+        RequestCreator imageTwoLoad = Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) );
 
         phoneButton.setOnClickListener(this);
         phoneNumber.setOnClickListener( this );
@@ -254,17 +254,28 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         switch ( currentPet.getSex() ) {
             case "Male" :
                 topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorMaleCard) );
-                imageOne.setBorderColorResource( R.color.colorMaleCard );
+                imageOne.setBorderColorResource(R.color.colorMaleCard);
                 imageTwo.setBorderColorResource( R.color.colorMaleCard );
-                noPhotoText.setTextColor( getResources().getColor(R.color.colorMale) );
+                noPhotoText.setTextColor(getResources().getColor(R.color.colorMale));
+
+                imageOneLoad.placeholder(R.drawable.ic_load_2_male);
+                imageTwoLoad.placeholder( R.drawable.ic_load_2_male );
+
                 break;
             case "Female" :
                 topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorFemaleCard) );
                 imageOne.setBorderColorResource( R.color.colorFemaleCard );
-                imageTwo.setBorderColorResource( R.color.colorFemaleCard );
-                noPhotoText.setTextColor( getResources().getColor( R.color.colorFemale )  );
+                imageTwo.setBorderColorResource(R.color.colorFemaleCard);
+                noPhotoText.setTextColor(getResources().getColor(R.color.colorFemale));
+
+                imageOneLoad.placeholder(R.drawable.ic_load_2_female);
+                imageTwoLoad.placeholder(R.drawable.ic_load_2_female);
+
                 break;
         }
+
+        imageOneLoad.into( imageOne );
+        imageTwoLoad.into( imageTwo );
 
         Log.i("Type", currentPet.getType());
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 
@@ -81,23 +82,30 @@ public class NavMenuAdapter extends BaseAdapter {
             CircleImageView headImage = (CircleImageView) recycledView.findViewById( R.id.petImage );
             TextView name = (TextView) recycledView.findViewById( R.id.name );
 
+
+            RequestCreator imageLoad = Picasso.with( context ).load( currentItem.getImageUrl() );
+
             switch ( currentItem.getSex() ) {
                 case "Male" :
                     backdrop.setBackgroundColor( context.getResources().getColor( R.color.colorMaleCard ) );
                     headImage.setBorderColorResource( R.color.colorMaleCard );
+                    imageLoad.placeholder( R.drawable.ic_load_2_male );
                     break;
                 case "Female" :
                     backdrop.setBackgroundColor( context.getResources().getColor( R.color.colorFemaleCard ) );
                     headImage.setBorderColorResource( R.color.colorFemaleCard );
+                    imageLoad.placeholder( R.drawable.ic_load_2_female);
                     break;
                 default :
 
                     Log.i("SEX", currentItem.getSex());
             }
 
-            headImage.setBorderWidth( 10 );
+            imageLoad.into( headImage );
 
-            Picasso.with( context ).load( currentItem.getImageUrl() ).fit().into( headImage );
+            headImage.setBorderWidth(10);
+
+
 
             if ( currentItem.getName().equals( "Grabbing Featured!") || currentItem.getName().equals( "Please Specify Location" ) )
                 name.setText( currentItem.getName() );

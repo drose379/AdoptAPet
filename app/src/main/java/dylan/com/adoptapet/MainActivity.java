@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navItemsList.setAdapter(navAdapter);
 
     }
-    
+
 
     public void nextFeaturedPet() {
         FeaturedPetController fc = FeaturedPetController.getInstance( MainActivity.this );

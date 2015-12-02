@@ -181,6 +181,8 @@ public class PetResultAdapter extends BaseAdapter {
             RequestCreator imageOne = Picasso.with( context ).load( result.getBestPhoto( 1 ) );
             RequestCreator imageTwo = Picasso.with( context ).load( result.getBestPhoto( 2 ) );
 
+
+
             //TODO:: ADJUST IF NO PHOTOS AVAILABLE, SET VIS TO GONE, ADJUST CARD
 
             if ( result.getBestPhoto( 2 ) == null ) {
@@ -232,6 +234,9 @@ public class PetResultAdapter extends BaseAdapter {
                     cardViewHolder.petHeadImage.setBorderWidth( 10 );
                     cardViewHolder.petHeadImageTwo.setBorderWidth(10);
 
+                    imageOne.placeholder( R.drawable.ic_load_2_male );
+                    imageTwo.placeholder( R.drawable.ic_load_2_male );
+
                     cardViewHolder.backdrop.setBackgroundResource(R.drawable.round_card_male);
 
                     if ( result.getType().equals( "Dog" ) )
@@ -254,6 +259,9 @@ public class PetResultAdapter extends BaseAdapter {
                     cardViewHolder.petHeadImage.setBorderWidth( 10 );
                     cardViewHolder.petHeadImageTwo.setBorderWidth(10);
 
+                    imageOne.placeholder( R.drawable.ic_load_2_female );
+                    imageTwo.placeholder( R.drawable.ic_load_2_female );
+
                     cardViewHolder.backdrop.setBackgroundResource(R.drawable.round_card_female);
 
                     if ( result.getType().equals( "Dog" ) ) {
@@ -273,8 +281,8 @@ public class PetResultAdapter extends BaseAdapter {
             }
 
 
-            imageOne.fit().into( cardViewHolder.petHeadImage );
-            imageTwo.fit().into( cardViewHolder.petHeadImageTwo );
+            imageOne.into( cardViewHolder.petHeadImage );
+            imageTwo.into( cardViewHolder.petHeadImageTwo );
 
             String basicInfo = getBasicInfoText() + " " + result.getName() + "\nI am a " + result.getBreed();
 

@@ -35,6 +35,8 @@ import java.util.ArrayList;
  */
 public class PetSearchDetails extends AppCompatActivity implements View.OnClickListener {
 
+    //TODO:: Collapse keyboard after breed is selected from search box
+
     private int animalType = 0;
     private String location = null;
 
