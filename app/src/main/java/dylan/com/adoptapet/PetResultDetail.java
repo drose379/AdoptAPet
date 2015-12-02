@@ -199,7 +199,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 Intent shelterAnimals = new Intent( this, ShelterAnimalResults.class );
                 shelterAnimals.putExtra( "shelterId", currentPet.getShelterId() );
-                shelterAnimals.putExtra( "shelterName", "Need to get name!" );
 
                 startActivity( shelterAnimals );
 

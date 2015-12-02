@@ -33,6 +33,10 @@ public class APIHelper {
         void getShelterResults( ArrayList<ShelterResult> results );
     }
 
+    public interface ShelterNameCallback {
+        void getShelterName( String shelterName );
+    }
+
 
     public static String lastOffset = null;
 
@@ -59,7 +63,7 @@ public class APIHelper {
             @Override
             public void onResponse(Response response) throws IOException {
                 String results = response.body().string();
-                parseResults(results, h, callback );
+                parseResults(results, h, callback);
             }
         });
 
@@ -110,7 +114,7 @@ public class APIHelper {
         RequestBody body = RequestBody.create( MediaType.parse( "text/plain" ), shelterId );
         Request req = new Request.Builder()
                 .post( body )
-                .url( "http://104.236.15.47/AdoptAPetAPI/shelterAnimalInit.php" )
+                .url("http://104.236.15.47/AdoptAPetAPI/shelterAnimalInit.php")
                 .build();
         httpClient.newCall( req ).enqueue(new com.squareup.okhttp.Callback() {
             @Override
@@ -121,7 +125,41 @@ public class APIHelper {
             @Override
             public void onResponse(Response response) throws IOException {
                 String results = response.body().string();
-                parseResults( results, h, callback );
+                parseResults(results, h, callback);
+            }
+        });
+
+    }
+
+    public static void getShelterName( String id, final ShelterNameCallback callback, final Handler h ) {
+
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "http://104.236.15.47/AdoptAPetAPI/getShelterName.php?id=" + id;
+
+        Request req = new Request.Builder()
+                .url( url )
+                .build();
+        client.newCall( req ).enqueue(new com.squareup.okhttp.Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+                final String name = response.body().string();
+
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.getShelterName( name );
+                    }
+                };
+
+                h.post( r );
+
             }
         });
 

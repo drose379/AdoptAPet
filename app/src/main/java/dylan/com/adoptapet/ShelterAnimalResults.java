@@ -22,7 +22,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 /**
  * Created by dylan on 11/25/15.
  */
-public class ShelterAnimalResults extends AppCompatActivity implements APIHelper.Callback {
+public class ShelterAnimalResults extends AppCompatActivity implements APIHelper.Callback, APIHelper.ShelterNameCallback {
 
     private String shelterId;
     private String shelterName;
@@ -48,8 +48,13 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
         loader = (ProgressBar) findViewById( R.id.loader );
         noResults = (TextView) findViewById( R.id.noResults );
 
-        shelterId = getIntent().getStringExtra( "shelterId" );
-        shelterName = getIntent().getStringExtra( "shelterName" );
+        shelterId = getIntent().getStringExtra( "shelterId" ); //TODO:: If shelterID is null, show a toast / finish, cannot work without shelterID
+
+        if ( getIntent().getStringExtra( "shelterName" ) == null ) {
+            APIHelper.getShelterName( shelterId, this, new Handler()  );
+        } else {
+            shelterName = getIntent().getStringExtra( "shelterName" );
+        }
 
         getSupportActionBar().setTitle( shelterName );
 
@@ -97,6 +102,11 @@ public class ShelterAnimalResults extends AppCompatActivity implements APIHelper
             noResults.setVisibility( View.VISIBLE );
         }
 
+    }
+
+    @Override
+    public void getShelterName( String name ) {
+        getSupportActionBar().setTitle( name );
     }
 
     public void initAnimalTypeSelect( final ArrayList<PetResult> results ) {
