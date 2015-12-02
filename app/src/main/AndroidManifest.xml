@@ -10,6 +10,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,17 +19,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SearchResults"  />
+        <activity android:name=".SearchResults" android:screenOrientation="portrait" />
 
-        <activity android:name=".PetResultDetail" />
+        <activity android:name=".PetResultDetail" android:screenOrientation="portrait" />
 
-        <activity android:name=".PetSearchDetails" /> <!-- Add Meta-Data tag to support 4.0 and lower -->
+        <activity android:name=".PetSearchDetails" android:screenOrientation="portrait" />
 
-        <activity android:name=".FavoritesList" />
-        <activity android:name=".ShelterList" />
-        <activity android:name=".ShelterAnimalResults" />
-        <activity android:name=".FullImageViewer" android:theme="@style/AppTheme.Black" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".FavoritesList" android:screenOrientation="portrait" />
+        <activity android:name=".ShelterList" android:screenOrientation="portrait" />
+        <activity android:name=".ShelterAnimalResults" android:screenOrientation="portrait"/>
+        <activity android:name=".FullImageViewer" android:theme="@style/AppTheme.Black" android:screenOrientation="portrait" />
+        <activity android:name=".AboutActivity" android:screenOrientation="portrait" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

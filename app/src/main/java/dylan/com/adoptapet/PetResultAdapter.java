@@ -206,7 +206,6 @@ public class PetResultAdapter extends BaseAdapter {
                 cardViewHolder.petHeadImage = (CircleImageView) recycledView.findViewById( R.id.petHeadImage );
                 cardViewHolder.petHeadImageTwo = (CircleImageView) recycledView.findViewById( R.id.petHeadImageTwo );
                 cardViewHolder.genderIcon = (ImageView) recycledView.findViewById( R.id.genderIcon );
-                cardViewHolder.locationIcon = (ImageView) recycledView.findViewById( R.id.locationIcon );
                 cardViewHolder.petHeadGreeting = (TextView) recycledView.findViewById( R.id.petHeadGreeting );
                 cardViewHolder.petHeadBasicInfo = (TextView) recycledView.findViewById( R.id.petHeadDescription );
                 cardViewHolder.genderText = (TextView) recycledView.findViewById( R.id.genderText );
@@ -247,7 +246,6 @@ public class PetResultAdapter extends BaseAdapter {
                     cardViewHolder.genderText.setText("M" );
                     cardViewHolder.genderText.setTextColor(context.getResources().getColor(R.color.colorMale));
                     cardViewHolder.noPhotoText.setTextColor( context.getResources().getColor( R.color.colorMale ) );
-                    //cardViewHolder.locationIcon.setImageDrawable( getMaleIcon( result ) );
 
 
                     break;
@@ -315,7 +313,6 @@ public class PetResultAdapter extends BaseAdapter {
         public CircleImageView petHeadImage;
         public CircleImageView petHeadImageTwo;
         public ImageView genderIcon;
-        public ImageView locationIcon;
         public TextView petHeadGreeting;
         public TextView petHeadBasicInfo;
         public TextView genderText;

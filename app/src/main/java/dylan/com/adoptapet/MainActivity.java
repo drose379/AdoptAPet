@@ -95,16 +95,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ActionBarDrawerToggle drawerToggle;
 
-    //TODO:: FIX BUG: If location is not specified yet, or if featured item is null, and it is clicked, NullPointerException, need to not respond to click if no featured
-
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
         setContentView(R.layout.content_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        //ImageView menuButton = (ImageView) toolbar.findViewById(R.id.toolbarMenuButton);
         setSupportActionBar( toolbar );
 
         selectables = new ArrayList<LinearLayout>();
@@ -154,9 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         searchButton.setOnClickListener(this);
         locationIcon.setOnClickListener(this);
-//      menuButton.setOnClickListener(this);
-
-        //toolbarTitle.setText(getResources().getString(R.string.app_name));
 
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
 
@@ -318,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             items.add( new MenuItem()
                             .setType( 2 )
                             .setName( "Please Specify Location" )
-                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" ) //TODO:: Change this to the new Loading Drawable
                             .setSex( "Male" )
 
             );
@@ -326,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             items.add( new MenuItem()
                             .setType( 2 )
                             .setName( "Grabbing Featured!" )
-                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" )
+                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" ) //TODO:: Change this to the new loading drawable
                             .setSex( "Male" )
             );
         }
