@@ -216,48 +216,53 @@ public class ShelterList extends AppCompatActivity implements AdapterView.OnItem
 
         shelterOptions = new AlertDialog.Builder(ShelterList.this)
                 .setCustomTitle(LayoutInflater.from(ShelterList.this).inflate(R.layout.shelter_title, null))
-                .setItems( shelterMenuOptions.toArray( optionsFinal ), new DialogInterface.OnClickListener() {
+                .setItems(shelterMenuOptions.toArray(optionsFinal), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
 
-
-                        switch (shelterMenuOptions.get( which )) {
+                        switch (shelterMenuOptions.get(which)) {
 
                             case "Call":
 
                                 String phoneNumber = selectedShelter.getPhone().trim();
 
-                                Intent phone = new Intent( Intent.ACTION_DIAL );
-                                phone.setData( Uri.parse( "tel:" + phoneNumber ) );
-                                startActivity( phone );
+                                Intent phone = new Intent(Intent.ACTION_DIAL);
+                                phone.setData(Uri.parse("tel:" + phoneNumber));
+                                startActivity(phone);
 
                                 break;
-                            case "Map" :
+                            case "Map":
 
-                                Uri mapUri = Uri.parse( "geo:0,0?q=" + selectedShelter.getAddress() + "," + selectedShelter.getState() + "," + selectedShelter.getCity()  );
-                                Intent map = new Intent( Intent.ACTION_VIEW, mapUri );
-                                map.setPackage( "com.google.android.apps.maps" );
-                                startActivity( map );
-
-                                break;
-                            case "Email" :
-
-                                Intent mail = new Intent( Intent.ACTION_SENDTO );
-                                mail.setData( Uri.parse( "mailto:" + selectedShelter.getEmail() ) );
-                                mail.putExtra( Intent.EXTRA_SUBJECT, "Interested in - " + selectedShelter.getName() );
-
-                                startActivity( mail );
+                                Uri mapUri = Uri.parse("geo:0,0?q=" + selectedShelter.getAddress() + "," + selectedShelter.getState() + "," + selectedShelter.getCity());
+                                Intent map = new Intent(Intent.ACTION_VIEW, mapUri);
+                                map.setPackage("com.google.android.apps.maps");
+                                startActivity(map);
 
                                 break;
-                            case "Animals" :
+                            case "Email":
+
+                                Intent mail = new Intent(Intent.ACTION_SENDTO);
+                                mail.setData(Uri.parse("mailto:" + selectedShelter.getEmail()));
+                                mail.putExtra(Intent.EXTRA_SUBJECT, "Interested in - " + selectedShelter.getName());
+
+                                startActivity(mail);
+
+                                break;
+                            case "Animals":
+
+                                shelterOptions.dismiss();
 
                                 Intent shelterAnimals = new Intent(ShelterList.this, ShelterAnimalResults.class);
                                 shelterAnimals.putExtra("shelterId", selectedShelter.getId());
                                 shelterAnimals.putExtra("shelterName", selectedShelter.getName());
-                                startActivity(shelterAnimals);
 
-                                shelterOptions.dismiss();
+                                if (selectedShelter.getId() != null && !selectedShelter.getId().isEmpty()) {
+                                    startActivity(shelterAnimals);
+                                } else {
+                                    Snackbar.make( findViewById( R.id.root ), "Shelter Error", Snackbar.LENGTH_SHORT ).show();
+                                }
+
 
                                 break;
 

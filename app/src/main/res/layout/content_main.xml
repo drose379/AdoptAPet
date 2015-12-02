@@ -133,7 +133,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Pig"
                             />
 
@@ -159,7 +160,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Rabbit"
                             />
 
@@ -185,7 +187,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Bird"
                             />
 
@@ -211,7 +214,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Horse"
                             />
 
@@ -250,7 +254,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Barnyard"
                             />
 
@@ -276,7 +281,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Reptile"
                             />
 
@@ -303,7 +309,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorBlack"
                             android:text="Small &amp; Furry"
                             />
 

@@ -56,7 +56,10 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstance);
         setContentView(R.layout.pet_detail);
 
-        currentPet = (PetResult) getIntent().getSerializableExtra("pet");
+        if ( getIntent().getSerializableExtra( "pet" ) != null )
+            currentPet = (PetResult) getIntent().getSerializableExtra("pet");
+        else
+            finish();
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
 
@@ -198,9 +201,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                  */
 
                 Intent shelterAnimals = new Intent( this, ShelterAnimalResults.class );
-                shelterAnimals.putExtra( "shelterId", currentPet.getShelterId() );
 
-                startActivity( shelterAnimals );
+                if ( currentPet.getShelterId() != null && !currentPet.getShelterId().isEmpty() ) {
+                    shelterAnimals.putExtra( "shelterId", currentPet.getShelterId() );
+                    startActivity( shelterAnimals );
+                } else {
+                    Snackbar.make( findViewById( R.id.root ), "Cannot Find Shelter", Snackbar.LENGTH_SHORT ).show();
+                }
 
                 break;
 

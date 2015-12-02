@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private BroadcastReceiver featuredReceiver;
 
+    //TODO:: FIX BUG: If location is not specified yet, or if featured item is null, and it is clicked, NullPointerException, need to not respond to click if no featured
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationIcon.setOnClickListener( this );
         menuButton.setOnClickListener(this);
 
-        toolbarTitle.setText("AdoptAPet");
+        toolbarTitle.setText(getResources().getString(R.string.app_name));
 
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
 
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void initNavDrawer() {
+    private void initNavDrawer() {
 
         ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
@@ -251,10 +253,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (item) {
                     case 0:
 
-                        PetResult selected = FeaturedPetController.getInstance( MainActivity.this ).getCurrent();
-                        Intent detail = new Intent( MainActivity.this, PetResultDetail.class );
-                        detail.putExtra( "pet", selected );
-                        startActivity( detail );
+                        if ( FeaturedPetController.getInstance( MainActivity.this ).hasNext() ) {
+                            PetResult selected = FeaturedPetController.getInstance( MainActivity.this ).getCurrent();
+                            Intent detail = new Intent( MainActivity.this, PetResultDetail.class );
+                            detail.putExtra( "pet", selected );
+                            startActivity( detail );
+                        }
 
                         drawer.closeDrawer( Gravity.LEFT );
 
@@ -338,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void updateFeatured() {
+    private void updateFeatured() {
         FeaturedPetController featController = FeaturedPetController.getInstance( this );
 
         if ( featController.hasNext() ) {
