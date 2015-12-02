@@ -140,6 +140,8 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
                         breedSearch.setText("");
 
                         addSelectedBreed(selected, selectedBreeds);
+
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                     }
                 });
 
@@ -158,7 +160,6 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
                     public void onItemClick(AdapterView parent, View view, int item, long id) {
                         String selected = getResources().getStringArray(R.array.dog_breeds)[item];
                         addSelectedBreed(selected, selectedBreeds);
-
                     }
                 });
 

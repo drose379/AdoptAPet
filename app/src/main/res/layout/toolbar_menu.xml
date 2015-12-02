@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+    android:layout_height="56dp"
     android:layout_width="match_parent"
     xmlns:custom_text="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
@@ -10,16 +10,17 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         >
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_menu_white_24dp"
+            android:padding="8dp"
             android:layout_gravity="center_vertical"
-            android:paddingRight="30dp"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/toolbarMenuButton"
             />
 
@@ -27,6 +28,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_gravity="center_vertical"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/colorWhite"

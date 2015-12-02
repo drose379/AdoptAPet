@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private BroadcastReceiver featuredReceiver;
 
+    private ActionBarDrawerToggle drawerToggle;
+
     //TODO:: FIX BUG: If location is not specified yet, or if featured item is null, and it is clicked, NullPointerException, need to not respond to click if no featured
 
     @Override
@@ -100,8 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.content_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ImageView menuButton = (ImageView) toolbar.findViewById(R.id.toolbarMenuButton);
+       // TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        //ImageView menuButton = (ImageView) toolbar.findViewById(R.id.toolbarMenuButton);
+        setSupportActionBar( toolbar );
 
         selectables = new ArrayList<LinearLayout>();
 
@@ -149,14 +153,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         catSelect.setOnClickListener(this);
 
         searchButton.setOnClickListener(this);
-        locationIcon.setOnClickListener( this );
-        menuButton.setOnClickListener(this);
+        locationIcon.setOnClickListener(this);
+//      menuButton.setOnClickListener(this);
 
-        toolbarTitle.setText(getResources().getString(R.string.app_name));
+        //toolbarTitle.setText(getResources().getString(R.string.app_name));
 
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        drawerToggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer  );
+        drawer.setDrawerListener( drawerToggle );
+
     }
+
+    @Override
+    public void onPostCreate( Bundle savedInstance ) {
+        super.onPostCreate( savedInstance );
+        drawerToggle.syncState();
+    }
+
+
 
     @Override
     public void onPause() {
@@ -203,8 +221,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearSelectedItems() {
 
-        dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
-        catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+        dogSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
+        catSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
 
         for( LinearLayout item : selectables ) {
             item.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
