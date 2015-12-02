@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             featuredReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    updateFeatured();
+                    nextFeaturedPet();
                 }
             };
 
@@ -341,23 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navItemsList.setAdapter(navAdapter);
 
     }
-
-    private void updateFeatured() {
-        FeaturedPetController featController = FeaturedPetController.getInstance( this );
-
-        if ( featController.hasNext() ) {
-            PetResult firstFeat = featController.next();
-            MenuItem first = new MenuItem()
-                    .setType( 2 )
-                    .setName( firstFeat.getName() )
-                    .setSex( firstFeat.getSex() )
-                    .setPhoto( firstFeat.getBestPhoto( 1 ) == null ? firstFeat.getBestPhoto( 2 ) : firstFeat.getBestPhoto( 1 ) );
-
-            navAdapter.updateFeatured( first );
-        }
-
-    }
-
+    
 
     public void nextFeaturedPet() {
         FeaturedPetController fc = FeaturedPetController.getInstance( MainActivity.this );
