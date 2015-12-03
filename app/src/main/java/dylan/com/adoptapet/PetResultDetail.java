@@ -325,7 +325,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        breedText.setText( breeds );
+        breedText.setText( breeds.trim() );
         ageText.setText( currentPet.getAge() );
         sizeText.setText( currentPet.getSize() );
         description.setText( currentPet.getDescription() );

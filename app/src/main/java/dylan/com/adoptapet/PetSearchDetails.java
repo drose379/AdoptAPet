@@ -37,6 +37,11 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
     //TODO:: Collapse keyboard after breed is selected from search box
 
+    public static final String SMALL = "S";
+    public static final String MED = "M";
+    public static final String LG = "LG";
+    public static final String XL = "XL";
+
     private int animalType = 0;
     private String location = null;
 
@@ -271,7 +276,26 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
                     for ( CheckBox box : sizeBoxes ) {
                         if ( box.isChecked() ) {
-                            sizeSelected.put( box.getText() );
+                            //sizeSelected.put( box.getText() );
+
+                            switch ( box.getText().toString() ) {
+
+                                case "S"  :
+                                    sizeSelected.put( "Small" );
+                                    break;
+                                case "M" :
+                                    sizeSelected.put( "Medium" );
+                                    break;
+                                case "L" :
+                                    sizeSelected.put( "Large" );
+                                    break;
+
+                                case "XL" :
+                                    sizeSelected.put( "Extra Large" );
+                                    break;
+
+                            }
+
                         }
                     }
 

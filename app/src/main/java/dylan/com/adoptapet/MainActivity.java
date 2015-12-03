@@ -214,8 +214,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearSelectedItems() {
 
-        dogSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
-        catSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
+        dogSelect.setBackgroundResource( R.drawable.dog_background );
+        catSelect.setBackgroundResource( R.drawable.dog_background );
 
         for( LinearLayout item : selectables ) {
             item.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
@@ -264,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (item) {
                     case 0:
 
+                        drawer.closeDrawer( Gravity.LEFT );
+
                         if ( FeaturedPetController.getInstance( MainActivity.this ).hasNext() ) {
                             PetResult selected = FeaturedPetController.getInstance( MainActivity.this ).getCurrent();
                             Intent detail = new Intent( MainActivity.this, PetResultDetail.class );
@@ -271,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             startActivity( detail );
                         }
 
-                        drawer.closeDrawer( Gravity.LEFT );
 
                         break;
                     case 1:
@@ -279,17 +280,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case 2:
 
-                        Intent favorites = new Intent( MainActivity.this, FavoritesList.class );
-                        startActivity( favorites );
-
                         drawer.closeDrawer( Gravity.LEFT );
+
+                        Intent favorites = new Intent( MainActivity.this, FavoritesList.class );
+                        startActivity(favorites);
 
                         break;
                     case 3 :
-                        Intent shelters = new Intent( MainActivity.this, ShelterList.class );
-                        startActivity( shelters );
 
                         drawer.closeDrawer( Gravity.LEFT );
+                        Intent shelters = new Intent( MainActivity.this, ShelterList.class );
+                        startActivity(shelters);
+
                         break;
                     case 4 :
 
@@ -297,30 +299,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          * About activity
                          */
 
-                        Intent aboutApp = new Intent( MainActivity.this, AboutActivity.class );
-                        startActivity( aboutApp );
-
                         drawer.closeDrawer( Gravity.LEFT );
+
+                        Intent aboutApp = new Intent( MainActivity.this, AboutActivity.class );
+                        startActivity(aboutApp);
+
+
                         break;
                 }
             }
         });
 
-
         if ( location == null ) {
-            items.add( new MenuItem()
-                            .setType( 2 )
-                            .setName( "Please Specify Location" )
-                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" ) //TODO:: Change this to the new Loading Drawable
-                            .setSex( "Male" )
+            items.add(new MenuItem()
+                            .setType(2)
+                            .setName("Please Specify Location")
+                            .setPhoto("https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png") //TODO:: Change this to the new Loading Drawable
+                            .setSex("Male")
 
             );
         } else {
-            items.add( new MenuItem()
-                            .setType( 2 )
-                            .setName( "Grabbing Featured!" )
-                            .setPhoto( "https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png" ) //TODO:: Change this to the new loading drawable
-                            .setSex( "Male" )
+            items.add(new MenuItem()
+                            .setType(2)
+                            .setName("Grabbing Featured!")
+                            .setPhoto("https://pixabay.com/static/uploads/photo/2012/04/10/23/44/question-27106_640.png") //TODO:: Change this to the new loading drawable
+                            .setSex("Male")
             );
         }
 
@@ -513,14 +516,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.dogSelect :
                 clearSelectedItems();
-                dogSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+                dogSelect.setBackgroundResource( R.drawable.dog_background_selected );
 
                 selectedType = 1;
                 break;
 
             case R.id.catSelect :
                 clearSelectedItems();
-                catSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+                catSelect.setBackgroundResource( R.drawable.dog_background_selected );
 
                 selectedType = 2;
                 break;

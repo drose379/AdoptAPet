@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_back_white_24dp"
             android:layout_gravity="center_vertical"
-            android:paddingRight="30dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="10dp"
             android:id="@+id/toolbarBackButton"
             />
 
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/colorWhite"
             android:id="@+id/toolbarTitle"
             />

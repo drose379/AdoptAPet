@@ -106,6 +106,7 @@
             android:textColor="@color/colorBlack"
             android:textAlignment="center"
             android:id="@+id/breedText"
+            android:text="BEAGLE"
             />
 
     </RelativeLayout>
