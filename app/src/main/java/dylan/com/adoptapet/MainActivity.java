@@ -16,11 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         selectables.add(sheepSelect);
         selectables.add(reptileSelect);
         selectables.add(mouseSelect);
+        mouseSelect.setOnClickListener( this );
 
         pigSelectParent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,11 +218,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearSelectedItems() {
 
-        dogSelect.setBackgroundResource( R.drawable.dog_background );
-        catSelect.setBackgroundResource( R.drawable.dog_background );
+        dogSelect.setBackgroundResource(R.drawable.dog_background);
+        catSelect.setBackgroundResource(R.drawable.dog_background);
 
         for( LinearLayout item : selectables ) {
-            item.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDark ) );
+            item.setBackgroundResource( R.drawable.other_background );
         }
     }
 
@@ -516,57 +520,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.dogSelect :
                 clearSelectedItems();
-                dogSelect.setBackgroundResource( R.drawable.dog_background_selected );
+                dogSelect.setBackgroundResource(R.drawable.dog_background_selected);
 
                 selectedType = 1;
                 break;
 
             case R.id.catSelect :
                 clearSelectedItems();
-                catSelect.setBackgroundResource( R.drawable.dog_background_selected );
+                catSelect.setBackgroundResource(R.drawable.dog_background_selected);
 
                 selectedType = 2;
                 break;
 
             case R.id.pigSelectParent :
                 clearSelectedItems();
-                pigSelectParent.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
-
+                pigSelectParent.setBackgroundResource( R.drawable.other_background_selected );
                 selectedType = 3;
                 break;
             case R.id.rabbitSelectParent :
                 clearSelectedItems();
-                rabbitSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+                rabbitSelect.setBackgroundResource(R.drawable.other_background_selected);
 
                 selectedType = 4;
                 break;
             case R.id.birdSelectParent :
                 clearSelectedItems();
-                birdSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+                birdSelect.setBackgroundResource(R.drawable.other_background_selected);
 
                 selectedType = 5;
                 break;
             case R.id.horseSelectParent :
                 clearSelectedItems();
-                horseSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+                horseSelect.setBackgroundResource(R.drawable.other_background_selected);
 
                 selectedType = 6;
                 break;
             case R.id.sheepSelectParent :
                 clearSelectedItems();
-                sheepSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+                sheepSelect.setBackgroundResource(R.drawable.other_background_selected);
 
                 selectedType = 7;
                 break;
             case R.id.alligatorSelectParent :
                 clearSelectedItems();
-                reptileSelect.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
+                reptileSelect.setBackgroundResource(R.drawable.other_background_selected);
 
                 selectedType = 8;
                 break;
             case R.id.mouseSelectParent :
                 clearSelectedItems();
-                mouseSelect.setBackgroundColor( getResources().getColor( R.color.colorBackgroundDarker ) );
+                mouseSelect.setBackgroundResource(R.drawable.other_background_selected);
+
+            //TODO:: animate the background out of current and into new
+
 
                 selectedType = 9;
                 break;

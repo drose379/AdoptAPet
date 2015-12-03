@@ -9,7 +9,7 @@
     <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroundDark"
+        android:background="@color/colorBackground"
         android:id="@+id/drawer"
         >
 
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:orientation="horizontal"
-                android:background="@color/colorBackgroundDarker"
+                android:background="@color/colorBackgroundDark"
                 android:layout_below="@id/toolbar"
                 android:id="@+id/topBox"
                 >
@@ -133,7 +133,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:background="@drawable/other_background"
                             android:id="@+id/pigSelectParent"
                             >
 
@@ -141,6 +143,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_pig_sm"
                                 android:id="@+id/pigSelect"
                                 />
@@ -151,6 +154,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:textAlignment="center"
                                 android:textSize="11sp"
+                                android:layout_marginBottom="5dp"
                                 android:textColor="@color/colorBlack"
                                 android:text="Pig"
                                 />
@@ -161,7 +165,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:background="@drawable/other_background"
+                            android:layout_marginLeft="2dp"
                             android:id="@+id/rabbitSelectParent"
                             >
 
@@ -169,6 +176,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_rabbit_sm"
                                 android:id="@+id/rabbitSelect"
                                 />
@@ -178,6 +186,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textSize="11sp"
+                                android:layout_marginBottom="5dp"
                                 android:textColor="@color/colorBlack"
                                 android:text="Rabbit"
                                 />
@@ -188,7 +197,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/other_background"
                             android:id="@+id/birdSelectParent"
                             >
 
@@ -196,6 +208,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_bird_sm"
                                 android:id="@+id/birdSelect"
                                 />
@@ -205,6 +218,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textSize="11sp"
+                                android:layout_marginBottom="5dp"
                                 android:textColor="@color/colorBlack"
                                 android:text="Bird"
                                 />
@@ -215,13 +229,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/other_background"
                             android:id="@+id/horseSelectParent"
                             >
 
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_marginTop="5dp"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_horse_sm"
                                 android:id="@+id/horseSelect"
@@ -232,6 +250,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textSize="11sp"
+                                android:layout_marginBottom="5dp"
                                 android:textColor="@color/colorBlack"
                                 android:text="Horse"
                                 />
@@ -248,6 +267,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
+                        android:layout_marginTop="30dp"
                         android:layout_below="@id/topSub"
                         >
 
@@ -255,7 +275,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:background="@drawable/other_background"
                             android:id="@+id/sheepSelectParent"
                             >
 
@@ -263,6 +285,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_barn_sm"
                                 android:id="@+id/sheepSelect"
                                 />
@@ -272,6 +295,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textSize="11sp"
+                                android:layout_marginBottom="5dp"
                                 android:textColor="@color/colorBlack"
                                 android:text="Barnyard"
                                 />
@@ -282,7 +306,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/other_background"
                             android:id="@+id/alligatorSelectParent"
                             >
 
@@ -290,6 +317,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_turtle_sm"
                                 android:id="@+id/alligatorSelect"
                                 />
@@ -298,6 +326,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
+                                android:layout_marginBottom="5dp"
                                 android:textSize="11sp"
                                 android:textColor="@color/colorBlack"
                                 android:text="Reptile"
@@ -309,8 +338,11 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
                             android:orientation="vertical"
-                            android:padding="15dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/other_background"
                             android:id="@+id/mouseSelectParent"
                             >
 
@@ -318,6 +350,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_mouse_sm"
                                 android:id="@+id/mouseSelect"
                                 />
@@ -325,8 +358,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:textSize="11sp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_gravity="center_horizontal"
                                 android:textColor="@color/colorBlack"
                                 android:text="Small &amp; Furry"
                                 />
