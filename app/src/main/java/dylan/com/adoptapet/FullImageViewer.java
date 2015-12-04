@@ -5,9 +5,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
 
@@ -29,12 +32,18 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
         ImageView backButton = (ImageView) findViewById( R.id.toolbarBackButton );
         TextView title = (TextView) findViewById( R.id.toolbarTitle );
 
-        byte[] imageBytes = getIntent().getByteArrayExtra( "image" );
-        String name = getIntent().getStringExtra( "name" );
-        Bitmap imageBitmap = BitmapFactory.decodeByteArray( imageBytes, 0, imageBytes.length );
-
         ImageView fullImage = (ImageView) findViewById( R.id.fullImage );
-        fullImage.setImageBitmap( imageBitmap );
+
+        String imageUrl = getIntent().getStringExtra( "image" );
+        String name = getIntent().getStringExtra("name");
+
+
+        Log.i("URL", imageUrl);
+
+        Picasso.with( this ).load( imageUrl ).placeholder( R.drawable.ic_load_2_male ).into( fullImage );
+
+
+
 
         backButton.setOnClickListener( this );
         title.setText( name );

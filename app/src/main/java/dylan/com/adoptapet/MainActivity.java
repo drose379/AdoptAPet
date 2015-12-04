@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -98,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ActionBarDrawerToggle drawerToggle;
 
+
+
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -128,13 +133,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         selectables.add( pigSelectParent );
-        selectables.add( rabbitSelect );
-        selectables.add( birdSelect );
+        selectables.add(rabbitSelect);
+        selectables.add(birdSelect);
         selectables.add(horseSelect);
         selectables.add(sheepSelect);
         selectables.add(reptileSelect);
         selectables.add(mouseSelect);
-        mouseSelect.setOnClickListener( this );
+
 
         pigSelectParent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setHomeButtonEnabled(true);
 
         drawerToggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer  );
-        drawer.setDrawerListener( drawerToggle );
+        drawer.setDrawerListener(drawerToggle);
 
     }
 
@@ -570,9 +575,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.mouseSelectParent :
                 clearSelectedItems();
                 mouseSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-            //TODO:: animate the background out of current and into new
-
 
                 selectedType = 9;
                 break;

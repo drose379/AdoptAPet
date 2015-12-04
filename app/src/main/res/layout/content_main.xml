@@ -73,6 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     >
 
                     <LinearLayout
@@ -268,6 +269,7 @@
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:layout_marginTop="30dp"
+                        android:layout_marginBottom="30dp"
                         android:layout_below="@id/topSub"
                         >
 
@@ -340,9 +342,9 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
+                            android:background="@drawable/other_background"
                             android:orientation="vertical"
                             android:layout_marginLeft="2dp"
-                            android:background="@drawable/other_background"
                             android:id="@+id/mouseSelectParent"
                             >
 

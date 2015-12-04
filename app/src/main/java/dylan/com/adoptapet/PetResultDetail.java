@@ -418,13 +418,12 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                  */
 
                 if ( currentImage != null ) {
-                    Bitmap imageBitmap = ((BitmapDrawable) currentImage.getDrawable()).getBitmap();
-                    ByteArrayOutputStream bitmapOutput = new ByteArrayOutputStream();
-                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bitmapOutput );
-                    byte[] bitmapBytes = bitmapOutput.toByteArray();
+                    int selectedPhoto = imageContainer.getDisplayedChild() + 1;
+                    String url = currentPet.getBestPhoto( selectedPhoto );
+
 
                     Intent fullImageView = new Intent( this, FullImageViewer.class );
-                    fullImageView.putExtra( "image", bitmapBytes );
+                    fullImageView.putExtra( "image", url );
                     fullImageView.putExtra( "name", currentPet.getName() );
                     startActivity(fullImageView);
 

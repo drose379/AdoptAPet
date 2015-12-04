@@ -61,8 +61,6 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.pet_search_details);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        //ImageView backButton = (ImageView) toolbar.findViewById( R.id.toolbarBackButton );
 
         setSupportActionBar( toolbar );
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,7 +89,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
 
         shouldShowClawsOption();
 
-        Log.i("CREATE", "On Create called");
+        //TODO:: For new layout boxes, if anything in box is selected, change backgorund to selected (accent shadow), if not, regular shadow
     }
 
     @Override
