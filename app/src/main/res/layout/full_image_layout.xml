@@ -8,11 +8,12 @@
     <include layout="@layout/toolbar_fullimage" android:id="@+id/toolbar" />
 
 
-    <ImageView
+
+    <com.daimaji.slider.library.SliderLayout
+        android:id="@+id/imageSlider"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/fullImage"
+        android:layout_height="300dp"
         />
+
 
 </LinearLayout>

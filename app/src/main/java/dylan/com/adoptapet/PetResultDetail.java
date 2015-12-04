@@ -32,6 +32,7 @@ import com.squareup.picasso.RequestCreator;
 import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -418,12 +419,25 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                  */
 
                 if ( currentImage != null ) {
-                    int selectedPhoto = imageContainer.getDisplayedChild() + 1;
-                    String url = currentPet.getBestPhoto( selectedPhoto );
+
+                    /** Create string array of image(s), even if there is only 1 */
+
+                    String[] imageUrls;
+                    ArrayList<String> temp = new ArrayList<String>();
+
+                    if ( currentPet.getBestPhoto( 1 ) != null ) {
+                        temp.add( currentPet.getBestPhoto( 1 ) );
+                    }
+                    if ( currentPet.getBestPhoto( 2 ) != null ) {
+                        temp.add( currentPet.getBestPhoto( 2 ) );
+                    }
+
+                    imageUrls = new String[temp.size()];
+                    temp.toArray( imageUrls );
 
 
                     Intent fullImageView = new Intent( this, FullImageViewer.class );
-                    fullImageView.putExtra( "image", url );
+                    fullImageView.putExtra( "images", imageUrls );
                     fullImageView.putExtra( "name", currentPet.getName() );
                     startActivity(fullImageView);
 

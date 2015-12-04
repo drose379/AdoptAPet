@@ -12,6 +12,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +66,7 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 10/27/15.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SelectedTypeCallback {
 
     private LocationManager locationManager;
     private EditText postalBox;
@@ -74,23 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout drawer;
     private ListView navItemsList;
 
-    private ImageView dogSelect;
-    private ImageView catSelect;
-    private LinearLayout pigSelectParent;
-    private LinearLayout rabbitSelect;
-    private LinearLayout birdSelect;
-    private LinearLayout horseSelect;
-    private LinearLayout sheepSelect;
-    private LinearLayout reptileSelect;
-    private LinearLayout mouseSelect;
-
-    private ArrayList<LinearLayout> selectables;
 
     private AlertDialog breedSelectDialog;
 
     private AlertDialog loadingDialog;
-
-    private int selectedType = -1;
 
     private NavMenuAdapter navAdapter;
 
@@ -100,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ActionBarDrawerToggle drawerToggle;
 
+    private MainViewPager pager;
+
+    private LinearLayout searchButton;
+    private LinearLayout backButton;
+
+
+    private int selectedType = -1;
 
 
 
@@ -107,60 +102,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
         setContentView(R.layout.content_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar( toolbar );
+        setSupportActionBar(toolbar);
 
-        selectables = new ArrayList<LinearLayout>();
+        MainPagerAdapter adapter = new MainPagerAdapter( getSupportFragmentManager() );
+        pager = (MainViewPager) findViewById( R.id.viewPager ); //TODO:: Create custom viewpager that overrides the touchevent method to not scroll over
+        pager.setAdapter(adapter);
 
         ImageView locationIcon = (ImageView) findViewById(R.id.locationIcon);
         postalBox = (EditText) findViewById(R.id.postalBox);
 
-        LinearLayout searchButton = (LinearLayout) findViewById( R.id.searchButton );
 
-        drawer = (DrawerLayout) findViewById( R.id.drawer );
+        searchButton = (LinearLayout) findViewById( R.id.searchButton );
+        backButton = (LinearLayout) findViewById( R.id.backButton );
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
         navItemsList = (ListView) findViewById( R.id.navItemsList );
-
-        dogSelect = (ImageView) findViewById( R.id.dogSelect );
-        catSelect = (ImageView) findViewById( R.id.catSelect );
-        pigSelectParent = (LinearLayout) findViewById( R.id.pigSelectParent );
-        rabbitSelect = (LinearLayout) findViewById( R.id.rabbitSelectParent );
-        birdSelect = (LinearLayout) findViewById(  R.id.birdSelectParent );
-        horseSelect = (LinearLayout) findViewById( R.id.horseSelectParent );
-        sheepSelect = (LinearLayout) findViewById( R.id.sheepSelectParent );
-        reptileSelect = (LinearLayout) findViewById( R.id.alligatorSelectParent );
-        mouseSelect = (LinearLayout) findViewById( R.id.mouseSelectParent );
-
-
-        selectables.add( pigSelectParent );
-        selectables.add(rabbitSelect);
-        selectables.add(birdSelect);
-        selectables.add(horseSelect);
-        selectables.add(sheepSelect);
-        selectables.add(reptileSelect);
-        selectables.add(mouseSelect);
-
-
-        pigSelectParent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pigSelectParent.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarker));
-            }
-        });
-
-
-
-        for ( LinearLayout item : selectables ) {
-            item.setOnClickListener( this );
-        }
-
-        dogSelect.setOnClickListener(this);
-        catSelect.setOnClickListener(this);
-
-        searchButton.setOnClickListener(this);
-        locationIcon.setOnClickListener(this);
-
-        locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -168,14 +125,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerToggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer  );
         drawer.setDrawerListener(drawerToggle);
 
+
+        searchButton.setOnClickListener(this);
+        backButton.setOnClickListener( this );
+        locationIcon.setOnClickListener(this);
+
+        locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
+
+
     }
 
     @Override
     public void onPostCreate( Bundle savedInstance ) {
-        super.onPostCreate( savedInstance );
-        drawerToggle.syncState();
-    }
 
+        super.onPostCreate(savedInstance);
+
+        drawerToggle.syncState();
+
+    }
 
 
     @Override
@@ -192,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onResume() {
+
+
         super.onResume();
 
         if ( SearchResults.badLocation ) {
@@ -204,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onReceive(Context context, Intent intent) {
                     nextFeaturedPet();
                 }
-            };
+        };
 
             registerReceiver( featuredReceiver, new IntentFilter( FeaturedPetController.GET_FEATURED ) );
         }
@@ -221,14 +190,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
     }
 
-    private void clearSelectedItems() {
-
-        dogSelect.setBackgroundResource(R.drawable.dog_background);
-        catSelect.setBackgroundResource(R.drawable.dog_background);
-
-        for( LinearLayout item : selectables ) {
-            item.setBackgroundResource( R.drawable.other_background );
-        }
+    @Override
+    public void updateSelectedType( int type ) {
+        this.selectedType = type;
     }
 
     private void checkSavedLocation() {
@@ -403,6 +367,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.backButton :
+                pager.setCurrentItem( 0, true );
+                hideBackButton();
+                break;
+
             case R.id.searchButton :
 
                 String location = postalBox.getText().toString();
@@ -457,15 +426,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if ( selectedType != -1 && selectedType <= 2  ) {
 
-                        Intent details = new Intent( this, PetSearchDetails.class );
-                        details.putExtra( "type", selectedType );
-                        details.putExtra("location", postalBox.getText().toString());
-                        startActivity(details);
+                        /**
+                         * TODO:: Slide over to the details fragment
+                         */
+
+                        pager.setCurrentItem( 1, true );
+                        showBackButton();
 
                     }
                     else if ( selectedType <= 9 && selectedType >= 3 ) {
                         /**
-                         * Move directly to SearchResult and pass necessary items
+                         * TODO:: DO NOT slide over to the details frag, just go right to SearchResults
                          */
 
                         String type = "";
@@ -521,63 +492,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Snackbar.make( drawer, "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
                 }
 
+
+
                 break;
 
-            case R.id.dogSelect :
-                clearSelectedItems();
-                dogSelect.setBackgroundResource(R.drawable.dog_background_selected);
 
-                selectedType = 1;
-                break;
-
-            case R.id.catSelect :
-                clearSelectedItems();
-                catSelect.setBackgroundResource(R.drawable.dog_background_selected);
-
-                selectedType = 2;
-                break;
-
-            case R.id.pigSelectParent :
-                clearSelectedItems();
-                pigSelectParent.setBackgroundResource( R.drawable.other_background_selected );
-                selectedType = 3;
-                break;
-            case R.id.rabbitSelectParent :
-                clearSelectedItems();
-                rabbitSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-                selectedType = 4;
-                break;
-            case R.id.birdSelectParent :
-                clearSelectedItems();
-                birdSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-                selectedType = 5;
-                break;
-            case R.id.horseSelectParent :
-                clearSelectedItems();
-                horseSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-                selectedType = 6;
-                break;
-            case R.id.sheepSelectParent :
-                clearSelectedItems();
-                sheepSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-                selectedType = 7;
-                break;
-            case R.id.alligatorSelectParent :
-                clearSelectedItems();
-                reptileSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-                selectedType = 8;
-                break;
-            case R.id.mouseSelectParent :
-                clearSelectedItems();
-                mouseSelect.setBackgroundResource(R.drawable.other_background_selected);
-
-                selectedType = 9;
-                break;
 
             case R.id.toolbarMenuButton :
 
@@ -658,6 +577,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Snackbar.make( findViewById( R.id.drawer ), getResources().getString( R.string.network_issue), Snackbar.LENGTH_SHORT ).show();
         }
 
+    }
+
+    private void showBackButton() {
+        backButton.setVisibility( View.VISIBLE );
+    }
+
+    private void hideBackButton() {
+        backButton.setVisibility( View.GONE );
     }
 
 

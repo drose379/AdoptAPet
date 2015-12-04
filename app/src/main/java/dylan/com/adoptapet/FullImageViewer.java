@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 
 /**
  * Created by dylan on 11/29/15.
@@ -32,16 +33,17 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
         ImageView backButton = (ImageView) findViewById( R.id.toolbarBackButton );
         TextView title = (TextView) findViewById( R.id.toolbarTitle );
 
-        ImageView fullImage = (ImageView) findViewById( R.id.fullImage );
 
-        String imageUrl = getIntent().getStringExtra( "image" );
+
+
+        String[] images = getIntent().getStringArrayExtra("images");
         String name = getIntent().getStringExtra("name");
 
 
-        Log.i("URL", imageUrl);
 
-        Picasso.with( this ).load( imageUrl ).placeholder( R.drawable.ic_load_2_male ).into( fullImage );
-
+        /**
+         * TODO:: Implement image slider with ViewPager, no need to use fragments, only use views to slide, PagerAdapter will do
+         */
 
 
 
