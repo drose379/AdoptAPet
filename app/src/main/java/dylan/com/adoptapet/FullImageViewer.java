@@ -19,7 +19,12 @@ import java.util.HashMap;
 /**
  * Created by dylan on 11/29/15.
  */
-public class FullImageViewer extends AppCompatActivity implements View.OnClickListener {
+public class FullImageViewer extends AppCompatActivity implements View.OnClickListener, FullImageViewPager.CurrentItemCallback {
+
+    private String name;
+
+    private TextView toolbarTitle;
+    private int imagesCount;
 
     @Override
     public void onCreate( Bundle savedInstance ) {
@@ -32,12 +37,15 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar);
         ImageView backButton = (ImageView) findViewById( R.id.toolbarBackButton );
-        TextView title = (TextView) findViewById( R.id.toolbarTitle );
+        toolbarTitle = (TextView) findViewById( R.id.toolbarTitle );
 
-        ViewPager pager = (ViewPager) findViewById( R.id.pager );
+        FullImageViewPager pager = (FullImageViewPager) findViewById( R.id.pager );
+        pager.setCallback( this );
 
         String[] images = getIntent().getStringArrayExtra("images");
-        String name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("name");
+
+        imagesCount = images.length;
 
         FullImagesPagerAdapter adapter = new FullImagesPagerAdapter( this, images );
         pager.setAdapter( adapter );
@@ -49,8 +57,17 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
 
 
         backButton.setOnClickListener( this );
-        title.setText( name );
+        toolbarTitle.setText( name + " ( " + 1 + "/" + imagesCount + " )" );
 
+    }
+
+    @Override
+    public void getCurrentPosition( int pos ) {
+        toolbarTitle.setText( generateToolbarTitle( pos ) );
+    }
+
+    private String generateToolbarTitle( int pos ) {
+        return name + " ( " + pos + "/" + imagesCount + " )";
     }
 
     @Override

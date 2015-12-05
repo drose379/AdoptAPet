@@ -39,7 +39,6 @@ public class FullImagesPagerAdapter extends PagerAdapter {
         View v = LayoutInflater.from(context).inflate( R.layout.full_image, parent, false );
         ImageView image = (ImageView) v.findViewById( R.id.image );
 
-        Log.i("URL", images[position]);
 
         Picasso.with( context ).load( images[position] ).placeholder( R.drawable.ic_load_2_male ).into(image);
 
