@@ -10,19 +10,30 @@ import android.view.MotionEvent;
  */
 public class MainViewPager extends ViewPager {
 
+    private boolean shouldSwipe = false;
+
     public MainViewPager( Context context, AttributeSet attrs ) {
         super( context, attrs );
     }
 
+    public void setShouldSwipe( boolean shouldSwipe ) {
+        this.shouldSwipe = shouldSwipe;
+    }
+
     @Override
     public boolean onInterceptTouchEvent( MotionEvent ev ) {
-        return false;
+        if ( shouldSwipe )
+            return super.onInterceptTouchEvent( ev );
+        else
+            return false;
     }
 
     @Override
     public boolean onTouchEvent( MotionEvent ev ) {
-        setCurrentItem(0);
-        return false;
+        if ( shouldSwipe )
+            return super.onTouchEvent( ev );
+        else
+            return false;
     }
 
 }

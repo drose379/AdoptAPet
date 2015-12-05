@@ -2,32 +2,20 @@ package dylan.com.adoptapet;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 
 import android.Manifest;
@@ -38,18 +26,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.os.Looper;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -66,7 +49,12 @@ import java.util.List;
 /**
  * Created by Dylan Rose on 10/27/15.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SelectedTypeCallback {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SelectedTypeCallback, OptionsTagCallback {
+
+    //TODO:: Enable right-left swiping only when dog or cat is selected
+    //TODO:: Only show no claws option for cats
+    //TODO:: Make sure searching with updated zip
+    //TODO:: Override the back hardware button to scroll back to 0 frag
 
     private LocationManager locationManager;
     private EditText postalBox;
@@ -96,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int selectedType = -1;
 
+    private String optionsFragTag;
+
 
 
     @Override
@@ -106,8 +96,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         MainPagerAdapter adapter = new MainPagerAdapter( getSupportFragmentManager() );
-        pager = (MainViewPager) findViewById( R.id.viewPager ); //TODO:: Create custom viewpager that overrides the touchevent method to not scroll over
+        pager = (MainViewPager) findViewById( R.id.viewPager );
         pager.setAdapter(adapter);
+
+
 
         ImageView locationIcon = (ImageView) findViewById(R.id.locationIcon);
         postalBox = (EditText) findViewById(R.id.postalBox);
@@ -193,6 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void updateSelectedType( int type ) {
         this.selectedType = type;
+
+        if ( type == 1 || type == 2 ) {
+            pager.setShouldSwipe( true );
+        } else {
+            pager.setShouldSwipe( false );
+        }
+
     }
 
     private void checkSavedLocation() {
@@ -374,61 +373,124 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.searchButton :
 
+                switch ( pager.getCurrentItem() ) {
+                    case 0 :
+
+                        /**
+                         * Check if type selected, if not, show SB
+                         * If type selected, check if type 1 or 2, if yes, swipe over to next screen
+                         * If greater then type 2, make search now
+                         */
+
+                        if ( selectedType > 0 && selectedType <= 2 ) {
+                            /**
+                             * Slide over
+                             */
+
+                            pager.setCurrentItem( 1, true );
+                            showBackButton();
+                        }
+                        else if ( selectedType <= 9 && selectedType >= 3 ) {
+
+                            String type = "";
+
+                            if ( !postalBox.getText().toString().isEmpty() ) {
+
+                                checkUpdateLocation( postalBox.getText().toString() );
+
+                                switch (selectedType) {
+
+                                    case 3:
+                                        type = "pig";
+                                        break;
+                                    case 4:
+                                        type = "rabbit";
+                                        break;
+                                    case 5:
+                                        type = "bird";
+                                        break;
+                                    case 6:
+                                        type = "horse";
+                                        break;
+                                    case 7:
+                                        type = "barnyard";
+                                        break;
+                                    case 8:
+                                        type = "reptile";
+                                        break;
+                                    case 9:
+                                        type = "smallfurry";
+                                        break;
+
+                                }
+
+                                try {
+
+                                    JSONObject request = new JSONObject();
+                                    request.put("location", postalBox.getText().toString());
+                                    request.put("type", type);
+
+                                    Intent i = new Intent(this, SearchResults.class);
+                                    i.putExtra("searchItems", request.toString());
+                                    startActivity(i);
+
+                                } catch (JSONException e) {
+                                    Snackbar.make(findViewById(R.id.drawer), getResources().getString(R.string.location_possible_issue), Snackbar.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                /**
+                                 * No location provided, show snackbar
+                                 */
+                                Snackbar.make( findViewById( R.id.root ), "Please Provide Location", Snackbar.LENGTH_SHORT ).show();
+                            }
+                        } else {
+                            Snackbar.make( findViewById( R.id.root ), "Please Select a Type", Snackbar.LENGTH_SHORT ).show();
+                        }
+
+                        break;
+                    case 1 :
+
+                        /**
+                         * TODO:: Use the optionsTag to grab the checkboxes, etc from options frag
+                         * Make sure location is set, if yes, make search, if not, show SB
+                         */
+
+                        if ( !postalBox.getText().toString().isEmpty() ) {
+
+                            checkUpdateLocation( postalBox.getText().toString() );
+
+                            JSONObject requestObject = getRequestOptions();
+
+                            Intent i = new Intent( this, SearchResults.class );
+                            i.putExtra( "searchItems", requestObject.toString() );
+                            startActivity( i );
+
+
+                        } else {
+                            Snackbar.make( findViewById( R.id.root ), "Please Provide a Location", Snackbar.LENGTH_SHORT );
+                        }
+
+
+
+
+                        break;
+                }
+/**
                 String location = postalBox.getText().toString();
                 if ( !location.isEmpty() && location.length() == 5 ) {
 
                     /**
                      *
                      * Check if location is already saved, if not, save it
-                     */
-
-                    SQLiteDatabase readableDb = new ZipDBHelper( this ).getReadableDatabase();
-
-                    Cursor result = readableDb.rawQuery( "SELECT * FROM " + ZipDBHelper.table_name, null );
-
-                    if ( result.getCount() == 0 ) {
-                        SQLiteDatabase writeable = new ZipDBHelper( this ).getWritableDatabase();
-                        ContentValues vals = new ContentValues();
-                        vals.put( "zip", location );
-                        writeable.insert(ZipDBHelper.table_name, null, vals);
-                        writeable.close();
-
                     }
-                    else if ( result.getCount() == 1 ) {
 
-                        /**
-                         * Read the current saved
-                         * Check if it is equal to the newly entered
-                         * If not, save the newly and remove the current.
-                         */
-
-                        result.moveToFirst();
-                        String currentSaved = result.getString( result.getColumnIndex( "zip" ) );
-                        readableDb.close();
-
-                        if ( !currentSaved.equals( location ) ) {
-                            /**
-                             * Update the old with the new
-                             */
-
-                            SQLiteDatabase writeable = new ZipDBHelper( this ).getWritableDatabase();
-
-                            ContentValues vals = new ContentValues();
-                            vals.put( "zip", location );
-                            writeable.update( ZipDBHelper.table_name, vals, "zip = ?", new String[] { currentSaved } );
-
-                            writeable.close();
-                        }
-
-
-
-                    }
 
                     if ( selectedType != -1 && selectedType <= 2  ) {
 
                         /**
                          * TODO:: Slide over to the details fragment
-                         */
+
 
                         pager.setCurrentItem( 1, true );
                         showBackButton();
@@ -437,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     else if ( selectedType <= 9 && selectedType >= 3 ) {
                         /**
                          * TODO:: DO NOT slide over to the details frag, just go right to SearchResults
-                         */
+
 
                         String type = "";
 
@@ -492,7 +554,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Snackbar.make( drawer, "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
                 }
 
-
+            */
 
                 break;
 
@@ -510,7 +572,168 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void getTag( String tag ) {
+        optionsFragTag = tag;
+    }
 
+    private void checkUpdateLocation( String location ) {
+
+        SQLiteDatabase readableDb = new ZipDBHelper(this).getReadableDatabase();
+
+        Cursor result = readableDb.rawQuery("SELECT * FROM " + ZipDBHelper.table_name, null);
+
+        if (result.getCount() == 0) {
+            SQLiteDatabase writeable = new ZipDBHelper(this).getWritableDatabase();
+            ContentValues vals = new ContentValues();
+            vals.put("zip", location);
+            writeable.insert(ZipDBHelper.table_name, null, vals);
+            writeable.close();
+        } else if (result.getCount() == 1) {
+
+            /**
+             * Read the current saved
+             * Check if it is equal to the newly entered
+             * If not, save the newly and remove the current.
+             */
+
+
+            result.moveToFirst();
+            String currentSaved = result.getString(result.getColumnIndex("zip"));
+            readableDb.close();
+
+            if (!currentSaved.equals(location)) {
+
+
+                SQLiteDatabase writeable = new ZipDBHelper(this).getWritableDatabase();
+
+                ContentValues vals = new ContentValues();
+                vals.put("zip", location);
+                writeable.update(ZipDBHelper.table_name, vals, "zip = ?", new String[]{currentSaved});
+
+                writeable.close();
+            }
+
+        }
+    }
+
+    private JSONObject getRequestOptions() {
+
+        View v = getSupportFragmentManager().findFragmentByTag( optionsFragTag ).getView();
+        ArrayList<String> selectedBreeds = ((OptionsSelectFrag)getSupportFragmentManager().findFragmentByTag( optionsFragTag )).getSelectedBreeds();
+
+        Log.i("BREEDS", "breeds " + selectedBreeds.size());
+
+        CheckBox maleGender = (CheckBox) v.findViewById(R.id.male);
+        CheckBox femaleGender = (CheckBox) v.findViewById(R.id.female);
+
+        CheckBox sizeSmall = (CheckBox) v.findViewById(R.id.sm);
+        CheckBox sizeMedium = (CheckBox) v.findViewById( R.id.md );
+        CheckBox sizeLarge = (CheckBox) v.findViewById( R.id.lg );
+        CheckBox sizeXL = (CheckBox) v.findViewById(R.id.xl);
+
+        CheckBox ageBaby = (CheckBox) v.findViewById( R.id.baby );
+        CheckBox ageYoung = (CheckBox) v.findViewById( R.id.young );
+        CheckBox ageAdult = (CheckBox) v.findViewById(R.id.adult);
+        CheckBox ageSenior = (CheckBox) v.findViewById(R.id.senior);
+
+        SwitchCompat altered = (SwitchCompat) v.findViewById( R.id.alteredSwitch );
+        altered.setTag("altered");
+        SwitchCompat noClaws = (SwitchCompat) v.findViewById( R.id.clawsSwitch );
+        noClaws.setTag( "noClaws" );
+        SwitchCompat hasShots = (SwitchCompat) v.findViewById( R.id.shotsSwitch );
+        hasShots.setTag( "hasShots" );
+        SwitchCompat houseTrained = (SwitchCompat) v.findViewById( R.id.houseSwitch );
+        houseTrained.setTag( "housebroken" );
+        SwitchCompat goodWithDogs = (SwitchCompat) v.findViewById( R.id.dogsSwitch );
+        goodWithDogs.setTag( "noDogs" );
+        SwitchCompat goodWithCats = (SwitchCompat) v.findViewById( R.id.catsSwitch );
+        goodWithCats.setTag( "noCats" );
+        SwitchCompat goodWithKids = (SwitchCompat) v.findViewById( R.id.kidsSwitch );
+        goodWithKids.setTag( "noKids" );
+        SwitchCompat specialNeeds = (SwitchCompat) v.findViewById( R.id.specialSwitch );
+        specialNeeds.setTag( "specialNeeds" );
+
+        SwitchCompat[] options = new SwitchCompat[] {altered, noClaws, hasShots, houseTrained, goodWithDogs, goodWithCats, goodWithKids, specialNeeds};
+
+        /**
+         * TODO, generate JSONArray of selected options and add to requestObject, to be handled by API
+         */
+
+        CheckBox[] genderBoxes = { maleGender, femaleGender };
+        CheckBox[] sizeBoxes = { sizeSmall, sizeMedium, sizeLarge, sizeXL };
+        CheckBox[] ageBoxes = { ageBaby, ageYoung, ageAdult, ageSenior };
+
+        JSONObject requestInfo = new JSONObject();
+
+
+        try {
+
+            JSONArray genderSelected = new JSONArray();
+            JSONArray ageSelected = new JSONArray();
+            JSONArray sizeSelected = new JSONArray();
+            JSONArray optionsSelected = new JSONArray();
+
+            for ( CheckBox box : genderBoxes ) {
+                if ( box.isChecked() ) {
+                    genderSelected.put( box.getText() );
+                }
+            }
+
+            for ( CheckBox box : sizeBoxes ) {
+                if ( box.isChecked() ) {
+                    //sizeSelected.put( box.getText() );
+
+                    switch ( box.getText().toString() ) {
+
+                        case "S"  :
+                            sizeSelected.put( "Small" );
+                            break;
+                        case "M" :
+                            sizeSelected.put( "Medium" );
+                            break;
+                        case "L" :
+                            sizeSelected.put( "Large" );
+                            break;
+
+                        case "XL" :
+                            sizeSelected.put( "Extra Large" );
+                            break;
+
+                    }
+
+                }
+            }
+
+            for ( CheckBox box : ageBoxes ) {
+                if ( box.isChecked() ) {
+                    ageSelected.put(box.getText());
+                }
+            }
+
+            for ( SwitchCompat option : options ) {
+                if ( option.isChecked() ) {
+                    optionsSelected.put( option.getTag() );
+                }
+            }
+
+            JSONArray breeds = new JSONArray( selectedBreeds.toArray() );
+
+            requestInfo.put( "location", location );
+            requestInfo.put( "type", selectedType == 1 ? "dog" : "cat" );
+            requestInfo.put( "breeds", breeds );
+            requestInfo.put( "options", optionsSelected );
+            requestInfo.put( "genders", genderSelected );
+            requestInfo.put( "sizes", sizeSelected );
+            requestInfo.put("ages", ageSelected);
+
+
+        } catch ( JSONException e ) {
+            /** Handle the exception guy */
+        }
+
+        return requestInfo;
+    }
 
     private void grabLocationZip() {
         final AlertDialog locationWaiting = new AlertDialog.Builder( this )

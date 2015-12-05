@@ -66,11 +66,7 @@ public class PetSearchDetails extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle( "Search Details" );
 
-        moreOptions = (LinearLayout) findViewById( R.id.moreOptions );
-        showOptions = (Button) findViewById( R.id.showMoreOptions );
-        scrollParent = (ScrollView) findViewById( R.id.scroller );
 
-        root = findViewById(R.id.root);
 
         animalType = getIntent().getIntExtra("type", 1);
         location = getIntent().getStringExtra( "location" );
