@@ -10,6 +10,7 @@
     <color name="colorPrimaryDark">#1C699C</color>
     <color name="colorAccent">#EF5C54</color>
     <color name="colorAccentDark">#bf4943</color>
+    <color name="colorAccentTrans">#32bf4943</color>
 
     <color name="colorWhite">#FFFFFF</color>
 

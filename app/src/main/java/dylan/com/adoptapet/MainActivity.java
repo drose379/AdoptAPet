@@ -51,11 +51,6 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SelectedTypeCallback, OptionsTagCallback {
 
-    //TODO:: Enable right-left swiping only when dog or cat is selected
-    //TODO:: Only show no claws option for cats
-    //TODO:: Make sure searching with updated zip
-    //TODO:: Override the back hardware button to scroll back to 0 frag
-
     private LocationManager locationManager;
     private EditText postalBox;
     private Button breedSelectButton;
@@ -82,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout backButton;
 
 
-    private int selectedType = -1;
+    public int selectedType = -1;
 
     private String optionsFragTag;
 
@@ -180,6 +175,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStop() {
         super.onStop();
+
+        unregisterReceiver(featuredReceiver);
+        featuredReceiver = null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        /**
+         * If at tab 1 (2), bring back to 0, if on 1, just exit app
+         */
+
+        if ( pager.getCurrentItem() == 1 ) {
+            pager.setCurrentItem( 0, true );
+        } else {
+            finish();
+        }
+
     }
 
     @Override
@@ -187,10 +199,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.selectedType = type;
 
         if ( type == 1 || type == 2 ) {
-            pager.setShouldSwipe( true );
+            pager.setShouldSwipe(true);
         } else {
-            pager.setShouldSwipe( false );
+            pager.setShouldSwipe(false);
         }
+
+        ((OptionsSelectFrag)getSupportFragmentManager().findFragmentByTag( optionsFragTag )).updateSelectedType( type );
 
     }
 
@@ -207,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             location = result.getString( result.getColumnIndex( "zip" ) );
             postalBox.setText( location );
             postalBox.clearFocus();
-            FeaturedPetController.getInstance( this ).getFeatured( location, "dog" );
+            FeaturedPetController.getInstance( this ).getFeatured(location, "dog");
         }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
@@ -388,7 +402,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                              */
 
                             pager.setCurrentItem( 1, true );
-                            showBackButton();
                         }
                         else if ( selectedType <= 9 && selectedType >= 3 ) {
 
@@ -461,6 +474,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             checkUpdateLocation( postalBox.getText().toString() );
 
                             JSONObject requestObject = getRequestOptions();
+                            try {
+                                requestObject.put("location", postalBox.getText().toString());
+                            } catch ( JSONException e ) {
+                                /** Handle exception */
+                            }
+
 
                             Intent i = new Intent( this, SearchResults.class );
                             i.putExtra( "searchItems", requestObject.toString() );
@@ -719,7 +738,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             JSONArray breeds = new JSONArray( selectedBreeds.toArray() );
 
-            requestInfo.put( "location", location );
             requestInfo.put( "type", selectedType == 1 ? "dog" : "cat" );
             requestInfo.put( "breeds", breeds );
             requestInfo.put( "options", optionsSelected );
@@ -800,10 +818,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Snackbar.make( findViewById( R.id.drawer ), getResources().getString( R.string.network_issue), Snackbar.LENGTH_SHORT ).show();
         }
 
-    }
-
-    private void showBackButton() {
-        backButton.setVisibility( View.VISIBLE );
     }
 
     private void hideBackButton() {

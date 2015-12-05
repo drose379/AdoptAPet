@@ -59,7 +59,6 @@
                 android:id="@+id/viewPager"
                 />
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -67,6 +66,7 @@
                 android:layout_alignParentBottom="true"
                 android:paddingRight="30dp"
                 android:paddingLeft="30dp"
+                android:id="@+id/bottomToolContainer"
                 >
 
                 <LinearLayout

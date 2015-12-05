@@ -37,7 +37,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     private LinearLayout moreOptions;
     private ScrollView scrollParent;
 
-    private int animalType = 0;
+    private int selectedType;
 
     @Override
     public void onAttach( Context context ) {
@@ -73,7 +73,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         showOptions.setOnClickListener(this);
 
         OptionsTagCallback viewParent = (OptionsTagCallback) getActivity();
-        viewParent.getTag( getTag() );
+        viewParent.getTag(getTag());
 
         return v;
     }
@@ -95,7 +95,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>( context,
                         R.layout.support_simple_spinner_dropdown_item );
 
-                if ( animalType == 1 ) {
+                if ( ((MainActivity)getActivity()).selectedType == 1 ) {
                     adapter.addAll( getResources().getStringArray( R.array.dog_breeds ) );
                 } else {
                     adapter.addAll( getResources().getStringArray( R.array.cat_breeds ) );
@@ -142,7 +142,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                         .setNeutralButton( "Clear", null )
                         .create();
 
-                if ( animalType == 1 ) {
+                if ( ((MainActivity)getActivity()).selectedType == 1 ) {
                     breedSelectDialog.setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.dog_breed_title, null ) );
                 } else {
                     breedSelectDialog.setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.cat_breed_title, null ) );
@@ -267,6 +267,19 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
         //if ( selectedBreeds.size() > 0 ) {breedSelectButton.setVisibility( View.GONE ); };
 
+    }
+
+    public void updateSelectedType( int type ) {
+        selectedType = type;
+        shouldShowNoClaws();
+    }
+
+    private void shouldShowNoClaws() {
+        if ( ((MainActivity) getActivity()).selectedType == 1 )
+            moreOptions.findViewById( R.id.clawsParent ).setVisibility( View.GONE );
+        else {
+            moreOptions.findViewById( R.id.clawsParent ).setVisibility( View.VISIBLE );
+        }
     }
 
     public ArrayList<String> getSelectedBreeds() {

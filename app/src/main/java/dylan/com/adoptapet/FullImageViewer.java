@@ -3,6 +3,7 @@ package dylan.com.adoptapet;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,13 +34,13 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
         ImageView backButton = (ImageView) findViewById( R.id.toolbarBackButton );
         TextView title = (TextView) findViewById( R.id.toolbarTitle );
 
-
-
+        ViewPager pager = (ViewPager) findViewById( R.id.pager );
 
         String[] images = getIntent().getStringArrayExtra("images");
         String name = getIntent().getStringExtra("name");
 
-
+        FullImagesPagerAdapter adapter = new FullImagesPagerAdapter( this, images );
+        pager.setAdapter( adapter );
 
         /**
          * TODO:: Implement image slider with ViewPager, no need to use fragments, only use views to slide, PagerAdapter will do
