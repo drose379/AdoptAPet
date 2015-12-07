@@ -14,11 +14,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -43,6 +48,9 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     private int selectedType;
 
+    private JSONArray ageSelection;
+    private JSONArray sizeSelection;
+
     @Override
     public void onAttach( Context context ) {
         super.onAttach(context);
@@ -55,6 +63,12 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
 
         selectedBreeds = new ArrayList<String>();
+
+        ageSelection = new JSONArray();
+        ageSelection.put( "Any" );
+
+        sizeSelection = new JSONArray();
+        sizeSelection.put( "Any" );
 
     }
 
@@ -80,7 +94,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         showOptions.setOnClickListener(this);
 */
 
-        ageButton.setOnClickListener( this );
+        ageButton.setOnClickListener(this);
         sizeButton.setOnClickListener(this);
 
         OptionsTagCallback viewParent = (OptionsTagCallback) getActivity();
@@ -236,10 +250,15 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
 
     private void inflateAgeDialog() {
+
+        final View dialogView = LayoutInflater.from( context ).inflate( R.layout.age_select_layout, null );
+
+        initAgeBoxListener( dialogView );
+
         if ( ageDialog == null ) {
             ageDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.age_select_title, null ) )
-                    .setView( LayoutInflater.from( context ).inflate( R.layout.age_select_layout, null ) )
+                    .setView( dialogView )
                     .setPositiveButton( "Save", null )
                     .create();
         }
@@ -257,6 +276,11 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                  * Save items
                  * Dismiss ageDialog
                  */
+
+                Log.i("CHECKED", ageSelection.toString());
+
+                ageDialog.dismiss();
+
             }
         });
 
@@ -265,10 +289,14 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     private void inflateSizeDialog() {
 
+        View dialogView = LayoutInflater.from( context ).inflate( R.layout.size_select_layout, null );
+
+        initSizeBoxListener( dialogView );
+
         if ( sizeDialog == null ) {
             sizeDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.size_title, null ) )
-                    .setView( LayoutInflater.from( context ).inflate( R.layout.size_select_layout, null ) )
+                    .setView( dialogView )
                     .setPositiveButton( "Save", null )
                     .create();
 
@@ -279,12 +307,170 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         sizeDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                /**
-                 * save, dismiss
-                 */
+                Log.i( "SIZE", sizeSelection.toString() );
+                sizeDialog.dismiss();
             }
         });
 
+    }
+
+    private void initAgeBoxListener( View dialogView  ) {
+
+        final CheckBox any = (CheckBox) dialogView.findViewById( R.id.anyAge );
+        final CheckBox baby = (CheckBox) dialogView.findViewById( R.id.babyAge );
+        final CheckBox young = (CheckBox) dialogView.findViewById( R.id.youngAge );
+        final CheckBox adult = (CheckBox) dialogView.findViewById( R.id.adultAge );
+        final CheckBox senior = (CheckBox) dialogView.findViewById( R.id.seniorAge );
+
+        CompoundButton.OnCheckedChangeListener boxListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+
+                switch( button.getText().toString() ) {
+                    case "Any" :
+
+                        /** Uncheck all others */
+                        if ( isChecked ) {
+                            baby.setChecked(false);
+                            young.setChecked(false);
+                            adult.setChecked(false);
+                            senior.setChecked(false);
+                            ageSelection.put( "Any" );
+                        } else {
+                            removeItemFromJSON( ageSelection, "Any" );
+                        }
+
+                        break;
+                    case "Baby" :
+                        if ( isChecked ) {
+                            any.setChecked(false);
+                            ageSelection.put( "Baby" );
+                        } else {
+                            removeItemFromJSON( ageSelection, "Baby" );
+                        }
+                        break;
+                    case "Young" :
+                        if ( isChecked ) {
+                            any.setChecked(false);
+                            ageSelection.put( "Young" );
+                        } else {
+                            removeItemFromJSON( ageSelection, "Young" );
+                        }
+                        break;
+                    case "Adult" :
+                        if ( isChecked ) {
+                            any.setChecked(false);
+                            ageSelection.put( "Adult" );
+                        } else {
+                            removeItemFromJSON( ageSelection, "Adult" );
+                        }
+                        break;
+                    case "Senior" :
+                        if ( isChecked ) {
+                            any.setChecked( false );
+                            ageSelection.put( "Senior" );
+                        } else {
+                            removeItemFromJSON( ageSelection, "Senior" );
+                        }
+                        break;
+                }
+            }
+        };
+
+
+        any.setOnCheckedChangeListener( boxListener );
+        baby.setOnCheckedChangeListener( boxListener );
+        young.setOnCheckedChangeListener( boxListener );
+        adult.setOnCheckedChangeListener(boxListener);
+        senior.setOnCheckedChangeListener(boxListener);
+
+    }
+
+    private void initSizeBoxListener( View dialogView ) {
+
+        final CheckBox any = (CheckBox) dialogView.findViewById( R.id.anySize );
+        final CheckBox small = (CheckBox) dialogView.findViewById( R.id.smallSize );
+        final CheckBox medium = (CheckBox) dialogView.findViewById( R.id.mediumSize );
+        final CheckBox large = (CheckBox) dialogView.findViewById( R.id.largeSize );
+        final CheckBox extraLarge = (CheckBox) dialogView.findViewById( R.id.extraLargeSize );
+
+        CompoundButton.OnCheckedChangeListener boxListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+
+                switch( button.getText().toString() ) {
+                    case "Any" :
+
+                        /** Uncheck all others */
+                        if ( isChecked ) {
+                            small.setChecked(false);
+                            medium.setChecked(false);
+                            large.setChecked(false);
+                            extraLarge.setChecked(false);
+                            sizeSelection.put( "Any" );
+                        } else {
+                            removeItemFromJSON( sizeSelection, "Any" );
+                        }
+                        break;
+                    case "Small" :
+                        if ( isChecked ) {
+                            any.setChecked(false);
+                            sizeSelection.put( "Small" );
+                        } else {
+                            removeItemFromJSON( sizeSelection, "Small" );
+                        }
+                        break;
+                    case "Medium" :
+                        if ( isChecked ) {
+                            any.setChecked(false);
+                            sizeSelection.put( "Medium" );
+                        } else {
+                            removeItemFromJSON( sizeSelection, "Medium" );
+                        }
+                        break;
+                    case "Large" :
+                        if ( isChecked ) {
+                            any.setChecked(false);
+                            sizeSelection.put( "Large" );
+                        } else {
+                            removeItemFromJSON( sizeSelection, "Large" );
+                        }
+                        break;
+                    case "Extra Large" :
+                        if ( isChecked ) {
+                            any.setChecked( false );
+                            sizeSelection.put( "Extra Large" );
+                        } else {
+                            removeItemFromJSON( sizeSelection, "Extra Large" );
+                        }
+                        break;
+                }
+            }
+        };
+
+        any.setOnCheckedChangeListener( boxListener );
+        small.setOnCheckedChangeListener( boxListener );
+        medium.setOnCheckedChangeListener( boxListener );
+        large.setOnCheckedChangeListener( boxListener );
+        extraLarge.setOnCheckedChangeListener( boxListener );
+
+
+    }
+
+    public JSONArray getAgeSelection() {
+        return ageSelection;
+    }
+
+    private void removeItemFromJSON( JSONArray array, String itemToRemove ) {
+        try {
+            for (int i = 0; i < array.length(); i++) {
+                if (array.getString(i).equals(itemToRemove)) {
+                    array.remove( i );
+                }
+            }
+        } catch ( JSONException e ) {
+            //TODO:: Handle
+        }
     }
 
 

@@ -638,113 +638,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private JSONObject getRequestOptions() {
 
-        View v = getSupportFragmentManager().findFragmentByTag( optionsFragTag ).getView();
+        JSONObject requestInfo = new JSONObject();
+
+        OptionsSelectFrag optionsFragment = (OptionsSelectFrag) getSupportFragmentManager().findFragmentByTag( optionsFragTag );
+
+        JSONArray ageSelected = optionsFragment.getAgeSelection();
+
         ArrayList<String> selectedBreeds = ((OptionsSelectFrag)getSupportFragmentManager().findFragmentByTag( optionsFragTag )).getSelectedBreeds();
 
-        Log.i("BREEDS", "breeds " + selectedBreeds.size());
-
-        CheckBox maleGender = (CheckBox) v.findViewById(R.id.male);
-        CheckBox femaleGender = (CheckBox) v.findViewById(R.id.female);
-
-        CheckBox sizeSmall = (CheckBox) v.findViewById(R.id.sm);
-        CheckBox sizeMedium = (CheckBox) v.findViewById( R.id.md );
-        CheckBox sizeLarge = (CheckBox) v.findViewById( R.id.lg );
-        CheckBox sizeXL = (CheckBox) v.findViewById(R.id.xl);
-
-        CheckBox ageBaby = (CheckBox) v.findViewById( R.id.baby );
-        CheckBox ageYoung = (CheckBox) v.findViewById( R.id.young );
-        CheckBox ageAdult = (CheckBox) v.findViewById(R.id.adult);
-        CheckBox ageSenior = (CheckBox) v.findViewById(R.id.senior);
-
-        SwitchCompat altered = (SwitchCompat) v.findViewById( R.id.alteredSwitch );
-        altered.setTag("altered");
-        SwitchCompat noClaws = (SwitchCompat) v.findViewById( R.id.clawsSwitch );
-        noClaws.setTag( "noClaws" );
-        SwitchCompat hasShots = (SwitchCompat) v.findViewById( R.id.shotsSwitch );
-        hasShots.setTag( "hasShots" );
-        SwitchCompat houseTrained = (SwitchCompat) v.findViewById( R.id.houseSwitch );
-        houseTrained.setTag( "housebroken" );
-        SwitchCompat goodWithDogs = (SwitchCompat) v.findViewById( R.id.dogsSwitch );
-        goodWithDogs.setTag( "noDogs" );
-        SwitchCompat goodWithCats = (SwitchCompat) v.findViewById( R.id.catsSwitch );
-        goodWithCats.setTag( "noCats" );
-        SwitchCompat goodWithKids = (SwitchCompat) v.findViewById( R.id.kidsSwitch );
-        goodWithKids.setTag( "noKids" );
-        SwitchCompat specialNeeds = (SwitchCompat) v.findViewById( R.id.specialSwitch );
-        specialNeeds.setTag( "specialNeeds" );
-
-        SwitchCompat[] options = new SwitchCompat[] {altered, noClaws, hasShots, houseTrained, goodWithDogs, goodWithCats, goodWithKids, specialNeeds};
-
-        /**
-         * TODO, generate JSONArray of selected options and add to requestObject, to be handled by API
-         */
-
-        CheckBox[] genderBoxes = { maleGender, femaleGender };
-        CheckBox[] sizeBoxes = { sizeSmall, sizeMedium, sizeLarge, sizeXL };
-        CheckBox[] ageBoxes = { ageBaby, ageYoung, ageAdult, ageSenior };
-
-        JSONObject requestInfo = new JSONObject();
 
 
         try {
-
-            JSONArray genderSelected = new JSONArray();
-            JSONArray ageSelected = new JSONArray();
-            JSONArray sizeSelected = new JSONArray();
-            JSONArray optionsSelected = new JSONArray();
-
-            for ( CheckBox box : genderBoxes ) {
-                if ( box.isChecked() ) {
-                    genderSelected.put( box.getText() );
-                }
-            }
-
-            for ( CheckBox box : sizeBoxes ) {
-                if ( box.isChecked() ) {
-                    //sizeSelected.put( box.getText() );
-
-                    switch ( box.getText().toString() ) {
-
-                        case "S"  :
-                            sizeSelected.put( "Small" );
-                            break;
-                        case "M" :
-                            sizeSelected.put( "Medium" );
-                            break;
-                        case "L" :
-                            sizeSelected.put( "Large" );
-                            break;
-
-                        case "XL" :
-                            sizeSelected.put( "Extra Large" );
-                            break;
-
-                    }
-
-                }
-            }
-
-            for ( CheckBox box : ageBoxes ) {
-                if ( box.isChecked() ) {
-                    ageSelected.put(box.getText());
-                }
-            }
-
-            for ( SwitchCompat option : options ) {
-                if ( option.isChecked() ) {
-                    optionsSelected.put( option.getTag() );
-                }
-            }
 
             JSONArray breeds = new JSONArray( selectedBreeds.toArray() );
 
             requestInfo.put( "type", selectedType == 1 ? "dog" : "cat" );
             requestInfo.put( "breeds", breeds );
-            requestInfo.put( "options", optionsSelected );
-            requestInfo.put( "genders", genderSelected );
-            requestInfo.put( "sizes", sizeSelected );
+           // requestInfo.put( "options", optionsSelected );
+           // requestInfo.put( "genders", genderSelected );
+           // requestInfo.put( "sizes", sizeSelected );
             requestInfo.put("ages", ageSelected);
-
 
         } catch ( JSONException e ) {
             /** Handle the exception guy */
