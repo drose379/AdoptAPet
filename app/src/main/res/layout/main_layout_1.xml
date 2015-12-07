@@ -1,8 +1,15 @@
 
 <!-- This needs to be in a SCROLLVIEW -->
 
-<RelativeLayout
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:paddingBottom="50dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+<RelativeLayout
+
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
@@ -308,3 +315,5 @@
 
 
 </RelativeLayout>
+
+</ScrollView>

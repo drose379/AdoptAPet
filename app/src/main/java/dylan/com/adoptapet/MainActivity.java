@@ -643,10 +643,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         OptionsSelectFrag optionsFragment = (OptionsSelectFrag) getSupportFragmentManager().findFragmentByTag( optionsFragTag );
 
         JSONArray ageSelected = optionsFragment.getAgeSelection();
+        JSONArray sizeSelected = optionsFragment.getSizeSelection();
+        JSONArray genderSelected = optionsFragment.getGenderSelection();
 
-        ArrayList<String> selectedBreeds = ((OptionsSelectFrag)getSupportFragmentManager().findFragmentByTag( optionsFragTag )).getSelectedBreeds();
-
-
+        ArrayList<String> selectedBreeds = optionsFragment.getSelectedBreeds();
 
         try {
 
@@ -655,8 +655,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestInfo.put( "type", selectedType == 1 ? "dog" : "cat" );
             requestInfo.put( "breeds", breeds );
            // requestInfo.put( "options", optionsSelected );
-           // requestInfo.put( "genders", genderSelected );
-           // requestInfo.put( "sizes", sizeSelected );
+            requestInfo.put( "genders", genderSelected );
+            requestInfo.put( "sizes", sizeSelected );
             requestInfo.put("ages", ageSelected);
 
         } catch ( JSONException e ) {
