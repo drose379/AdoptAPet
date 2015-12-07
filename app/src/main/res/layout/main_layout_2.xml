@@ -11,519 +11,132 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:layout_below="@id/toolbar"
-        android:id="@+id/midBox"
+        android:gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/topBox"
         >
 
-        <!-- give background to button container -->
+        <!-- 3 horizontal main buttons:
+            Age, Size, Gender
+            Button clicks will inflate dialogues
+            -->
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
-            >
-
-            <Button
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_margin="10dp"
-                android:layout_gravity="left|center_vertical"
-                android:text="Breeds"
-                android:id="@+id/breedSelectButton"
-                />
-
-            <Button
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_gravity="right|center_vertical"
-                android:layout_margin="10dp"
-                android:text="More"
-                android:id="@+id/showMoreOptions"
-                />
-
-        </LinearLayout>
-
-
-
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:paddingBottom="10dp"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:visibility="gone"
-            android:layout_below="@id/breedSelectButton"
-            android:id="@+id/selectedBreedsList"
-            />
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/midBox"
-        android:layout_marginBottom="65dp"
-        android:id="@+id/scroller"
-        >
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/midBox"
             android:orientation="vertical"
+            android:layout_margin="2dp"
+            android:background="@drawable/dog_background"
+            android:id="@+id/ageButton"
             >
-
-
-
-
-            <RelativeLayout
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:background="@drawable/option_background"
-                android:id="@+id/genderSelect"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:text="Gender: "
-                    android:id="@+id/genderLabel"
-                    />
-
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Male"
-                    android:layout_below="@id/genderLabel"
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/male"
-                    />
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Female"
-                    android:layout_below="@id/genderLabel"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/female"
-                    />
-
-            </RelativeLayout>
-
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/option_background"
-                android:gravity="center_horizontal"
-                android:layout_below="@+id/genderSelect"
-                android:id="@+id/sizeSelect"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:id="@+id/sizeLabel"
-                    android:text="Size: "
-                    />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/sizeLabel"
-                    android:padding="10dp"
-                    android:layout_alignParentLeft="true"
-                    android:text="S"
-                    android:id="@+id/sm"
-                    />
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/sizeLabel"
-                    android:padding="10dp"
-                    android:text="M"
-                    android:layout_toRightOf="@+id/sm"
-                    android:id="@+id/md"
-                    />
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/sizeLabel"
-                    android:padding="10dp"
-                    android:layout_toRightOf="@+id/md"
-                    android:text="L"
-                    android:id="@+id/lg"
-                    />
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/sizeLabel"
-                    android:padding="10dp"
-                    android:layout_toRightOf="@+id/lg"
-                    android:text="XL"
-                    android:id="@+id/xl"
-                    />
-
-            </RelativeLayout>
-
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/sizeSelect"
-                android:background="@drawable/option_background"
-                android:id="@+id/ageSelect"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:layout_alignParentTop="true"
-                    android:id="@+id/ageLabel"
-                    android:text="Age: "
-                    />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ageLabel"
-                    android:text="Baby"
-                    android:id="@+id/baby"
-                    />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ageLabel"
-                    android:layout_toRightOf="@+id/baby"
-                    android:text="Young"
-                    android:id="@+id/young"
-                    />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ageLabel"
-                    android:layout_toRightOf="@+id/young"
-                    android:text="Adult"
-                    android:id="@+id/adult"
-                    />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ageLabel"
-                    android:layout_toRightOf="@+id/adult"
-                    android:text="Senior"
-                    android:id="@+id/senior"
-                    />
-
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/ageSelect"
-                android:alpha="0"
-                android:visibility="gone"
-                android:id="@+id/moreOptions"
-                >
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="Spayed / Neutered"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/alteredSwitch"
-                        />
-
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/clawsParent"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="No Claws"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/clawsSwitch"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="Has Shots"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/shotsSwitch"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="House Trained"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/houseSwitch"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="Good With Dogs"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/dogsSwitch"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="Good With Cats"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/catsSwitch"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="Good With Kids"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/kidsSwitch"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/colorBlack"
-                        android:text="Has Special Needs"
-                        />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/specialSwitch"
-                        />
-
-                </RelativeLayout>
-
-
-
-            </LinearLayout>
-
-
-
-        </RelativeLayout>
-
-
-    </ScrollView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorBackgroundDarkerer"
-        android:layout_alignParentBottom="true"
-        android:gravity="right"
-        android:paddingRight="30dp"
-        android:id="@+id/searchButton"
-        >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/colorBlack"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="NEXT"
-                />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_right_black_24dp"
-                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_easter_cake_100"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Age"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="2dp"
+            android:background="@drawable/dog_background"
+            android:id="@+id/sizeButton"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ruler_100"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Size"
+                />
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/topBox"
+        >
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="2dp"
+            android:background="@drawable/dog_background"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_gender_symbols_100"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Gender"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="2dp"
+            android:background="@drawable/dog_background"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_dog_30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Breeds"
                 />
 
         </LinearLayout>
 
 
-
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

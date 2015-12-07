@@ -1,6 +1,7 @@
 package dylan.com.adoptapet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -37,11 +38,14 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     private LinearLayout moreOptions;
     private ScrollView scrollParent;
 
+    private AlertDialog ageDialog;
+    private AlertDialog sizeDialog;
+
     private int selectedType;
 
     @Override
     public void onAttach( Context context ) {
-        super.onAttach( context );
+        super.onAttach(context);
         this.context = context;
     }
 
@@ -59,6 +63,9 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
         View v = inflater.inflate( R.layout.main_layout_2, parent, false );
 
+        LinearLayout ageButton = (LinearLayout) v.findViewById( R.id.ageButton );
+        LinearLayout sizeButton = (LinearLayout) v.findViewById( R.id.sizeButton );
+/**
         moreOptions = (LinearLayout) v.findViewById( R.id.moreOptions );
         showOptions = (Button) v.findViewById( R.id.showMoreOptions );
         scrollParent = (ScrollView) v.findViewById( R.id.scroller );
@@ -71,16 +78,22 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
         breedSelect.setOnClickListener(this);
         showOptions.setOnClickListener(this);
+*/
+
+        ageButton.setOnClickListener( this );
+        sizeButton.setOnClickListener(this);
 
         OptionsTagCallback viewParent = (OptionsTagCallback) getActivity();
         viewParent.getTag(getTag());
+
+
 
         return v;
     }
 
     @Override
     public void onClick( View v ) {
-
+        /**
         switch( v.getId() ) {
 
             case R.id.breedSelectButton :
@@ -181,7 +194,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 /**
                  * TODO: Align the Select Breeds button to the left, and the More Options button to the the right of it
                  * Keep the more options in the same spot
-                 */
+
 
                 switch( moreOptions.getVisibility() ) {
                     case View.VISIBLE :
@@ -206,8 +219,73 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 break;
         }
 
+         */
+
+
+        switch ( v.getId() ) {
+            case R.id.ageButton :
+                inflateAgeDialog();
+                break;
+            case R.id.sizeButton :
+                inflateSizeDialog();
+                break;
+        }
+
+
     }
 
+
+    private void inflateAgeDialog() {
+        if ( ageDialog == null ) {
+            ageDialog = new AlertDialog.Builder( context )
+                    .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.age_select_title, null ) )
+                    .setView( LayoutInflater.from( context ).inflate( R.layout.age_select_layout, null ) )
+                    .setPositiveButton( "Save", null )
+                    .create();
+        }
+
+        ageDialog.show();
+
+        //TODO:: FOR ALL DIALOGS: Make sure if anything else other then Any is clicked in the dialog, to un-check "any"d
+        //TODO:: When items are selected from a certain button, change the button shadow to "selected"
+        //TODO:: Show the "More" options right below the currnet buttons
+
+        ageDialog.getButton( AlertDialog.BUTTON_POSITIVE ).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 * Save items
+                 * Dismiss ageDialog
+                 */
+            }
+        });
+
+
+    }
+
+    private void inflateSizeDialog() {
+
+        if ( sizeDialog == null ) {
+            sizeDialog = new AlertDialog.Builder( context )
+                    .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.size_title, null ) )
+                    .setView( LayoutInflater.from( context ).inflate( R.layout.size_select_layout, null ) )
+                    .setPositiveButton( "Save", null )
+                    .create();
+
+        }
+
+        sizeDialog.show();
+
+        sizeDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                /**
+                 * save, dismiss
+                 */
+            }
+        });
+
+    }
 
 
     private void addSelectedBreed( String selected, LinearLayout parent ) {
@@ -270,16 +348,20 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     }
 
     public void updateSelectedType( int type ) {
+        /**
         selectedType = type;
         shouldShowNoClaws();
+         */
     }
 
     private void shouldShowNoClaws() {
+        /**
         if ( ((MainActivity) getActivity()).selectedType == 1 )
             moreOptions.findViewById( R.id.clawsParent ).setVisibility( View.GONE );
         else {
             moreOptions.findViewById( R.id.clawsParent ).setVisibility( View.VISIBLE );
         }
+         */
     }
 
     public ArrayList<String> getSelectedBreeds() {
