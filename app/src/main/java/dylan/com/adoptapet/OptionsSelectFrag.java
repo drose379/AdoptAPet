@@ -315,7 +315,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                         if ( isChecked )
                             houseTrainedIndicator.setText( "ON" );
                         else
-                        houseTrainedIndicator.setText( "OFF" );
+                            houseTrainedIndicator.setText( "OFF" );
 
                         break;
                     case "noDogs" :
@@ -864,20 +864,19 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     }
 
     public void updateSelectedType( int type ) {
-        /**
         selectedType = type;
         shouldShowNoClaws();
-         */
     }
 
     private void shouldShowNoClaws() {
-        /**
-        if ( ((MainActivity) getActivity()).selectedType == 1 )
-            moreOptions.findViewById( R.id.clawsParent ).setVisibility( View.GONE );
-        else {
-            moreOptions.findViewById( R.id.clawsParent ).setVisibility( View.VISIBLE );
+        if ( selectedType == 1 ) {
+            getView().findViewById(R.id.clawsParent).setVisibility(View.GONE);
+            getView().findViewById(R.id.clawsIndicatorParent ).setVisibility(View.GONE);
         }
-         */
+        else {
+            getView().findViewById( R.id.clawsParent ).setVisibility( View.VISIBLE );
+            getView().findViewById( R.id.clawsIndicatorParent ).setVisibility( View.VISIBLE );
+        }
     }
 
     public ArrayList<String> getSelectedBreeds() {

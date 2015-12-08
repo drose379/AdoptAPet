@@ -34,15 +34,35 @@
                 android:fitsSystemWindows="true"
                 >
 
-                <ImageView
+                <ViewFlipper
                     android:layout_width="match_parent"
                     android:layout_height="380dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/headImageContainer"
+                    android:flipInterval="3000"
                     android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax"
-                    />
+                    android:id="@+id/imageContainer"
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="380dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/headImageOne"
+                        />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="380dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/headImageTwo"
+                        />
+
+
+                </ViewFlipper>
+
+
 
                 <android.support.v7.widget.Toolbar
                 android:layout_height="56dp"
