@@ -117,6 +117,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         return v;
     }
 
+
     @Override
     public void onClick( View v ) {
         /**
@@ -400,7 +401,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
             ageDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.age_select_title, null ) )
                     .setView( dialogView )
-                    .setPositiveButton( "Save", null )
+                    .setPositiveButton( "Close", null )
                     .create();
         }
 
@@ -432,7 +433,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
             sizeDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.size_title, null ) )
                     .setView( dialogView )
-                    .setPositiveButton( "Save", null )
+                    .setPositiveButton( "Close", null )
                     .create();
 
         }
@@ -459,7 +460,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
             genderDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.gender_title, null )  )
                     .setView( dialogView )
-                    .setPositiveButton( "Save", null )
+                    .setPositiveButton( "Close", null )
                     .create();
         }
 

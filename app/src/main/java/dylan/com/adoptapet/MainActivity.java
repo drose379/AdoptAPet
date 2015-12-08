@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String optionsFragTag;
 
 
-
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
@@ -94,7 +94,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager = (MainViewPager) findViewById( R.id.viewPager );
         pager.setAdapter(adapter);
 
+        pager.setOnPageChangeListener( new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected( int page ) {
+                if ( page == 1 ) {
+                    showBackButton();
+                } else {
+                    hideBackButton();
+                }
+            }
+            @Override
+            public void onPageScrolled( int position, float posOffset, int posOffPixels ) {}
+            @Override
+            public void onPageScrollStateChanged( int state ) {}
 
+        });
 
         ImageView locationIcon = (ImageView) findViewById(R.id.locationIcon);
         postalBox = (EditText) findViewById(R.id.postalBox);
@@ -403,9 +417,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                              * Slide over
                              */
 
-                            pager.setCurrentItem( 1, true );
-                            backButton.setVisibility( View.VISIBLE );
-
+                            pager.setCurrentItem(1, true);
 
                         }
                         else if ( selectedType <= 9 && selectedType >= 3 ) {
@@ -746,6 +758,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hideBackButton() {
         backButton.setVisibility( View.GONE );
     }
+    private void showBackButton() {backButton.setVisibility( View.VISIBLE ); }
 
 
 
