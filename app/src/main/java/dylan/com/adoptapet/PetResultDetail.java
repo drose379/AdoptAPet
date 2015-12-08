@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -44,9 +45,10 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
     private PetResult currentPet;
     private View rootView;
 
-    private ImageView favoriteButton;
 
-    private ViewFlipper imageContainer;
+    private ImageView headImage;
+
+    //private ViewFlipper imageContainer;
 
     private MenuItem favoriteMenuItem;
 
@@ -66,8 +68,14 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
-        getSupportActionBar().setTitle(currentPet.getName() + "\'s details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle( currentPet.getName() );
+
+        CollapsingToolbarLayout collapseToolbar = (CollapsingToolbarLayout) findViewById( R.id.collapsing );
+        collapseToolbar.setExpandedTitleColor( getResources().getColor( R.color.colorWhite ) );
+
+        headImage = (ImageView) findViewById( R.id.headImageContainer );
+        headImage.setOnClickListener( this );
 
         rootView = findViewById( R.id.root );
 
@@ -221,12 +229,12 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         //TODO:: Add a contact FAB to bottom right that inflates a AlertDialog with options: Email, Phone, Visit website, ( all if items supplied by API )
 
-        LinearLayout topBackdrop = (LinearLayout) findViewById( R.id.topView );
-        CircleImageView imageOne = (CircleImageView) findViewById( R.id.petHeadImageOne );
-        CircleImageView imageTwo = (CircleImageView) findViewById( R.id.petHeadImageTwo );
+        //LinearLayout topBackdrop = (LinearLayout) findViewById( R.id.topView );
+        //CircleImageView imageOne = (CircleImageView) findViewById( R.id.petHeadImageOne );
+        //CircleImageView imageTwo = (CircleImageView) findViewById( R.id.petHeadImageTwo );
         ImageView animalType = (ImageView) findViewById( R.id.animalTypeIcon );
-        TextView noPhotoText = (TextView) findViewById( R.id.noPhotoText );
-        TextView nameText = (TextView) findViewById( R.id.nameText );
+        //TextView noPhotoText = (TextView) findViewById( R.id.noPhotoText );
+        //TextView nameText = (TextView) findViewById( R.id.nameText );
         TextView breedText = (TextView) findViewById( R.id.breedText );
         TextView ageText = (TextView) findViewById( R.id.ageText );
         TextView sizeText = (TextView) findViewById( R.id.sizeText );
@@ -239,10 +247,16 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         ImageView navButton = (ImageView) findViewById( R.id.navButton );
         ImageView mailIcon = (ImageView) findViewById( R.id.emailIcon );
 
-        imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
+        //imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
 
-        RequestCreator imageOneLoad = Picasso.with( this ).load(currentPet.getBestPhoto(1));
-        RequestCreator imageTwoLoad = Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) );
+        //RequestCreator imageOneLoad = Picasso.with( this ).load(currentPet.getBestPhoto(1));
+        //RequestCreator imageTwoLoad = Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) );
+
+        /**TESTING*/
+
+        ImageView headImage = (ImageView) findViewById( R.id.headImageContainer );
+
+        Picasso.with( this ).load( currentPet.getBestPhoto( 1 ) ).into(headImage);
 
         phoneButton.setOnClickListener(this);
         phoneNumber.setOnClickListener( this );
@@ -250,33 +264,33 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         location.setOnClickListener( this );
         mailIcon.setOnClickListener( this );
         email.setOnClickListener(this);
-        imageContainer.setOnClickListener(this);
+        //imageContainer.setOnClickListener(this);
 
         switch ( currentPet.getSex() ) {
             case "Male" :
-                topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorMaleCard) );
-                imageOne.setBorderColorResource(R.color.colorMaleCard);
-                imageTwo.setBorderColorResource( R.color.colorMaleCard );
-                noPhotoText.setTextColor(getResources().getColor(R.color.colorMale));
+                //topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorMaleCard) );
+                //imageOne.setBorderColorResource(R.color.colorMaleCard);
+                //mageTwo.setBorderColorResource( R.color.colorMaleCard );
+                //noPhotoText.setTextColor(getResources().getColor(R.color.colorMale));
 
-                imageOneLoad.placeholder(R.drawable.ic_load_2_male);
-                imageTwoLoad.placeholder( R.drawable.ic_load_2_male );
+                //imageOneLoad.placeholder(R.drawable.ic_load_2_male);
+                //imageTwoLoad.placeholder( R.drawable.ic_load_2_male );
 
                 break;
             case "Female" :
-                topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorFemaleCard) );
-                imageOne.setBorderColorResource( R.color.colorFemaleCard );
-                imageTwo.setBorderColorResource(R.color.colorFemaleCard);
-                noPhotoText.setTextColor(getResources().getColor(R.color.colorFemale));
+                //topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorFemaleCard) );
+                //imageOne.setBorderColorResource( R.color.colorFemaleCard );
+                //imageTwo.setBorderColorResource(R.color.colorFemaleCard);
+               // noPhotoText.setTextColor(getResources().getColor(R.color.colorFemale));
 
-                imageOneLoad.placeholder(R.drawable.ic_load_2_female);
-                imageTwoLoad.placeholder(R.drawable.ic_load_2_female);
+                //imageOneLoad.placeholder(R.drawable.ic_load_2_female);
+                //imageTwoLoad.placeholder(R.drawable.ic_load_2_female);
 
                 break;
         }
 
-        imageOneLoad.into( imageOne );
-        imageTwoLoad.into( imageTwo );
+        //imageOneLoad.into( imageOne );
+        //imageTwoLoad.into( imageTwo );
 
         Log.i("Type", currentPet.getType());
 
@@ -312,12 +326,12 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        imageContainer.setInAnimation( this, android.R.anim.fade_in );
-        imageContainer.setOutAnimation( this, android.R.anim.fade_out );
+//        imageContainer.setInAnimation( this, android.R.anim.fade_in );
+//        imageContainer.setOutAnimation( this, android.R.anim.fade_out );
 
-        imageOne.setBorderWidth( 15 );
-        imageTwo.setBorderWidth(15);
-        nameText.setText( currentPet.getName() );
+        //imageOne.setBorderWidth( 15 );
+        //imageTwo.setBorderWidth(15);
+        //nameText.setText( currentPet.getName() );
 
         String breeds = "";
         for( String breed : currentPet.getBreeds() ) {
@@ -335,11 +349,12 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         email.setText( currentPet.getEmail() );
 
         if ( currentPet.getBestPhoto( 2 ) != null ) {
-            imageContainer.startFlipping();
+            //imageContainer.startFlipping();
         }
         else if ( currentPet.getBestPhoto( 1 ) == null && currentPet.getBestPhoto( 2 ) == null ) {
-            imageContainer.setVisibility( View.GONE );
-            noPhotoText.setVisibility( View.VISIBLE );
+            //imageContainer.setVisibility( View.GONE );
+            //
+            //noPhotoText.setVisibility( View.VISIBLE );
         }
 
     }
@@ -410,15 +425,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
-            case R.id.imageContainer :
+            case R.id.headImageContainer :
 
-                ImageView currentImage = (ImageView) imageContainer.getCurrentView();
+                //ImageView currentImage = (ImageView) headImage.getCurrentView();
 
                 /**
                  * Show the image clicked in a larger view
                  */
-
-                if ( currentImage != null ) {
 
                     /** Create string array of image(s), even if there is only 1 */
 
@@ -440,8 +453,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                     fullImageView.putExtra( "images", imageUrls );
                     fullImageView.putExtra( "name", currentPet.getName() );
                     startActivity(fullImageView);
-
-                }
 
                 break;
 

@@ -404,6 +404,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                              */
 
                             pager.setCurrentItem( 1, true );
+                            backButton.setVisibility( View.VISIBLE );
+
+
                         }
                         else if ( selectedType <= 9 && selectedType >= 3 ) {
 

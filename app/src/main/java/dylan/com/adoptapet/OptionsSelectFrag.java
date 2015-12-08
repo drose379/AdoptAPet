@@ -268,6 +268,15 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     private void initSwitchListener( View rootView ) {
 
+        final TextView alteredIndicator = (TextView) rootView.findViewById( R.id.alteredIndicator );
+        final TextView clawsIndicator = (TextView) rootView.findViewById( R.id.clawsIndicator );
+        final TextView shotsIndicator = (TextView) rootView.findViewById( R.id.shotsIndicator );
+        final TextView houseTrainedIndicator = (TextView) rootView.findViewById( R.id.trainedIndicator );
+        final TextView dogsIndicator = (TextView) rootView.findViewById( R.id.dogsIndicator );
+        final TextView catsIndicator = (TextView) rootView.findViewById( R.id.catsIndicator );
+        final TextView kidsIndicator = (TextView) rootView.findViewById( R.id.kidsIndicator );
+        final TextView specialIndicator = (TextView) rootView.findViewById( R.id.specialIndicator );
+
         CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged( CompoundButton button, boolean isChecked ) {
@@ -277,21 +286,75 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 switch ( selected ) {
 
                     case "altered" :
-                    case "noClaws" :
-                    case "hasShots" :
-                    case "housebroken" :
-                    case "noDogs" :
-                    case "noCats" :
-                    case "noKids" :
-                    case "specialNeeds" :
 
-                        if ( isChecked ) {
-                            optionsSelection.put( selected );
-                        } else {
-                            removeItemFromJSON( optionsSelection, selected );
-                        }
+                        if ( isChecked )
+                            alteredIndicator.setText( "ON" );
+                        else
+                            alteredIndicator.setText( "OFF" );
 
                         break;
+                    case "noClaws" :
+
+                        if ( isChecked )
+                            clawsIndicator.setText( "ON" );
+                        else
+                            clawsIndicator.setText( "OFF" );
+
+                        break;
+                    case "hasShots" :
+
+                        if ( isChecked )
+                            shotsIndicator.setText( "ON" );
+                        else
+                            shotsIndicator.setText( "OFF" );
+
+                        break;
+                    case "housebroken" :
+
+                        if ( isChecked )
+                            houseTrainedIndicator.setText( "ON" );
+                        else
+                        houseTrainedIndicator.setText( "OFF" );
+
+                        break;
+                    case "noDogs" :
+
+                        if ( isChecked )
+                            dogsIndicator.setText( "ON" );
+                        else
+                        dogsIndicator.setText( "OFF" );
+
+                        break;
+                    case "noCats" :
+
+                        if ( isChecked )
+                            catsIndicator.setText( "ON" );
+                        else
+                        catsIndicator.setText( "OFF" );
+
+                        break;
+                    case "noKids" :
+
+                        if ( isChecked )
+                         kidsIndicator.setText( "ON" );
+                        else
+                            kidsIndicator.setText( "OFF" );
+
+                        break;
+                    case "specialNeeds" :
+
+                        if ( isChecked )
+                            specialIndicator.setText( "ON" );
+                        else
+                            specialIndicator.setText( "OFF" );
+
+                        break;
+                }
+
+                if ( isChecked ) {
+                    optionsSelection.put( selected );
+                } else {
+                    removeItemFromJSON( optionsSelection, selected );
                 }
 
             }

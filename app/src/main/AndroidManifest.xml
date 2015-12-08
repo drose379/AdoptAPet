@@ -21,9 +21,7 @@
 
         <activity android:name=".SearchResults" android:screenOrientation="portrait" />
 
-        <activity android:name=".PetResultDetail" android:screenOrientation="portrait" />
-
-        <activity android:name=".PetSearchDetails" android:screenOrientation="portrait" />
+        <activity android:name=".PetResultDetail" android:screenOrientation="portrait" android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".FavoritesList" android:screenOrientation="portrait" />
         <activity android:name=".ShelterList" android:screenOrientation="portrait" />

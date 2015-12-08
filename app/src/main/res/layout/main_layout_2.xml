@@ -16,7 +16,7 @@
     >
 
     <RelativeLayout
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:layout_centerHorizontal="true"
@@ -25,7 +25,7 @@
         >
 
         <LinearLayout
-            android:layout_width="99dp"
+            android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_alignParentLeft="true"
@@ -53,7 +53,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="99dp"
+            android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_alignParentRight="true"
@@ -82,8 +82,9 @@
 
         </RelativeLayout>
 
+
     <RelativeLayout
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:layout_centerHorizontal="true"
@@ -93,7 +94,7 @@
 
 
         <LinearLayout
-            android:layout_width="99dp"
+            android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_alignParentLeft="true"
@@ -121,7 +122,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="99dp"
+            android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:orientation="vertical"
@@ -152,18 +153,24 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/secondRow"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        >
+
+    <LinearLayout
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/secondRow"
         android:id="@+id/moreOptions"
         >
 
-
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -175,22 +182,22 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/colorBlack"
                 android:text="Spayed / Neutered"
+                android:id="@+id/alteredTitle"
                 />
 
             <android.support.v7.widget.SwitchCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/alteredTitle"
                 android:id="@+id/alteredSwitch"
                 />
-
-
         </RelativeLayout>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             android:id="@+id/clawsParent"
@@ -216,7 +223,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -241,7 +248,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -266,7 +273,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -291,7 +298,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -316,7 +323,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -341,7 +348,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
             android:orientation="horizontal"
             >
@@ -364,9 +371,171 @@
 
         </RelativeLayout>
 
+    </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/moreOptions"
+        android:layout_below="@id/secondRow"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/alteredIndicator"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/clawsIndicator"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/shotsIndicator"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/trainedIndicator"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/dogsIndicator"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/catsIndicator"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/kidsIndicator"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:text="OFF"
+                android:id="@+id/specialIndicator"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
+    </LinearLayout>
+
 
 
 </RelativeLayout>
