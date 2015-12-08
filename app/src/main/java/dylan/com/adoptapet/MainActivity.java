@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
 
 
+        Log.i("DPI", "DPI: " + getResources().getDisplayMetrics().densityDpi);
+
     }
 
     @Override
@@ -645,8 +647,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         JSONArray ageSelected = optionsFragment.getAgeSelection();
         JSONArray sizeSelected = optionsFragment.getSizeSelection();
         JSONArray genderSelected = optionsFragment.getGenderSelection();
+        JSONArray optionsSelected = optionsFragment.getOptionsSelection();
 
         ArrayList<String> selectedBreeds = optionsFragment.getSelectedBreeds();
+
+        /**
+         * Need to modify options, some dont make sense when off, doesnt mean what users think
+         */
 
         try {
 
@@ -654,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             requestInfo.put( "type", selectedType == 1 ? "dog" : "cat" );
             requestInfo.put( "breeds", breeds );
-           // requestInfo.put( "options", optionsSelected );
+            requestInfo.put( "options", optionsSelected );
             requestInfo.put( "genders", genderSelected );
             requestInfo.put( "sizes", sizeSelected );
             requestInfo.put("ages", ageSelected);

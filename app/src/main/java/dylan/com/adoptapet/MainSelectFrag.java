@@ -17,6 +17,8 @@ import java.util.ArrayList;
  */
 public class MainSelectFrag extends Fragment implements View.OnClickListener {
 
+    //TODO:: Stretch the dog and cat backdrop to have same margin (2dp) of all smaller buttons
+
     private Context context;
 
     private ImageView dogSelect;

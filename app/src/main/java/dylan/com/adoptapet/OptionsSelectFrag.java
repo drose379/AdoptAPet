@@ -33,6 +33,8 @@ import java.util.ArrayList;
  */
 public class OptionsSelectFrag extends Fragment implements View.OnClickListener {
 
+    //TODO:: Add an ON / OFF indicator to right of the switches in Options, when notChecked, OFF, when checked, change to ON, make bold and to right of switch
+
     private Context context;
     private ArrayList<String> selectedBreeds;
 
@@ -702,27 +704,21 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     public JSONArray getAgeSelection() {
 
-        if ( ageSelection.length() == 0 ) {
-            ageSelection.put( "Any" );
-        }
+        removeItemFromJSON( ageSelection, "Any" );
 
         return ageSelection;
     }
 
     public JSONArray getSizeSelection() {
 
-        if ( sizeSelection.length() == 0 ) {
-            sizeSelection.put( "Any" );
-        }
+        removeItemFromJSON( sizeSelection, "Any" );
 
         return sizeSelection;
     }
 
     public JSONArray getGenderSelection() {
 
-        if ( genderSelection.length() == 0 ) {
-            genderSelection.put( "Any" );
-        }
+        removeItemFromJSON( genderSelection, "Any" );
 
         return genderSelection;
     }
@@ -732,6 +728,9 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     }
 
     public JSONArray getOptionsSelection() {
+
+        //TODO:: Main must work with the options
+
         return optionsSelection;
     }
 

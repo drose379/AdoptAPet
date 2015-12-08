@@ -15,26 +15,20 @@
     android:id="@+id/root"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:id="@+id/topBox"
         >
 
-        <!-- 3 horizontal main buttons:
-            Age, Size, Gender
-            Button clicks will inflate dialogues
-            -->
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="2dp"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/dog_background"
             android:id="@+id/ageButton"
             >
@@ -43,12 +37,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_easter_cake_100"
+                android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/colorBlack"
                 android:layout_gravity="center_horizontal"
                 android:text="Age"
                 />
@@ -56,10 +53,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="2dp"
+            android:layout_alignParentRight="true"
             android:background="@drawable/dog_background"
             android:id="@+id/sizeButton"
             >
@@ -68,36 +65,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_ruler_100"
+                android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/colorBlack"
                 android:layout_gravity="center_horizontal"
                 android:text="Size"
                 />
 
         </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/topBox"
         android:id="@+id/secondRow"
         >
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="2dp"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/dog_background"
             android:id="@+id/genderSelect"
             >
@@ -106,12 +105,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_gender_symbols_100"
+                android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/colorBlack"
                 android:layout_gravity="center_horizontal"
                 android:text="Gender"
                 />
@@ -119,10 +121,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:orientation="vertical"
-            android:layout_margin="2dp"
             android:background="@drawable/dog_background"
             android:id="@+id/breedSelect"
             >
@@ -131,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_dog_30dp"
+                android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 />
 
@@ -138,13 +141,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:textSize="11sp"
+                android:textColor="@color/colorBlack"
                 android:text="Breeds"
                 />
 
         </LinearLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="200dp"
