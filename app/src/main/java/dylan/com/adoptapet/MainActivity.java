@@ -472,6 +472,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 /**
                                  * No location provided, show snackbar
                                  */
+
+                                Log.i("NO_LOC", "NO_LOC_PROVIDED");
+
                                 Snackbar.make( findViewById( R.id.root ), "Please Provide Location", Snackbar.LENGTH_SHORT ).show();
                             }
                         } else {
@@ -504,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                         } else {
-                            Snackbar.make( findViewById( R.id.root ), "Please Provide a Location", Snackbar.LENGTH_SHORT );
+                            Snackbar.make( findViewById( R.id.root ), "Please Provide a Location", Snackbar.LENGTH_SHORT ).show();
                         }
 
 

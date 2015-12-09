@@ -34,6 +34,7 @@ import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,7 +70,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle( currentPet.getName() );
+        getSupportActionBar().setTitle(currentPet.getName());
 
         CollapsingToolbarLayout collapseToolbar = (CollapsingToolbarLayout) findViewById( R.id.collapsing );
         collapseToolbar.setExpandedTitleColor( getResources().getColor( R.color.colorWhite ) );
@@ -225,7 +226,16 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         return super.onOptionsItemSelected( item );
     }
 
-    public void initDetailLayout() {
+    private String getStockPhotoUrl() {
+
+        Random r = new Random();
+
+        String[] urls = { "http://i.imgur.com/d9ElJs5.jpg", "http://i.imgur.com/cPMD0bn.jpg", "http://i.imgur.com/HZX11Fz.jpg" };
+
+        return urls[r.nextInt( 3 )];
+    }
+
+    private void initDetailLayout() {
 
         //TODO:: Add a contact FAB to bottom right that inflates a AlertDialog with options: Email, Phone, Visit website, ( all if items supplied by API )
 
@@ -311,7 +321,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_alligator_xs ) );
                 break;
             case "Small & Furry" :
-                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_animation_xs ) );
+                animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_mouse_sm ) );
                 break;
             case "Pig" :
                 animalType.setImageDrawable( getResources().getDrawable( R.drawable.ic_pig_xs ) );
@@ -327,7 +337,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
 
         imageContainer.setInAnimation( this, android.R.anim.fade_in );
-        imageContainer.setOutAnimation( this, android.R.anim.fade_out );
+        imageContainer.setOutAnimation(this, android.R.anim.fade_out);
 
         //imageOne.setBorderWidth( 15 );
         //imageTwo.setBorderWidth(15);
@@ -352,9 +362,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             imageContainer.startFlipping();
         }
         else if ( currentPet.getBestPhoto( 1 ) == null && currentPet.getBestPhoto( 2 ) == null ) {
-            //imageContainer.setVisibility( View.GONE );
-            //
-            //noPhotoText.setVisibility( View.VISIBLE );
+            Picasso.with( this ).load( getStockPhotoUrl() ).fit().into( imageOne );
         }
 
     }

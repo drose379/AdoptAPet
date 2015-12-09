@@ -9,14 +9,13 @@
     <color name="colorPrimary">#4E7AC7</color>
     <color name="colorPrimaryDark">#4257AD</color>
 
-    <color name="colorAccent">#A4BF0B</color>
-    <color name="colorAccentDark">#657312</color>
-
     <!--
-    <color name="colorAccent">#EF5C54</color>
-    <color name="colorAccentDark">#bf4943</color>
-    <color name="colorAccentTrans">#32bf4943</color>
+    <color name="colorAccent">#437E91</color>
+    <color name="colorAccentDark">#134B5D</color>
     -->
+
+    <color name="colorAccent">#55B193</color>
+    <color name="colorAccentDark">#0A9A6B</color>
 
     <color name="colorWhite">#FFFFFF</color>
 

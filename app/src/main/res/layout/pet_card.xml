@@ -83,21 +83,21 @@
                 android:layout_height="wrap_content"
                 android:flipInterval="2500"
                 android:layout_below="@id/backdrop"
-                android:layout_marginTop="-85dp"
+                android:layout_marginTop="-100dp"
                 android:id="@+id/imageContainer"
                 >
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center_horizontal"
                     android:elevation="2dp"
                     android:id="@+id/petHeadImage"
                     />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:elevation="2dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/petHeadImageTwo"
