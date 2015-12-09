@@ -79,7 +79,6 @@ public class FeaturedPetController implements APIHelper.Callback {
             }
 
             Intent featuredBroadcast = new Intent(GET_FEATURED);
-            featuredBroadcast.putExtra("featured", featuredItems);
             context.sendBroadcast(featuredBroadcast);
         } else {
             /**

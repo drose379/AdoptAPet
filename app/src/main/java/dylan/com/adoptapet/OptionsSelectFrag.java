@@ -524,7 +524,13 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         breedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int item, long id) {
-                String selected = getResources().getStringArray(R.array.dog_breeds)[item];
+
+                String selected = "";
+
+                if ( selectedType == 1 )
+                    selected = getResources().getStringArray(R.array.dog_breeds)[item];
+                else
+                    selected = getResources().getStringArray( R.array.cat_breeds )[item];
                 addSelectedBreed(selected, selectedBreeds);
             }
         });
