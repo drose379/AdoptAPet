@@ -27,6 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -65,6 +69,9 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             currentPet = (PetResult) getIntent().getSerializableExtra("pet");
         else
             finish();
+
+        FacebookSdk.sdkInitialize( this );
+
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
 
@@ -163,7 +170,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 AlertDialog shareDialog = new AlertDialog.Builder( this )
                         .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.share_title, null ) )
-                        .setItems(new CharSequence[]{"Text Message", "E-Mail", "Copy URL To Clipboard"}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{"Facebook","Text Message", "E-Mail", "Copy URL To Clipboard"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick( DialogInterface dialog, int which ) {
 
@@ -174,19 +181,28 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                                 switch (which) {
                                     case 0:
+                                        ShareLinkContent content = new ShareLinkContent.Builder()
+                                                .setContentDescription( generateFacebookDescription() )
+                                                .setContentTitle( "Take a Look At " + currentPet.getName() + "!" )
+                                                .setContentUrl( Uri.parse( "https://www.petfinder.com/petdetail/" + currentPet.getId() ) )
+                                                .build();
+
+                                        ShareDialog.show( PetResultDetail.this, content );
+                                        break;
+                                    case 1:
                                         Intent sms = new Intent( Intent.ACTION_SENDTO );
                                         sms.setData( Uri.parse( "smsto:" ) );
                                         sms.putExtra( "sms_body", message ); //edit the message with the correct link with getId()
                                         sms.putExtra( "exit_on_sent", true ); //test
                                         startActivity( sms );
                                         break;
-                                    case 1:
+                                    case 2:
                                         Intent mail = new Intent( Intent.ACTION_SENDTO );
                                         mail.setData( Uri.parse( "mailto:" ) );
                                         mail.putExtra( Intent.EXTRA_TEXT, message);
                                         startActivity( mail );
                                         break;
-                                    case 2:
+                                    case 3:
                                         ClipboardManager clipboard = (ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
                                         ClipData clipData = ClipData.newPlainText( "Pet", url );
                                         clipboard.setPrimaryClip( clipData );
@@ -486,7 +502,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public void addToFavorites() {
+    private void addToFavorites() {
         ContentValues vals = new ContentValues();
         vals.put( FavoritesDBHelper.type_col, currentPet.getType() );
         vals.put( FavoritesDBHelper.id_col, currentPet.getId() );
@@ -509,10 +525,62 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         writeable.close();
     }
 
-    public void removeFromFavorites() {
+    private void removeFromFavorites() {
         SQLiteDatabase writeable = new FavoritesDBHelper( this ).getWritableDatabase();
         writeable.delete( FavoritesDBHelper.table_name, "id = ?", new String[] { currentPet.getId() } );
         writeable.close();
+    }
+
+    private String generateFacebookDescription() {
+
+        String description = "";
+
+        if ( currentPet.getType().equals( "Dog" ) || currentPet.getType().equals( "Cat" ) ) {
+
+            String genderPronoun = "";
+
+            description += currentPet.getName() + " ";
+
+            switch ( currentPet.getSex() ) {
+                case "Male" :
+                    genderPronoun = "him";
+                    break;
+                case "Female" :
+                    genderPronoun = "her";
+                    break;
+            }
+
+            description += "is a " + currentPet.getBreed() + " ";
+            description += "located at " + currentPet.getLocationInfo() + ". ";
+            description += "I found " + genderPronoun + " on All But Home, a pet adoption app for Android!";
+
+        } else {
+
+            /** No need to get breed */
+
+            String genderPronoun = "";
+
+            description += currentPet.getName() + " ";
+
+            switch( currentPet.getSex() ) {
+                case "Male":
+                    genderPronoun = "him";
+                    break;
+                case "Female":
+                    genderPronoun = "her";
+                    break;
+                default:
+                    genderPronoun = "it";
+                    break;
+            }
+
+            description += "is a " + currentPet.getType() + " ";
+            description += "located at " + currentPet.getLocationInfo() + ". ";
+            description += "I found " + genderPronoun + " on All But Home, a pet adoption app for Android";
+
+        }
+
+        return description;
     }
 
 }

@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import fr.ganfra.materialspinner.MaterialSpinner;
-
 /**
  * Created by dylan on 11/25/15.
  */

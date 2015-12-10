@@ -38,6 +38,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.facebook.appevents.AppEventsLogger;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPause() {
         super.onPause();
-        Log.i("PARENT", "ONPAUSE CALLED");
+        AppEventsLogger.activateApp( this );
     }
 
     @Override
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onResume() {
 
+        AppEventsLogger.activateApp(this);
 
         super.onResume();
 

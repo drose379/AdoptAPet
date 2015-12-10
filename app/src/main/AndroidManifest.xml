@@ -28,6 +28,21 @@
         <activity android:name=".ShelterAnimalResults" android:screenOrientation="portrait"/>
         <activity android:name=".FullImageViewer" android:theme="@style/AppTheme.Black" android:screenOrientation="portrait" />
         <activity android:name=".AboutActivity" android:screenOrientation="portrait" />
+
+        <!-- FACEBOOK ITEMS -->
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+        
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider1047911195271672"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <!-- END FACEBOOK ITEMS -->
+
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

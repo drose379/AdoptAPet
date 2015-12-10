@@ -14,6 +14,8 @@
     <string name="open_drawer">Open Navigation Drawer</string>
     <string name="close_drawer">Close Navigation Drawer</string>
 
+    <string name="facebook_app_id">1047911195271672</string>
+
     <string name="icons8_description">All colored icons you see used throughout this app were created by Icons8, you can find these awesome icons at www.icons8.com</string>
     <string name="petfinder_description">All animal data you see in this application comes from the PetFinder database, PetFinder is home of about 296,000 adoptable pets!</string>
     <string name="aboutme_description">This application has been proudly developed by Dylan Rose. I have worked hard to try and make this application offer you
