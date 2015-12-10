@@ -126,37 +126,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 if ( result.getCount() == 0 ) {
 
-                    AlertDialog confirmFavorite = new AlertDialog.Builder( this )
-                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.favorite_title, null ) )
-                            .setMessage( "Would you like to add " + currentPet.getName() + " to your favorites?" )
-                            .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    addToFavorites();
-                                    initFavoriteStatus();
-                                }
-                            })
-                            .setNegativeButton( "Cancel", null )
-                            .create();
-
-                    confirmFavorite.show();
+                    addToFavorites();
+                    initFavoriteStatus();
 
                 } else {
 
-                    AlertDialog confirmUnfavorite = new AlertDialog.Builder( this )
-                            .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.unfavorite_title ,null ) )
-                            .setMessage( "Would you like to remove " + currentPet.getName() + " from your favorites?" )
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removeFromFavorites();
-                                    initFavoriteStatus();
-                                }
-                            })
-                            .setNegativeButton( "No", null )
-                            .create();
-
-                    confirmUnfavorite.show();
+                    removeFromFavorites();
+                    initFavoriteStatus();
 
                 }
 
