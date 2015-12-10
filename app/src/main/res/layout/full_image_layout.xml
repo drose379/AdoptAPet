@@ -3,10 +3,11 @@
     android:orientation="vertical"
     android:background="@color/colorBlack"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/root"
+    >
 
-    <include layout="@layout/toolbar_fullimage" android:id="@+id/toolbar" />
-
+    <include layout="@layout/toolbar_blank" android:id="@+id/toolbar" />
 
 
     <dylan.com.adoptapet.FullImageViewPager
