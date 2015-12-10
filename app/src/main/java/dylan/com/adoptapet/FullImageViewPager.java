@@ -27,6 +27,8 @@ public class FullImageViewPager extends ViewPager {
             }
         });
 
+
+
     }
 
     public void setCallback( CurrentItemCallback callback ) {

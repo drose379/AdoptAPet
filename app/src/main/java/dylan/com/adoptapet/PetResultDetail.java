@@ -28,19 +28,15 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.facebook.FacebookSdk;
-import com.facebook.share.model.ShareContent;
+
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
-import org.json.JSONArray;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by dylan on 11/8/15.
@@ -104,8 +100,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         }
 
         favoriteMenuItem = menu.getItem( 0 );
-
-        Log.i("MORE_BUTTON", menu.getItem( 2 ).getTitle().toString() );
 
         readable.close();
 
@@ -222,9 +216,15 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         Random r = new Random();
 
-        String[] urls = { "http://i.imgur.com/d9ElJs5.jpg", "http://i.imgur.com/cPMD0bn.jpg", "http://i.imgur.com/HZX11Fz.jpg" };
+        String[] urls = {
+                "http://i.imgur.com/d9ElJs5.jpg",
+                "http://i.imgur.com/cPMD0bn.jpg",
+                "http://i.imgur.com/HZX11Fz.jpg",
+                "http://i.imgur.com/Fy8sAN4.jpg",
+                "http://i.imgur.com/YD0CBNJ.jpg"
+        };
 
-        return urls[r.nextInt( 3 )];
+        return urls[r.nextInt( 5 )];
     }
 
     private void initDetailLayout() {
@@ -283,7 +283,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 //topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorFemaleCard) );
                 //imageOne.setBorderColorResource( R.color.colorFemaleCard );
                 //imageTwo.setBorderColorResource(R.color.colorFemaleCard);
-               // noPhotoText.setTextColor(getResources().getColor(R.color.colorFemale));
+                // noPhotoText.setTextColor(getResources().getColor(R.color.colorFemale));
 
                 imageOneLoad.placeholder(R.color.colorAccentDark);
                 imageTwoLoad.placeholder(R.color.colorAccentDark);
@@ -413,46 +413,31 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
-            case R.id.shareButton :
-
-
-
-                break;
-
-            case R.id.favoriteButton :
-
-
-
-                break;
-
             case R.id.imageContainer :
 
-                //ImageView currentImage = (ImageView) headImage.getCurrentView();
+                /** Create string array of image(s), even if there is only 1 */
 
-                /**
-                 * Show the image clicked in a larger view
-                 */
+                String[] imageUrls;
+                ArrayList<String> temp = new ArrayList<String>();
 
-                    /** Create string array of image(s), even if there is only 1 */
+                if ( currentPet.getBestPhoto( 1 ) != null ) {
+                    temp.add( currentPet.getBestPhoto( 1 ) );
+                }
+                if ( currentPet.getBestPhoto( 2 ) != null ) {
+                    temp.add( currentPet.getBestPhoto( 2 ) );
+                }
+                if ( currentPet.getBestPhoto( 3 ) != null ) {
+                    temp.add( currentPet.getBestPhoto( 3 ) );
+                }
 
-                    String[] imageUrls;
-                    ArrayList<String> temp = new ArrayList<String>();
-
-                    if ( currentPet.getBestPhoto( 1 ) != null ) {
-                        temp.add( currentPet.getBestPhoto( 1 ) );
-                    }
-                    if ( currentPet.getBestPhoto( 2 ) != null ) {
-                        temp.add( currentPet.getBestPhoto( 2 ) );
-                    }
-
-                    imageUrls = new String[temp.size()];
-                    temp.toArray( imageUrls );
+                imageUrls = new String[temp.size()];
+                temp.toArray( imageUrls );
 
 
-                    Intent fullImageView = new Intent( this, FullImageViewer.class );
-                    fullImageView.putExtra( "images", imageUrls );
-                    fullImageView.putExtra( "name", currentPet.getName() );
-                    startActivity(fullImageView);
+                Intent fullImageView = new Intent( this, FullImageViewer.class );
+                fullImageView.putExtra( "images", imageUrls );
+                fullImageView.putExtra( "name", currentPet.getName() );
+                startActivity(fullImageView);
 
                 break;
 
@@ -530,6 +515,9 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             description += "located at " + currentPet.getLocationInfo() + ". ";
             description += "I found " + genderPronoun + " on All But Home, a pet adoption app for Android!";
 
+
+
+
         } else {
 
             /** No need to get breed */
@@ -550,7 +538,9 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                     break;
             }
 
-            description += "is a " + currentPet.getType() + " ";
+
+
+            description += "is a " + currentPet.getBreed() + " ";
             description += "located at " + currentPet.getLocationInfo() + ". ";
             description += "I found " + genderPronoun + " on All But Home, a pet adoption app for Android";
 

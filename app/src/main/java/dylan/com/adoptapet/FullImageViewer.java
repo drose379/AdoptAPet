@@ -26,6 +26,8 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
     private TextView toolbarTitle;
     private int imagesCount;
 
+    private int currentPosition;
+
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate( savedInstance );
@@ -49,6 +51,7 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
 
         FullImagesPagerAdapter adapter = new FullImagesPagerAdapter( this, images );
         pager.setAdapter( adapter );
+        pager.setOffscreenPageLimit( 3 );
 
         /**
          * TODO:: Implement image slider with ViewPager, no need to use fragments, only use views to slide, PagerAdapter will do
@@ -64,6 +67,7 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
     @Override
     public void getCurrentPosition( int pos ) {
         toolbarTitle.setText( generateToolbarTitle( pos ) );
+        currentPosition = pos;
     }
 
     private String generateToolbarTitle( int pos ) {
