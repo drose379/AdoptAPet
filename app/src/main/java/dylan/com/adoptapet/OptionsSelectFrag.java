@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -253,11 +254,14 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     private void inflateAgeDialog() {
 
-        final View dialogView = LayoutInflater.from( context ).inflate( R.layout.age_select_layout, null );
 
-        initAgeBoxListener(dialogView);
 
         if ( ageDialog == null ) {
+
+            View dialogView = LayoutInflater.from( context ).inflate( R.layout.age_select_layout, null );
+
+            initAgeBoxListener(dialogView);
+
             ageDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.age_select_title, null ) )
                     .setView( dialogView )
@@ -283,28 +287,14 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     }
 
-    private void clearAgeSelections() {
-        //TODO:: Inflate the age dialog view, clear each checkbox, MUST LEAVE "Any" CHECKED
-
-        //TODO:: Call this and same methods for other dialogs whenever the animal type changes
-    }
-
-    private void clearSizeSelections() {
-
-    }
-
-    private void clearGenderSelection() {
-
-    }
-
-
     private void inflateSizeDialog() {
 
-        View dialogView = LayoutInflater.from( context ).inflate( R.layout.size_select_layout, null );
-
-        initSizeBoxListener(dialogView);
-
         if ( sizeDialog == null ) {
+
+            View dialogView = LayoutInflater.from( context ).inflate( R.layout.size_select_layout, null );
+
+            initSizeBoxListener(dialogView);
+
             sizeDialog = new AlertDialog.Builder( context )
                     .setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.size_title, null ) )
                     .setView( dialogView )
@@ -434,7 +424,6 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 breedSelectDialog.dismiss();
-                processSelectedBreeds();
             }
         });
 
@@ -449,7 +438,44 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     }
 
-    private void initAgeBoxListener( View dialogView  ) {
+    private void clearAgeSelections() {
+        ageDialog = null;
+        ageSelection = new JSONArray();
+    }
+
+    private void clearSizeSelections() {
+        sizeDialog = null;
+        sizeSelection = new JSONArray();
+    }
+
+    private void clearGenderSelection() {
+        genderDialog = null;
+        genderSelection = new JSONArray();
+    }
+
+    private void clearSwitches() {
+
+        SwitchCompat altered = (SwitchCompat) getView().findViewById( R.id.alteredSwitch );
+        SwitchCompat noClaws = (SwitchCompat) getView().findViewById( R.id.clawsSwitch );
+        SwitchCompat hasShots = (SwitchCompat) getView().findViewById( R.id.shotsSwitch );
+        SwitchCompat houseTrained = (SwitchCompat) getView().findViewById( R.id.houseSwitch );
+        SwitchCompat dogsSwitch = (SwitchCompat) getView().findViewById( R.id.dogsSwitch );
+        SwitchCompat catsSwitch = (SwitchCompat) getView().findViewById( R.id.catsSwitch );
+        SwitchCompat kidsSwitch = (SwitchCompat) getView().findViewById( R.id.kidsSwitch );
+        SwitchCompat specialCompat = (SwitchCompat) getView().findViewById( R.id.specialSwitch );
+
+        altered.setChecked( false );
+        noClaws.setChecked( false );
+        hasShots.setChecked( false );
+        houseTrained.setChecked( false );
+        dogsSwitch.setChecked( false );
+        catsSwitch.setChecked( false );
+        kidsSwitch.setChecked( false );
+        specialCompat.setChecked( false );
+
+    }
+
+    private void initAgeBoxListener( View dialogView ) {
 
         final CheckBox any = (CheckBox) dialogView.findViewById( R.id.anyAge );
         final CheckBox baby = (CheckBox) dialogView.findViewById( R.id.babyAge );
@@ -734,10 +760,6 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         parent.addView( newBreed, 0 );
     }
 
-    private void processSelectedBreeds() {
-
-    }
-
     /**
      * Keep an updated selected type int here
      * Whenever animal type is changed, need to clear current ArrayList of selected breeds
@@ -757,7 +779,10 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 break;
         }
 
-
+        clearAgeSelections();
+        clearSizeSelections();
+        clearGenderSelection();
+        clearSwitches();
 
     }
 
