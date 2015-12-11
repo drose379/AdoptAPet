@@ -492,6 +492,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                         RelativeLayout dialogView = (RelativeLayout) LayoutInflater.from( this ).inflate( R.layout.search_confirm_layout, null );
+
+                        ImageView breedIcon = (ImageView) dialogView.findViewById( R.id.breedTypeIcon );
+
+                        switch ( selectedType ) {
+                            case 1 :
+                                breedIcon.setImageResource( R.drawable.ic_dog_large );
+                                break;
+                            case 2 :
+                                breedIcon.setImageResource( R.drawable.ic_cat_large );
+                                break;
+                        }
+
                         TextView ageText = (TextView) dialogView.findViewById(R.id.ageText);
                         TextView sizeText = (TextView) dialogView.findViewById(R.id.sizeText);
                         TextView genderText = (TextView) dialogView.findViewById( R.id.genderText );
@@ -509,65 +521,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         JSONArray genderArray = optionsFragment.getGenderSelection();
                         ArrayList<String> breedsArray = optionsFragment.getSelectedBreeds();
 
-                        if ( ageArray.length() > 0 ) {
-
-                            for ( int i = 0; i < ageArray.length(); i++ ) {
-                                try {
-
-                                    if ( i < ageArray.length() - 1 ) {
-                                        ageString += ageArray.getString( i ) + ", ";
-                                    } else {
-                                        ageString += ageArray.getString( i );
-                                    }
-
-                                } catch ( JSONException e ) {
-
-                                }
-                            }
-
-                        } else {
-                            ageString += "Any";
-                        }
-
-                        if ( sizeArray.length() > 0 ) {
-
-                            for ( int i = 0; i < sizeArray.length(); i++ ) {
-                                try {
-
-                                    if ( i < sizeArray.length() - 1 ) {
-                                        sizeString += sizeArray.getString( i ) + ", ";
-                                    } else {
-                                        sizeString += sizeArray.getString( i );
-                                    }
-
-                                } catch ( JSONException e ) {
-
-                                }
-                            }
-
-                        } else {
-                            sizeString += "Any";
-                        }
-
-                        if ( genderArray.length() > 0 ) {
-
-                            for ( int i = 0; i < genderArray.length(); i++ ) {
-                                try {
-
-                                    if ( i < genderArray.length() - 1 ) {
-                                        genderString += genderArray.getString( i ) + ", ";
-                                    } else {
-                                        genderString += genderArray.getString( i );
-                                    }
-
-                                } catch ( JSONException e ) {
-
-                                }
-                            }
-
-                        } else {
-                            genderString += "Any";
-                        }
 
                         if ( breedsArray.size() > 0 ) {
 
@@ -589,9 +542,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-                        ageText.setText( ageString );
-                        sizeText.setText( sizeString );
-                        genderText.setText( genderString );
+                        ageText.setText( commaSeperatedJSON( ageArray ) );
+                        sizeText.setText( commaSeperatedJSON( sizeArray ) );
+                        genderText.setText( commaSeperatedJSON( genderArray ) );
                         breedText.setText( breedString );
 
 
@@ -599,6 +552,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.search_title, null ) )
                                 .setView( dialogView )
                                 .setPositiveButton( "GO", null )
+                                .setNegativeButton( "Cancel", null )
                                 .create();
 
                         confirmDialog.show();
@@ -607,7 +561,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         confirmDialog.getButton( AlertDialog.BUTTON_POSITIVE ).setOnClickListener( new View.OnClickListener() {
                             @Override
                             public void onClick( View v ) {
+                                confirmDialog.dismiss();
                                 initSearch();
+                            }
+                        });
+
+                        confirmDialog.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick( View v ) {
                                 confirmDialog.dismiss();
                             }
                         });
@@ -806,6 +767,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Snackbar.make( findViewById( R.id.drawer ), getResources().getString( R.string.network_issue), Snackbar.LENGTH_SHORT ).show();
         }
 
+    }
+
+    private String commaSeperatedJSON( JSONArray array ) {
+        String finalItems = "";
+
+        for ( int i = 0; i < array.length(); i++ ) {
+            try {
+
+                if ( i < array.length() - 1 ) {
+                    finalItems += array.getString( i ) + ", ";
+                } else {
+                    finalItems += array.getString( i );
+                }
+
+            } catch ( JSONException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        return finalItems;
     }
 
     private void hideBackButton() {

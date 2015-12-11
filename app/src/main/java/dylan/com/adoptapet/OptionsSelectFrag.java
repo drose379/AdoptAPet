@@ -814,27 +814,6 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         }
     }
 
-    private String commaSeperatedJSON( JSONArray array ) {
-        String finalItems = "";
-
-        for ( int i = 0; i < array.length(); i++ ) {
-            try {
-
-                if ( i < array.length() - 1 ) {
-                    finalItems += array.getString( i ) + ", ";
-                } else {
-                    finalItems += array.getString( i );
-                }
-
-            } catch ( JSONException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        return finalItems;
-    }
-
-
 
     private void addSelectedBreed( String selected, LinearLayout parent ) {
         //TODO:: Add to arraylist<String> of selected breeds for processing later, make sure to clear if user uses clear button
@@ -884,8 +863,14 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     }
 
+    /**
+     * Keep an updated selected type int here
+     * Whenever animal type is changed, need to clear current ArrayList of selected breeds
+     * @param type
+     */
     public void updateSelectedType( int type ) {
         selectedType = type;
+        this.selectedBreeds.clear();
         shouldShowNoClaws();
     }
 

@@ -89,7 +89,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/ic_dog_large"
+            android:id="@+id/breedTypeIcon"
             />
         <TextView
             android:layout_width="wrap_content"
