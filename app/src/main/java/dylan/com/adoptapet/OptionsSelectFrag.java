@@ -17,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -45,6 +46,8 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     private Button showOptions;
     private LinearLayout moreOptions;
     private ScrollView scrollParent;
+
+    private ImageView breedIcon;
 
     private AlertDialog ageDialog;
     private AlertDialog sizeDialog;
@@ -87,20 +90,9 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         LinearLayout sizeButton = (LinearLayout) v.findViewById( R.id.sizeButton );
         LinearLayout genderButton = (LinearLayout) v.findViewById( R.id.genderSelect );
         LinearLayout breedButton = (LinearLayout) v.findViewById( R.id.breedSelect );
-/**
-        moreOptions = (LinearLayout) v.findViewById( R.id.moreOptions );
-        showOptions = (Button) v.findViewById( R.id.showMoreOptions );
-        scrollParent = (ScrollView) v.findViewById( R.id.scroller );
 
-        root = v.findViewById(R.id.root);
+        breedIcon = (ImageView) v.findViewById( R.id.breedButtonIcon );
 
-
-        Button breedSelect = (Button) v.findViewById(R.id.breedSelectButton);
-
-
-        breedSelect.setOnClickListener(this);
-        showOptions.setOnClickListener(this);
-*/
 
         ageButton.setOnClickListener(this);
         sizeButton.setOnClickListener(this);
@@ -110,8 +102,6 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         OptionsTagCallback viewParent = (OptionsTagCallback) getActivity();
         viewParent.getTag(getTag());
 
-        //TODO:: Init a switch listener for all switches for "More" options
-
         initSwitchListener( v );
 
         return v;
@@ -120,134 +110,6 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick( View v ) {
-        /**
-        switch( v.getId() ) {
-
-            case R.id.breedSelectButton :
-
-                View dialogView = LayoutInflater.from( context ).inflate( R.layout.breed_select_dialog, null );
-                ListView breedList = (ListView) dialogView.findViewById(R.id.breedList);
-                final AutoCompleteTextView breedSearch = (AutoCompleteTextView) dialogView.findViewById(R.id.breedSearch);
-                final LinearLayout selectedBreeds = (LinearLayout) dialogView.findViewById(R.id.selectedBreeds);
-                //selectedBreeds.setMovementMethod( new ScrollingMovementMethod() );
-
-
-                final ArrayAdapter<String> adapter = new ArrayAdapter<String>( context,
-                        R.layout.support_simple_spinner_dropdown_item );
-
-                if ( ((MainActivity)getActivity()).selectedType == 1 ) {
-                    adapter.addAll( getResources().getStringArray( R.array.dog_breeds ) );
-                } else {
-                    adapter.addAll( getResources().getStringArray( R.array.cat_breeds ) );
-                }
-
-
-                breedSearch.setAdapter(adapter);
-
-                breedSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView parent, View v, int item, long id) {
-                        String selected = adapter.getItem(item);
-
-                        breedSearch.setText("");
-
-                        addSelectedBreed(selected, selectedBreeds);
-
-                        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                    }
-                });
-
-                breedSearch.setOnDismissListener(new AutoCompleteTextView.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        breedSearch.setText("");
-                    }
-                });
-
-                breedList.setAdapter(adapter);
-                breedList.setFastScrollEnabled(true);
-
-                breedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView parent, View view, int item, long id) {
-                        String selected = getResources().getStringArray(R.array.dog_breeds)[item];
-                        addSelectedBreed(selected, selectedBreeds);
-                    }
-                });
-
-                breedSelectDialog = new AlertDialog.Builder( context )
-                        .setView(dialogView)
-                        .setPositiveButton("Save", null)
-                        .setNegativeButton( "Cancel", null )
-                        .setNeutralButton( "Clear", null )
-                        .create();
-
-                if ( ((MainActivity)getActivity()).selectedType == 1 ) {
-                    breedSelectDialog.setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.dog_breed_title, null ) );
-                } else {
-                    breedSelectDialog.setCustomTitle( LayoutInflater.from( context ).inflate( R.layout.cat_breed_title, null ) );
-                }
-
-                breedSelectDialog.show();
-
-                breedSelectDialog.getButton( AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        breedSelectDialog.dismiss();
-                        processSelectedBreeds();
-                    }
-                });
-
-                breedSelectDialog.getButton( AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectedBreeds.removeAllViews();
-                        OptionsSelectFrag.this.selectedBreeds.clear();
-                    }
-                });
-
-                breedSelectDialog.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick( View v ) {
-                        OptionsSelectFrag.this.selectedBreeds.clear();
-                        breedSelectDialog.dismiss();
-                    }
-                });
-
-                break;
-
-            case R.id.showMoreOptions :
-
-                /**
-                 * TODO: Align the Select Breeds button to the left, and the More Options button to the the right of it
-                 * Keep the more options in the same spot
-
-
-                switch( moreOptions.getVisibility() ) {
-                    case View.VISIBLE :
-                        moreOptions.animate().alpha(0);
-                        moreOptions.setVisibility(View.GONE);
-                        break;
-                    case View.GONE :
-                        moreOptions.setVisibility(View.VISIBLE);
-                        moreOptions.animate().alpha(1);
-
-                        moreOptions.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                scrollParent.fullScroll( View.FOCUS_DOWN );
-                            }
-                        });
-
-                        break;
-                }
-
-
-                break;
-        }
-
-         */
-
 
         switch ( v.getId() ) {
             case R.id.ageButton:
@@ -263,8 +125,6 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 inflateBreedDialog();
                 break;
         }
-
-
     }
 
     private void initSwitchListener( View rootView ) {
@@ -532,10 +392,10 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
                 String selected = "";
 
-                if ( selectedType == 1 )
+                if (selectedType == 1)
                     selected = getResources().getStringArray(R.array.dog_breeds)[item];
                 else
-                    selected = getResources().getStringArray( R.array.cat_breeds )[item];
+                    selected = getResources().getStringArray(R.array.cat_breeds)[item];
 
                 addSelectedBreed(selected, selectedBreeds);
             }
@@ -766,7 +626,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
         any.setOnCheckedChangeListener( boxListener );
         male.setOnCheckedChangeListener( boxListener );
-        female.setOnCheckedChangeListener( boxListener );
+        female.setOnCheckedChangeListener(boxListener);
 
     }
 
@@ -872,6 +732,16 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         selectedType = type;
         this.selectedBreeds.clear();
         shouldShowNoClaws();
+
+        switch ( selectedType ) {
+            case 1 :
+                breedIcon.setBackground( getResources().getDrawable( R.drawable.ic_dog_100 ) );
+                break;
+            case 2 :
+                breedIcon.setBackground( getResources().getDrawable( R.drawable.ic_cat_large ) );
+                break;
+        }
+
     }
 
     private void shouldShowNoClaws() {
