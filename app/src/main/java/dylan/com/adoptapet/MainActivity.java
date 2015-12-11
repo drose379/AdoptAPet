@@ -59,15 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private LocationManager locationManager;
     private EditText postalBox;
-    private Button breedSelectButton;
 
     private DrawerLayout drawer;
     private ListView navItemsList;
-
-
-    private AlertDialog breedSelectDialog;
-
-    private AlertDialog loadingDialog;
 
     private NavMenuAdapter navAdapter;
 

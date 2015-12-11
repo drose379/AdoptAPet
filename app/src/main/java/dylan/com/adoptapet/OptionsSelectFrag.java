@@ -483,7 +483,12 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
         ListView breedList = (ListView) dialogView.findViewById(R.id.breedList);
         final AutoCompleteTextView breedSearch = (AutoCompleteTextView) dialogView.findViewById(R.id.breedSearch);
         final LinearLayout selectedBreeds = (LinearLayout) dialogView.findViewById(R.id.selectedBreeds);
-        //selectedBreeds.setMovementMethod( new ScrollingMovementMethod() );
+
+        if ( this.selectedBreeds.size() > 0 ) {
+            for ( String existing : this.selectedBreeds ) {
+                showExistingBreedsInLayout(existing, selectedBreeds);
+            }
+        }
 
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>( context,
@@ -531,15 +536,15 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                     selected = getResources().getStringArray(R.array.dog_breeds)[item];
                 else
                     selected = getResources().getStringArray( R.array.cat_breeds )[item];
+
                 addSelectedBreed(selected, selectedBreeds);
             }
         });
 
         breedSelectDialog = new AlertDialog.Builder( context )
                 .setView(dialogView)
-                .setPositiveButton("Save", null)
-                .setNegativeButton( "Cancel", null )
-                .setNeutralButton( "Clear", null )
+                .setPositiveButton("Close", null)
+                .setNegativeButton("Clear", null)
                 .create();
 
         if ( ((MainActivity)getActivity()).selectedType == 1 ) {
@@ -558,19 +563,12 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
             }
         });
 
-        breedSelectDialog.getButton( AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedBreeds.removeAllViews();
-                OptionsSelectFrag.this.selectedBreeds.clear();
-            }
-        });
 
         breedSelectDialog.getButton( AlertDialog.BUTTON_NEGATIVE ).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedBreeds.removeAllViews();
                 OptionsSelectFrag.this.selectedBreeds.clear();
-                breedSelectDialog.dismiss();
             }
         });
 
@@ -774,7 +772,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     public JSONArray getAgeSelection() {
 
-        removeItemFromJSON( ageSelection, "Any" );
+        removeItemFromJSON(ageSelection, "Any");
 
         return ageSelection;
     }
@@ -837,6 +835,7 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
     }
 
 
+
     private void addSelectedBreed( String selected, LinearLayout parent ) {
         //TODO:: Add to arraylist<String> of selected breeds for processing later, make sure to clear if user uses clear button
 
@@ -863,6 +862,22 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
             }
 
         }
+    }
+
+    private void showExistingBreedsInLayout( String breed, LinearLayout parent ) {
+        TextView newBreed = new TextView( context );
+        newBreed.setText( breed );
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins( 5, 5, 5, 5 );
+        //TODO: Set padding to the text insdie the textview
+        //TODO:: Instead of using a dialog for breed selection, create an entire activity, can offer the most options this way
+
+        newBreed.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        newBreed.setTextColor(getResources().getColor(R.color.colorWhite));
+        newBreed.setLayoutParams(layoutParams);
+
+        parent.addView( newBreed, 0 );
     }
 
     private void processSelectedBreeds() {
