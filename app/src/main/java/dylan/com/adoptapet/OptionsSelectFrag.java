@@ -283,6 +283,21 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
 
     }
 
+    private void clearAgeSelections() {
+        //TODO:: Inflate the age dialog view, clear each checkbox, MUST LEAVE "Any" CHECKED
+
+        //TODO:: Call this and same methods for other dialogs whenever the animal type changes
+    }
+
+    private void clearSizeSelections() {
+
+    }
+
+    private void clearGenderSelection() {
+
+    }
+
+
     private void inflateSizeDialog() {
 
         View dialogView = LayoutInflater.from( context ).inflate( R.layout.size_select_layout, null );
@@ -741,6 +756,8 @@ public class OptionsSelectFrag extends Fragment implements View.OnClickListener 
                 breedIcon.setBackground( getResources().getDrawable( R.drawable.ic_cat_large ) );
                 break;
         }
+
+
 
     }
 

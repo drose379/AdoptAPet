@@ -540,11 +540,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             breedString += "Any";
                         }
 
+                        ageString = commaSeperatedJSON( ageArray );
+                        sizeString = commaSeperatedJSON( sizeArray );
+                        genderString = commaSeperatedJSON( genderArray );
+
+                        if ( ageArray.length() == 0 )
+                            ageString += "Any";
+                        if ( sizeArray.length() == 0 )
+                            sizeString += "Any";
+                        if ( genderArray.length() == 0 )
+                            genderString += "Any";
 
 
-                        ageText.setText( commaSeperatedJSON( ageArray ) );
-                        sizeText.setText( commaSeperatedJSON( sizeArray ) );
-                        genderText.setText( commaSeperatedJSON( genderArray ) );
+
+                        ageText.setText( ageString );
+                        sizeText.setText( sizeString );
+                        genderText.setText( genderString );
                         breedText.setText( breedString );
 
 

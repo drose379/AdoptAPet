@@ -93,7 +93,7 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.photoShare:
 
-                Picasso.with( FullImageViewer.this ).load( images[currentPosition] ).into(new Target() {
+                Picasso.with( FullImageViewer.this ).load( images[currentPosition - 1] ).into(new Target() {
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
@@ -142,6 +142,9 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
     public void getCurrentPosition( int pos ) {
         getSupportActionBar().setTitle( generateToolbarTitle( pos ) );
         currentPosition = pos;
+
+        Log.i("CUR_POS", "" + currentPosition);
+
     }
 
     private String generateToolbarTitle( int pos ) {
