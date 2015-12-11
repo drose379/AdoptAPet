@@ -90,6 +90,7 @@ public class FullImageViewer extends AppCompatActivity implements View.OnClickLi
         switch ( item.getItemId() ) {
             case android.R.id.home :
                 finish();
+                break;
             case R.id.photoShare:
 
                 Picasso.with( FullImageViewer.this ).load( images[currentPosition] ).into(new Target() {

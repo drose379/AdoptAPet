@@ -98,15 +98,13 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                 String size = result.getString(result.getColumnIndex(FavoritesDBHelper.size_col));
                 String breedString = result.getString(result.getColumnIndex(FavoritesDBHelper.breed_col));
                 String description = result.getString(result.getColumnIndex(FavoritesDBHelper.description_col));
-                String photo = result.getString(result.getColumnIndex(FavoritesDBHelper.photo_col));
+                String photos = result.getString(result.getColumnIndex(FavoritesDBHelper.photo_col));
                 JSONObject contactInfo;
-                JSONArray photos;
+                JSONArray photoArray;
                 try {
                     contactInfo = new JSONObject(result.getString(result.getColumnIndex(FavoritesDBHelper.contactInfo_col)));
-                    photos = new JSONArray();
+                    photoArray = new JSONArray( photos );
                     JSONArray breeds = new JSONArray(breedString);
-
-                    photos.put(photo);
 
                     favorites.add(new PetResult()
                                     .setId(id)
@@ -118,7 +116,7 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                                     .setBreed(breeds)
                                     .setDescription(description)
                                     .setContactInfo(contactInfo)
-                                    .setPhotos(photos)
+                                    .setPhotos(photoArray)
                     );
 
                 } catch (JSONException e) {

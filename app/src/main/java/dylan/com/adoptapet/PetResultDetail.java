@@ -34,6 +34,8 @@ import com.facebook.share.widget.ShareDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -81,7 +83,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         //headImage = (ImageView) findViewById( R.id.headImageContainer );
         //headImage.setOnClickListener( this );
 
-        rootView = findViewById( R.id.root );
+        rootView = findViewById(R.id.root);
 
         initDetailLayout();
     }
@@ -464,11 +466,27 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
     }
 
     private void addToFavorites() {
+
+        JSONArray photos = new JSONArray();
+
+        if ( currentPet.getBestPhoto( 1 ) != null ) {
+            photos.put( currentPet.getBestPhoto( 1 ) );
+        }
+        if ( currentPet.getBestPhoto( 2 ) != null ) {
+            photos.put( currentPet.getBestPhoto( 2 ) );
+        }
+        if ( currentPet.getBestPhoto( 3 ) != null ) {
+            photos.put( currentPet.getBestPhoto( 3 ) );
+        }
+
+
+
+
         ContentValues vals = new ContentValues();
         vals.put( FavoritesDBHelper.type_col, currentPet.getType() );
         vals.put( FavoritesDBHelper.id_col, currentPet.getId() );
         vals.put( FavoritesDBHelper.name_col, currentPet.getName() );
-        vals.put( FavoritesDBHelper.photo_col, currentPet.getBestPhoto(1) );
+        vals.put( FavoritesDBHelper.photo_col, photos.toString() );
         vals.put( FavoritesDBHelper.breed_col, currentPet.getBreedsRaw() );
         vals.put( FavoritesDBHelper.isMix_col, currentPet.isMix() );
         vals.put( FavoritesDBHelper.age_col, currentPet.getAge() );
