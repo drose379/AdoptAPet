@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/moreButton"
-        android:title="More From This Shelter"
+        android:title="More from this shelter"
         app:showAsAction="never"
         />
 

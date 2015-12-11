@@ -2,6 +2,7 @@ package dylan.com.adoptapet;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,6 +38,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.appevents.AppEventsLogger;
 
@@ -153,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPause() {
         super.onPause();
-        AppEventsLogger.activateApp( this );
+        AppEventsLogger.activateApp(this);
     }
 
     @Override
@@ -179,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onReceive(Context context, Intent intent) {
                     nextFeaturedPet();
                 }
-        };
+            };
 
             registerReceiver( featuredReceiver, new IntentFilter( FeaturedPetController.GET_FEATURED ) );
         }
@@ -488,115 +491,140 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 1 :
 
                         /**
-                         * TODO:: Use the optionsTag to grab the checkboxes, etc from options frag
-                         * Make sure location is set, if yes, make search, if not, show SB
+                         * TODO:: Show dialog confirming search criteria, if "GO" is clicked, call initSearch
                          */
 
-                        if ( !postalBox.getText().toString().isEmpty() ) {
 
-                            checkUpdateLocation( postalBox.getText().toString() );
 
-                            JSONObject requestObject = getRequestOptions();
-                            try {
-                                requestObject.put("location", postalBox.getText().toString());
-                            } catch ( JSONException e ) {
-                                /** Handle exception */
+
+                        RelativeLayout dialogView = (RelativeLayout) LayoutInflater.from( this ).inflate( R.layout.search_confirm_layout, null );
+                        TextView ageText = (TextView) dialogView.findViewById(R.id.ageText);
+                        TextView sizeText = (TextView) dialogView.findViewById(R.id.sizeText);
+                        TextView genderText = (TextView) dialogView.findViewById( R.id.genderText );
+                        TextView breedText = (TextView) dialogView.findViewById( R.id.breedText );
+
+                        String ageString = "";
+                        String sizeString = "";
+                        String genderString = "";
+                        String breedString = "";
+
+                        OptionsSelectFrag optionsFragment = (OptionsSelectFrag) getSupportFragmentManager().findFragmentByTag(optionsFragTag);
+
+                        JSONArray ageArray = optionsFragment.getAgeSelection();
+                        JSONArray sizeArray = optionsFragment.getSizeSelection();
+                        JSONArray genderArray = optionsFragment.getGenderSelection();
+                        ArrayList<String> breedsArray = optionsFragment.getSelectedBreeds();
+
+                        if ( ageArray.length() > 0 ) {
+
+                            for ( int i = 0; i < ageArray.length(); i++ ) {
+                                try {
+
+                                    if ( i < ageArray.length() - 1 ) {
+                                        ageString += ageArray.getString( i ) + ", ";
+                                    } else {
+                                        ageString += ageArray.getString( i );
+                                    }
+
+                                } catch ( JSONException e ) {
+
+                                }
                             }
 
+                        } else {
+                            ageString += "Any";
+                        }
 
-                            Intent i = new Intent( this, SearchResults.class );
-                            i.putExtra( "searchItems", requestObject.toString() );
-                            startActivity( i );
+                        if ( sizeArray.length() > 0 ) {
 
+                            for ( int i = 0; i < sizeArray.length(); i++ ) {
+                                try {
+
+                                    if ( i < sizeArray.length() - 1 ) {
+                                        sizeString += sizeArray.getString( i ) + ", ";
+                                    } else {
+                                        sizeString += sizeArray.getString( i );
+                                    }
+
+                                } catch ( JSONException e ) {
+
+                                }
+                            }
 
                         } else {
-                            Snackbar.make( findViewById( R.id.root ), "Please Provide a Location", Snackbar.LENGTH_SHORT ).show();
+                            sizeString += "Any";
                         }
+
+                        if ( genderArray.length() > 0 ) {
+
+                            for ( int i = 0; i < genderArray.length(); i++ ) {
+                                try {
+
+                                    if ( i < genderArray.length() - 1 ) {
+                                        genderString += genderArray.getString( i ) + ", ";
+                                    } else {
+                                        genderString += genderArray.getString( i );
+                                    }
+
+                                } catch ( JSONException e ) {
+
+                                }
+                            }
+
+                        } else {
+                            genderString += "Any";
+                        }
+
+                        if ( breedsArray.size() > 0 ) {
+
+                            for ( int i = 0; i < breedsArray.size(); i++ ) {
+
+
+                                if ( i < breedsArray.size() - 1 ) {
+                                    breedString += breedsArray.get( i ) + ", ";
+                                } else {
+                                    breedString += breedsArray.get( i );
+                                }
+
+
+                            }
+
+                        } else {
+                            breedString += "Any";
+                        }
+
+
+
+                        ageText.setText( ageString );
+                        sizeText.setText( sizeString );
+                        genderText.setText( genderString );
+                        breedText.setText( breedString );
+
+
+                        final AlertDialog confirmDialog = new AlertDialog.Builder( this )
+                                .setCustomTitle( LayoutInflater.from( this ).inflate( R.layout.search_title, null ) )
+                                .setView( dialogView )
+                                .setPositiveButton( "GO", null )
+                                .create();
+
+                        confirmDialog.show();
+
+
+                        confirmDialog.getButton( AlertDialog.BUTTON_POSITIVE ).setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick( View v ) {
+                                initSearch();
+                                confirmDialog.dismiss();
+                            }
+                        });
+
 
 
 
 
                         break;
                 }
-/**
-                String location = postalBox.getText().toString();
-                if ( !location.isEmpty() && location.length() == 5 ) {
 
-                    /**
-                     *
-                     * Check if location is already saved, if not, save it
-                    }
-
-
-                    if ( selectedType != -1 && selectedType <= 2  ) {
-
-                        /**
-                         * TODO:: Slide over to the details fragment
-
-
-                        pager.setCurrentItem( 1, true );
-                        showBackButton();
-
-                    }
-                    else if ( selectedType <= 9 && selectedType >= 3 ) {
-                        /**
-                         * TODO:: DO NOT slide over to the details frag, just go right to SearchResults
-
-
-                        String type = "";
-
-                        switch ( selectedType ) {
-
-                            case 3:
-                                type = "pig";
-                                break;
-                            case 4 :
-                                type = "rabbit";
-                                break;
-                            case 5 :
-                                type = "bird";
-                                break;
-                            case 6 :
-                                type = "horse";
-                                break;
-                            case 7 :
-                                type = "barnyard";
-                                break;
-                            case 8 :
-                                type = "reptile";
-                                break;
-                            case 9 :
-                                type = "smallfurry";
-                                break;
-
-                        }
-
-                        try {
-
-                            JSONObject request = new JSONObject();
-                            request.put( "location", location );
-                            request.put( "type", type );
-
-                            Intent i = new Intent( this, SearchResults.class );
-                            i.putExtra( "searchItems", request.toString() );
-                            startActivity( i );
-
-
-
-                        } catch ( JSONException e ) {
-                            Snackbar.make( findViewById( R.id.drawer ), getResources().getString( R.string.location_possible_issue ), Snackbar.LENGTH_SHORT ).show();
-                        }
-
-                    }
-                    else {
-                        Snackbar.make( drawer, "Please select a type!", Snackbar.LENGTH_SHORT ).show();
-                    }
-
-                } else {
-                    Snackbar.make( drawer, "Please provide your location!", Snackbar.LENGTH_SHORT ).show();
-                }
-
-            */
 
                 break;
 
@@ -618,6 +646,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void getTag( String tag ) {
         optionsFragTag = tag;
     }
+
+
+    private void initSearch() {
+        if ( !postalBox.getText().toString().isEmpty() ) {
+
+            checkUpdateLocation( postalBox.getText().toString() );
+
+            JSONObject requestObject = getRequestOptions();
+            try {
+                requestObject.put("location", postalBox.getText().toString());
+            } catch ( JSONException e ) {
+                /** Handle exception */
+            }
+
+
+            Intent i = new Intent( this, SearchResults.class );
+            i.putExtra( "searchItems", requestObject.toString() );
+            startActivity( i );
+
+
+        } else {
+            Snackbar.make( findViewById( R.id.root ), "Please Provide a Location", Snackbar.LENGTH_SHORT ).show();
+        }
+    }
+
 
     private void checkUpdateLocation( String location ) {
 

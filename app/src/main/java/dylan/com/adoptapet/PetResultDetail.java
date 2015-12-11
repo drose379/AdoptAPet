@@ -101,7 +101,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
             inflater.inflate(R.menu.pet_detail_toolbar_favorited, menu);
         }
 
-        favoriteMenuItem = menu.getItem( 0 );
+        favoriteMenuItem = menu.getItem(0);
 
         readable.close();
 
@@ -236,6 +236,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         //LinearLayout topBackdrop = (LinearLayout) findViewById( R.id.topView );
         ImageView imageOne = (ImageView) findViewById( R.id.headImageOne );
         ImageView imageTwo = (ImageView) findViewById( R.id.headImageTwo );
+
         ImageView animalType = (ImageView) findViewById( R.id.animalTypeIcon );
         //TextView noPhotoText = (TextView) findViewById( R.id.noPhotoText );
         //TextView nameText = (TextView) findViewById( R.id.nameText );
@@ -253,15 +254,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         imageContainer = (ViewFlipper) findViewById( R.id.imageContainer );
 
-        RequestCreator imageOneLoad = Picasso.with( this ).load(currentPet.getBestPhoto(1));
-        RequestCreator imageTwoLoad = Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) );
-
-        /**TESTING*/
-
-        //ImageView headImage = (ImageView) findViewById( R.id.headImageContainer );
-
-        //Picasso.with( this ).load( currentPet.getBestPhoto( 1 ) ).into(headImage);
-
         phoneButton.setOnClickListener(this);
         phoneNumber.setOnClickListener( this );
         navButton.setOnClickListener( this );
@@ -270,31 +262,40 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         email.setOnClickListener(this);
         imageContainer.setOnClickListener(this);
 
-        switch ( currentPet.getSex() ) {
-            case "Male" :
-                //topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorMaleCard) );
-                //imageOne.setBorderColorResource(R.color.colorMaleCard);
-                //mageTwo.setBorderColorResource( R.color.colorMaleCard );
-                //noPhotoText.setTextColor(getResources().getColor(R.color.colorMale));
 
-                imageOneLoad.placeholder(R.color.colorAccentDark);
-                imageTwoLoad.placeholder( R.color.colorAccentDark );
+        RequestCreator imageOneLoad = Picasso.with( this ).load( currentPet.getBestPhoto( 1 ) );
+        RequestCreator imageTwoLoad = Picasso.with( this ).load( currentPet.getBestPhoto( 2 ) );
 
-                break;
-            case "Female" :
-                //topBackdrop.setBackgroundColor( getResources().getColor(R.color.colorFemaleCard) );
-                //imageOne.setBorderColorResource( R.color.colorFemaleCard );
-                //imageTwo.setBorderColorResource(R.color.colorFemaleCard);
-                // noPhotoText.setTextColor(getResources().getColor(R.color.colorFemale));
+        imageOneLoad.placeholder(R.color.colorAccentDark);
+        imageTwoLoad.placeholder(R.color.colorAccentDark);
 
-                imageOneLoad.placeholder(R.color.colorAccentDark);
-                imageTwoLoad.placeholder(R.color.colorAccentDark);
-
-                break;
+        if ( currentPet.getBestPhoto( 1 ) != null ) {
+            imageOneLoad.into( imageOne );
+        }
+        if ( currentPet.getBestPhoto( 2 ) != null ) {
+            imageTwoLoad.into( imageTwo );
+        } else {
+            imageTwo.setVisibility( View.GONE );
         }
 
-        imageOneLoad.into( imageOne );
-        imageTwoLoad.into( imageTwo );
+
+        if ( currentPet.getBestPhoto( 2 ) != null ) {
+            imageContainer.startFlipping();
+            imageContainer.setInAnimation(this, android.R.anim.fade_in );
+            imageContainer.setOutAnimation(this, android.R.anim.fade_out);
+
+
+
+        }
+        else if ( currentPet.getBestPhoto( 1 ) == null && currentPet.getBestPhoto( 2 ) == null ) {
+            Picasso.with( this ).load( getStockPhotoUrl() ).fit().into( imageOne );
+        }
+
+
+
+
+
+
 
         Log.i("Type", currentPet.getType());
 
@@ -329,14 +330,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
 
         }
 
-
-        imageContainer.setInAnimation( this, android.R.anim.fade_in );
-        imageContainer.setOutAnimation(this, android.R.anim.fade_out);
-
-        //imageOne.setBorderWidth( 15 );
-        //imageTwo.setBorderWidth(15);
-        //nameText.setText( currentPet.getName() );
-
         String breeds = "";
         for( String breed : currentPet.getBreeds() ) {
             if ( !breed.equals( "null" ) ) {
@@ -351,13 +344,6 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         phoneNumber.setText( currentPet.getContactNumber().length() < 10 ? "N/A" : currentPet.getContactNumber() );
         location.setText( currentPet.getLocationInfo() );
         email.setText( currentPet.getEmail() );
-
-        if ( currentPet.getBestPhoto( 2 ) != null ) {
-            imageContainer.startFlipping();
-        }
-        else if ( currentPet.getBestPhoto( 1 ) == null && currentPet.getBestPhoto( 2 ) == null ) {
-            Picasso.with( this ).load( getStockPhotoUrl() ).fit().into( imageOne );
-        }
 
     }
 
@@ -435,11 +421,12 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
                 imageUrls = new String[temp.size()];
                 temp.toArray( imageUrls );
 
-
-                Intent fullImageView = new Intent( this, FullImageViewer.class );
-                fullImageView.putExtra( "images", imageUrls );
-                fullImageView.putExtra( "name", currentPet.getName() );
-                startActivity(fullImageView);
+                if ( imageUrls.length > 0 ) {
+                    Intent fullImageView = new Intent(this, FullImageViewer.class);
+                    fullImageView.putExtra("images", imageUrls);
+                    fullImageView.putExtra("name", currentPet.getName());
+                    startActivity(fullImageView);
+                }
 
                 break;
 
@@ -470,13 +457,13 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         JSONArray photos = new JSONArray();
 
         if ( currentPet.getBestPhoto( 1 ) != null ) {
-            photos.put( currentPet.getBestPhoto( 1 ) );
+            photos.put(currentPet.getBestPhoto(1));
         }
         if ( currentPet.getBestPhoto( 2 ) != null ) {
-            photos.put( currentPet.getBestPhoto( 2 ) );
+            photos.put(currentPet.getBestPhoto(2));
         }
         if ( currentPet.getBestPhoto( 3 ) != null ) {
-            photos.put( currentPet.getBestPhoto( 3 ) );
+            photos.put(currentPet.getBestPhoto(3));
         }
 
 

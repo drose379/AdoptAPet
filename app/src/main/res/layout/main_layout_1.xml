@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="Select An Animal Type To Start"
+        android:text="Select an animal type to start"
         android:textColor="@color/colorBlack"
         android:id="@+id/headText"
         />
