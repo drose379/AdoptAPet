@@ -244,8 +244,6 @@ public class ShelterList extends AppCompatActivity implements AdapterView.OnItem
 
                                 Intent mail = new Intent(Intent.ACTION_SENDTO);
                                 mail.setData(Uri.parse("mailto:" + selectedShelter.getEmail()));
-                                mail.putExtra(Intent.EXTRA_SUBJECT, "Interested in - " + selectedShelter.getName());
-
                                 startActivity(mail);
 
                                 break;

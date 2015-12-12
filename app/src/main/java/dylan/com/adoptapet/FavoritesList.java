@@ -99,6 +99,7 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                 String breedString = result.getString(result.getColumnIndex(FavoritesDBHelper.breed_col));
                 String description = result.getString(result.getColumnIndex(FavoritesDBHelper.description_col));
                 String photos = result.getString(result.getColumnIndex(FavoritesDBHelper.photo_col));
+                String shelterId = result.getString( result.getColumnIndex( FavoritesDBHelper.lastupdated_col ) ); //LAST UPDATE IS ACTUALLY SHELTERID
                 JSONObject contactInfo;
                 JSONArray photoArray;
                 try {
@@ -117,6 +118,7 @@ public class FavoritesList extends AppCompatActivity implements View.OnClickList
                                     .setDescription(description)
                                     .setContactInfo(contactInfo)
                                     .setPhotos(photoArray)
+                                    .setShelterId( shelterId )
                     );
 
                 } catch (JSONException e) {

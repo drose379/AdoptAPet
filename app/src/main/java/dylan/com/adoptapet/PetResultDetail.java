@@ -481,8 +481,7 @@ public class PetResultDetail extends AppCompatActivity implements View.OnClickLi
         vals.put( FavoritesDBHelper.size_col, currentPet.getSize() );
         vals.put( FavoritesDBHelper.description_col, currentPet.getDescription() );
         vals.put( FavoritesDBHelper.contactInfo_col, currentPet.getContactInfoRaw() );
-        vals.put(FavoritesDBHelper.lastupdated_col, String.valueOf(System.currentTimeMillis()));
-
+        vals.put(FavoritesDBHelper.lastupdated_col, currentPet.getShelterId() );
 
 
         SQLiteDatabase writeable = new FavoritesDBHelper( this ).getWritableDatabase();

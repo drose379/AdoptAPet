@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPause() {
         super.onPause();
-        AppEventsLogger.activateApp(this);
+        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
@@ -583,10 +583,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 confirmDialog.dismiss();
                             }
                         });
-
-
-
-
 
                         break;
                 }

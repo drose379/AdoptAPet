@@ -26,7 +26,7 @@ public class FavoritesDBHelper extends SQLiteOpenHelper {
     public static String contactInfo_col = "contactInfo";
     public static String lastupdated_col = "lastUpdated";
 
-    //TODO:: column names
+    //TODO:: NOTE, THE lastUpdated COLUMN IS ACTUALLY THE SHELTERiD
 
     public FavoritesDBHelper( Context context ) {
         super( context, db_name, null, 1 );
@@ -47,7 +47,7 @@ public class FavoritesDBHelper extends SQLiteOpenHelper {
                 "extras TEXT," +
                 "description TEXT," +
                 "contactInfo TEXT," +
-                "lastUpdated )"; //TODO:: Save entire PetResult to localDB
+                "lastUpdated TEXT )"; //TODO:: Save entire PetResult to localDB
         db.execSQL( query );
     }
 
