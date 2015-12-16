@@ -155,6 +155,8 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
             for (int i = 0; i < results.size(); i++) {
                 shelterNames[i] = results.get(i).getName();
+                ShelterResult shelter = results.get( i );
+                shelter.setBookmarked( isBookmarked( shelter ) );
             }
 
             loader.setVisibility(View.GONE);
@@ -197,7 +199,7 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
         shelterMenuOptions.add("Animals");
 
-        shelterMenuOptions.add( isBookmarked( selectedShelter ) ? "Remove From Bookmarks" : "Bookmark" );
+        shelterMenuOptions.add( selectedShelter.isBookmarked() ? "Remove From Bookmarks" : "Bookmark" );
 
         String[] optionsFinal = new String[shelterMenuOptions.size()];
 
@@ -336,7 +338,8 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
         if ( results.getCount() > 0 ) {
 
-            results.moveToFirst();
+            results.moveToPosition( -1 );
+            
             while( results.moveToNext() ) {
                 String shelterId = results.getString( results.getColumnIndex( "shelterId" ) );
                 if ( shelterId.equals( currentShelter.getId() ) ) {
@@ -348,6 +351,7 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
         }
 
         readable.close();
+        results.close();
 
         return bookmarked;
     }
@@ -373,15 +377,11 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
         grabService.putExtra( "shelterId", shelter.getId() );
         getActivity().startService(grabService);
 
-        Log.i("BOOKMARK", "Called bookmark service");
+        shelter.setBookmarked( true );
 
     }
 
     private void removeShelterFromBookmarks( ShelterResult shelter ) {}
-
-    private void updateShelterPetIds( String shelterId, JSONArray petIDs ) {
-        //TODO:: Use a UPDATE clause to update where shelterID = :shelterID
-    }
 
 
     /**

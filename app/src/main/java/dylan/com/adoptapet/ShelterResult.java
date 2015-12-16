@@ -15,6 +15,7 @@ public class ShelterResult {
     private String phone;
     private String fax;
     private String email;
+    private boolean isBookmarked;
 
     public ShelterResult setId( String id ) {
         this.id = id;
@@ -57,6 +58,12 @@ public class ShelterResult {
         return this;
     }
 
+    public void setBookmarked( boolean bookmarked ) {
+        this.isBookmarked = bookmarked;
+    }
+
+
+
     public String getId() {
         return id;
     }
@@ -87,7 +94,7 @@ public class ShelterResult {
     public String getEmail() {
         return email;
     }
-
+    public boolean isBookmarked() {return isBookmarked;}
     public String generateLocationText() {
         String location = "";
 
