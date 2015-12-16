@@ -52,12 +52,12 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onAttach( Context context ) {
-        super.onAttach( context );
+        super.onAttach(context);
     }
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup parent, Bundle savedInstance ) {
-        View v = LayoutInflater.from( getActivity() ).inflate( R.layout.shelter_near_user_layout, parent, false );
+        View v = LayoutInflater.from( getActivity() ).inflate(R.layout.shelter_near_user_layout, parent, false);
 
         shelterList = (ListView) v.findViewById( R.id.shelterList );
         loader = (ProgressBar) v.findViewById( R.id.loader );
@@ -199,7 +199,7 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
         shelterMenuOptions.add("Animals");
 
-        shelterMenuOptions.add( selectedShelter.isBookmarked() ? "Remove From Bookmarks" : "Bookmark" );
+        shelterMenuOptions.add(selectedShelter.isBookmarked() ? "Remove From Bookmarks" : "Bookmark");
 
         String[] optionsFinal = new String[shelterMenuOptions.size()];
 
@@ -338,8 +338,8 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
         if ( results.getCount() > 0 ) {
 
-            results.moveToPosition( -1 );
-            
+            results.moveToPosition(-1);
+
             while( results.moveToNext() ) {
                 String shelterId = results.getString( results.getColumnIndex( "shelterId" ) );
                 if ( shelterId.equals( currentShelter.getId() ) ) {
@@ -381,7 +381,18 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
     }
 
-    private void removeShelterFromBookmarks( ShelterResult shelter ) {}
+    private void removeShelterFromBookmarks( ShelterResult shelter ) {
+
+        SQLiteDatabase writeable = new ShelterBookmarkDb( getActivity() ).getReadableDatabase();
+
+        writeable.delete( ShelterBookmarkDb.table_name, "shelterId = ?", new String[] {shelter.getId()} );
+
+        shelter.setBookmarked( false );
+
+        writeable.close();
+
+        //TODO:: next, send callback to parent activity which will reload data in bookmarked frag to load new bookamrekd item
+    }
 
 
     /**
