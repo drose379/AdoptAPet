@@ -52,48 +52,6 @@ public class ShelterResultAdapter extends BaseAdapter {
         return index;
     }
 
-    private String generateLocationText( ShelterResult shelter ) {
-        String location = "";
-
-        String address = shelter.getAddress();
-        String city = shelter.getCity();
-        String state = shelter.getState();
-        String country = shelter.getCountry();
-
-        if ( !address.isEmpty() ) {
-
-            if ( !city.isEmpty() || !state.isEmpty() || !country.isEmpty() ) {
-                location += address + ", ";
-            } else {
-                location += address;
-            }
-
-        }
-
-        if ( !city.isEmpty() ) {
-
-            if ( !state.isEmpty() || !country.isEmpty() ) {
-                location += city + ", ";
-            } else {
-                location += city;
-            }
-
-        }
-
-        if ( !state.isEmpty() ) {
-
-            if ( !country.isEmpty() ) {
-                location += state + ", ";
-            } else {
-                location += state;
-            }
-
-        }
-
-        location += !country.isEmpty() ? country : "";
-
-        return location;
-    }
 
     @Override
     public View getView( int which, View recycledView, ViewGroup parent ) {
@@ -125,7 +83,7 @@ public class ShelterResultAdapter extends BaseAdapter {
          */
 
         viewHolder.shelterName.setText( shelter.getName() );
-        viewHolder.location.setText( generateLocationText(shelter) );
+        viewHolder.location.setText( shelter.generateLocationText() );
 
         if ( !shelter.getPhone().trim().isEmpty() ) {
             viewHolder.phone.setText(shelter.getPhone());

@@ -88,4 +88,47 @@ public class ShelterResult {
         return email;
     }
 
+    public String generateLocationText() {
+        String location = "";
+
+        String address = getAddress();
+        String city = getCity();
+        String state = getState();
+        String country = getCountry();
+
+        if ( !address.isEmpty() ) {
+
+            if ( !city.isEmpty() || !state.isEmpty() || !country.isEmpty() ) {
+                location += address + ", ";
+            } else {
+                location += address;
+            }
+
+        }
+
+        if ( !city.isEmpty() ) {
+
+            if ( !state.isEmpty() || !country.isEmpty() ) {
+                location += city + ", ";
+            } else {
+                location += city;
+            }
+
+        }
+
+        if ( !state.isEmpty() ) {
+
+            if ( !country.isEmpty() ) {
+                location += state + ", ";
+            } else {
+                location += state;
+            }
+
+        }
+
+        location += !country.isEmpty() ? country : "";
+
+        return location;
+    }
+
 }
