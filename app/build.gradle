@@ -31,4 +31,5 @@ dependencies {
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
 
+    compile 'com.facebook.stetho:stetho:1.2.0'
 }

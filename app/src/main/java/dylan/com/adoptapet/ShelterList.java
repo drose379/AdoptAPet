@@ -37,41 +37,38 @@ import java.util.Arrays;
 /**
  * Created by dylan on 11/23/15.
  */
-public class ShelterList extends AppCompatActivity {
+public class ShelterList extends AppCompatActivity implements SheltersNearUserFrag.NewBookmarkCallback {
 
-    private RelativeLayout root;
-    private ProgressBar loader;
-    private ListView shelterList;
-
-    private AlertDialog shelterOptions;
+    private ViewPager mainPager;
 
     private String[] shelterNames;
-
     private String location;
+
+    private SheltersNearUserFrag shelterNearUserFrag;
+    private ShelterBookmarkedFrag shelterBookmarkFrag;
+
+
 
     @Override
     public void onCreate( Bundle savedInstance ) {
         super.onCreate(savedInstance);
         setContentView(R.layout.shelter_list_layout);
 
-        root = (RelativeLayout) findViewById( R.id.root );
-
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //loader = (ProgressBar) findViewById( R.id.loader );
-        //shelterList = (ListView) findViewById( R.id.shelterList );
-
-        ViewPager pager = (ViewPager) findViewById( R.id.pager );
+        mainPager = (ViewPager) findViewById( R.id.pager );
 
         ShelterPagerAdapter pagerAdapter = new ShelterPagerAdapter( getSupportFragmentManager(), this );
-        pager.setAdapter( pagerAdapter );
+        mainPager.setAdapter(pagerAdapter);
 
         TabLayout tabs = (TabLayout) findViewById( R.id.tabs );
-        tabs.setupWithViewPager(pager);
+        tabs.setupWithViewPager( mainPager );
 
-        //checkLocation();
+        //TODO:: In order to get instance of the bookmark frag, need to do fragmentManager.findFragmentByTag();
+        //TODO:: ^^ In order to get tag, this must implement an interface from the fragment that will pass the tag back to this activity
+
     }
 
     @Override
@@ -89,7 +86,16 @@ public class ShelterList extends AppCompatActivity {
                 finish();
                 break;
             case R.id.searchButton :
-                //initSearchDialog();
+
+                switch ( mainPager.getCurrentItem() ) {
+                    case 0 :
+                        shelterNearUserFrag.initSearchDialog();
+                        break;
+                    case 1 :
+                        shelterBookmarkFrag.initSearchDialog();
+                        break;
+                }
+
                 break;
         }
 
@@ -97,52 +103,72 @@ public class ShelterList extends AppCompatActivity {
     }
 
 
-}
-
-
-class ShelterPagerAdapter extends FragmentPagerAdapter {
-
-    private Context context;
-
-    public ShelterPagerAdapter( FragmentManager manager, Context context ) {
-        super( manager );
-        this.context = context;
-    }
 
     @Override
-    public int getCount() {
-        return 2;
-    }
+    public void shelterBookmarkReload() {
+        //TODO:: Make call to the bookmarks fragment to reload its data, new bookmark has been added
 
-    @Override
-    public Fragment getItem( int item ) {
-        switch ( item ) {
-            case 0 :
-                return new SheltersNearUserFrag();
-            case 1 :
+        if ( shelterBookmarkFrag != null ) {
 
-                break;
+            shelterBookmarkFrag.reloadBookmarks();
+
+        } else {
+            //Try again...
+            shelterBookmarkReload();
         }
 
-        return new Fragment();
     }
 
-    @Override
-    public CharSequence getPageTitle( int item ) {
-        switch ( item ) {
-            case 0 :
 
-                return "Near Me";
+    class ShelterPagerAdapter extends FragmentPagerAdapter {
 
-            case 1 :
+        private Context context;
 
-                return "Bookmarked";
-
-            default :
-
-                return null;
+        public ShelterPagerAdapter( FragmentManager manager, Context context ) {
+            super( manager );
+            this.context = context;
         }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public Fragment getItem( int item ) {
+            switch ( item ) {
+                case 0 :
+                    shelterNearUserFrag = new SheltersNearUserFrag();
+                    return shelterNearUserFrag;
+                case 1 :
+                    shelterBookmarkFrag = new ShelterBookmarkedFrag();
+                    return shelterBookmarkFrag;
+                default :
+                    return null;
+            }
+
+        }
+
+        @Override
+        public CharSequence getPageTitle( int item ) {
+            switch ( item ) {
+                case 0 :
+
+                    return "Near Me";
+
+                case 1 :
+
+                    return "Bookmarked";
+
+                default :
+
+                    return null;
+            }
+        }
+
+
     }
 
 
 }
+

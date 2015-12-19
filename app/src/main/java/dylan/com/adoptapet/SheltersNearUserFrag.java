@@ -43,6 +43,10 @@ import java.util.Arrays;
  */
 public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItemClickListener, APIHelper.SheltersCallback {
 
+    public interface NewBookmarkCallback {
+        void shelterBookmarkReload();
+    }
+
     private ListView shelterList;
     private ProgressBar loader;
     private AlertDialog shelterOptions;
@@ -50,9 +54,12 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
     private String location;
     private String[] shelterNames;
 
+    private NewBookmarkCallback bookmarkCallback;
+
     @Override
     public void onAttach( Context context ) {
         super.onAttach(context);
+        bookmarkCallback = (NewBookmarkCallback) context;
     }
 
     @Override
@@ -255,14 +262,12 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
                                 break;
                             case "Bookmark" :
 
-                                //TODO:: Add shelter to bookmarks
                                 addShelterToBookmarks( selectedShelter );
 
                                 break;
 
                             case "Remove From Bookmarks" :
 
-                                //TODO:: Remove shelter from bookmarks
                                 removeShelterFromBookmarks( selectedShelter );
 
                                 break;
@@ -357,13 +362,16 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
     }
 
     private void addShelterToBookmarks( ShelterResult shelter ) {
-        //TODO:: Insert just the sheltersId into the table, START THE BACKGROUND JOB THAT WILL GRAB ALL PET IDs for this shelter
+        //TODO:: Insert local data, start background job to get remote data
         //TODO::Once that background job comes back, use the UPDATE clause to insert them into the matching shelterid row
-        //TODO:: Also need to add rest of shelter data to the table
 
         ContentValues vals = new ContentValues(  );
         vals.put( ShelterBookmarkDb.id_col, shelter.getId() );
-        vals.put( ShelterBookmarkDb.location_col, shelter.generateLocationText() );
+        vals.put( ShelterBookmarkDb.name_col, shelter.getName() );
+        vals.put( ShelterBookmarkDb.city_col, shelter.getCity() );
+        vals.put( ShelterBookmarkDb.state_col, shelter.getState() );
+        vals.put( ShelterBookmarkDb.country_col, shelter.getCountry() );
+        vals.put( ShelterBookmarkDb.address_col, shelter.getAddress() );
         vals.put( ShelterBookmarkDb.phone_col, shelter.getPhone() );
         vals.put( ShelterBookmarkDb.email_col, shelter.getEmail() );
 
@@ -372,12 +380,12 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
         writeable.close();
 
-        //TODO:: Call service that will grab the current animals for this
         Intent grabService = new Intent( getActivity(), GrabShelterAnimalsIds.class );
         grabService.putExtra( "shelterId", shelter.getId() );
         getActivity().startService(grabService);
 
-        shelter.setBookmarked( true );
+        shelter.setBookmarked(true);
+        bookmarkCallback.shelterBookmarkReload();
 
     }
 
@@ -387,11 +395,12 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
 
         writeable.delete( ShelterBookmarkDb.table_name, "shelterId = ?", new String[] {shelter.getId()} );
 
-        shelter.setBookmarked( false );
+        shelter.setBookmarked(false);
 
         writeable.close();
 
-        //TODO:: next, send callback to parent activity which will reload data in bookmarked frag to load new bookamrekd item
+        bookmarkCallback.shelterBookmarkReload();
+
     }
 
 
@@ -415,8 +424,6 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
             //TODO:: Make request to grab all the pet Ids for the given shelter, once returned, save them with updateShelterPetIds
 
             this.shelterId = intent.getStringExtra( "shelterId" );
-
-            Log.i("BOOKMARK", "MADE CALL");
 
             OkHttpClient httpClient = new OkHttpClient();
             RequestBody body = RequestBody.create( MediaType.parse("text/plain"), shelterId );
@@ -448,8 +455,10 @@ public class SheltersNearUserFrag extends Fragment implements AdapterView.OnItem
         private void updateShelterPetIds( JSONArray petIds ) {
             SQLiteDatabase writeable = new ShelterBookmarkDb( this ).getWritableDatabase();
 
+            ContentValues vals = new ContentValues();
+            vals.put( ShelterBookmarkDb.pet_ids_col, petIds.toString() );
 
-
+            writeable.update(ShelterBookmarkDb.table_name, vals, "shelterId = ?", new String[]{shelterId});
             writeable.close();
         }
 

@@ -103,7 +103,7 @@ public class ShelterResult {
         String state = getState();
         String country = getCountry();
 
-        if ( !address.isEmpty() ) {
+        if ( address != null && !address.isEmpty() ) {
 
             if ( !city.isEmpty() || !state.isEmpty() || !country.isEmpty() ) {
                 location += address + ", ";

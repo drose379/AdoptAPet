@@ -42,6 +42,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.stetho.Stetho;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         locationManager = ( LocationManager ) getSystemService( Context.LOCATION_SERVICE );
 
-
-        Log.i("DPI", "DPI: " + getResources().getDisplayMetrics().densityDpi);
+        Stetho.initializeWithDefaults( this );
 
     }
 

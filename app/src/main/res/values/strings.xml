@@ -5,8 +5,9 @@
     <string name="no_results">Sorry, no results found, please widen your search criteria!</string>
     <string name="no_results_shelter">Sorry, this shelter does not have any animals listed at the moment. </string>
     <string name="no_photo">No Photo Available</string>
+    <string name="no_shelter_bookmarks">You have not bookmarked any shelters yet!\n\nYou can by going to the \"Near Me\" tab, selecting a shelter and chosing \"Bookmark\"</string>
     <string name="provide_location">Please provide location so we can find shelters!</string>
-    <string name="no_favorites">You have not favorited any animals yet!</string>
+    <string name="no_favorites">You have not favorited any animals yet!\n\nYou can by tapping the heart icon in the top right corner of the toolbar, when looking at an animals details.</string>
     <string name="bad_search">There has been an issue with your search, check your provided zip code is correct</string>
     <string name="network_issue">There has been an issue finding your location, please try again</string>
     <string name="location_possible_issue">There may be an isssue with the location you provided, please try again</string>

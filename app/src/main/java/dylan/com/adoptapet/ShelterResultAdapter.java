@@ -52,6 +52,10 @@ public class ShelterResultAdapter extends BaseAdapter {
         return index;
     }
 
+    public void updateData() {
+
+    }
+
 
     @Override
     public View getView( int which, View recycledView, ViewGroup parent ) {
