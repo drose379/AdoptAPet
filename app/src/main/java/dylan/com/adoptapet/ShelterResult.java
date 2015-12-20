@@ -1,5 +1,10 @@
 package dylan.com.adoptapet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.Random;
+
 /**
  * Created by dylan on 11/24/15.
  */
@@ -15,6 +20,7 @@ public class ShelterResult {
     private String phone;
     private String fax;
     private String email;
+    private JSONArray photosJson;
     private boolean isBookmarked;
 
     public ShelterResult setId( String id ) {
@@ -57,6 +63,15 @@ public class ShelterResult {
         this.email = email;
         return this;
     }
+    public ShelterResult setPhotos( String photosJSON ) {
+        try {
+            photosJson = new JSONArray( photosJSON );
+        } catch ( JSONException e ) {
+            photosJson = new JSONArray();
+        }
+
+        return this;
+    }
 
     public void setBookmarked( boolean bookmarked ) {
         this.isBookmarked = bookmarked;
@@ -94,6 +109,36 @@ public class ShelterResult {
     public String getEmail() {
         return email;
     }
+    public JSONArray getPhotos() {
+        return photosJson;
+    }
+
+    public String getPhoto( int item ) {
+        String url = "";
+        try {
+            url = photosJson.getString( item );
+        } catch ( JSONException e ) {
+            url = "";
+        }
+
+        return url;
+    }
+
+    public String getRandomPhoto() {
+
+        String url = "";
+
+        Random rand = new Random();
+
+        try {
+            url = photosJson.getString( rand.nextInt( photosJson.length() ) );
+        } catch ( JSONException e ) {
+            url = "";
+        }
+
+        return url;
+    }
+
     public boolean isBookmarked() {return isBookmarked;}
     public String generateLocationText() {
         String location = "";

@@ -19,15 +19,66 @@
         card_view:cardPreventCornerOverlap="false"
         card_view:cardElevation="3dp"
         card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="5dp"
+        card_view:cardCornerRadius="3dp"
         >
 
         <!--TODO:: Show a border around each card, of colorBackgroundDarkerer -->
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+
+                <ImageView
+                    android:id="@+id/headCardImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="@color/colorAccentDark"
+                    />
+
+                <TextView
+                    android:id="@+id/headCardText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:padding="8dp"
+                    android:background="@color/colorBlackTrans"
+                    android:textSize="19sp"
+                    android:textColor="@color/colorWhite"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/colorBackgroundDark"
+                android:padding="8dp"
+                >
+
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/shelterPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/locationText"
+                    android:layout_marginTop="8dp"
+                    />
+
+
+            </RelativeLayout>
+
+            <!--
 
             <TextView
                 android:layout_width="match_parent"
@@ -120,8 +171,9 @@
 
             </LinearLayout>
 
+            -->
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </android.support.v7.widget.CardView>

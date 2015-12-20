@@ -259,6 +259,7 @@ public class APIHelper {
                         .setPhone( shelter.getString( "phone" ) )
                         .setFax( shelter.getString( "fax" ) )
                         .setEmail( shelter.getString( "email" ) )
+                        .setPhotos( shelter.getString( "photos" ) )
                 );
 
             }
