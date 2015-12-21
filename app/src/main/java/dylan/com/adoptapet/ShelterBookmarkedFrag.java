@@ -4,26 +4,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 /**
  * Created by dylan on 12/16/15.
  */
-public class ShelterBookmarkedFrag extends Fragment {
+public class ShelterBookmarkedFrag extends ShelterParentFrag {
 
     private ArrayList<ShelterResult> bookmarkedShelters;
     private ShelterResultAdapter shelterListAdapter;
 
-    private ListView shelterList;
-    private TextView noBookmarkText;
+
 
     @Override
     public void onAttach( Context context ) {
@@ -35,11 +30,9 @@ public class ShelterBookmarkedFrag extends Fragment {
 
         //TODO:: If there are no bookmarks, show simple black text in middle of screen, (Just like the "No Favorites" text)
         //TODO:: In this list, the search dialog can still work, just need to update its adapter to use only the names of these shelters, do this in loadBookmarkedShelters()
+        View v = super.onCreateView( inflater, parent, savedInstance );
 
-        View v = LayoutInflater.from( getActivity() ).inflate(R.layout.shelter_bookmarks_layout, parent, false);
-
-        shelterList = (ListView) v.findViewById( R.id.shelterList );
-        noBookmarkText = (TextView) v.findViewById( R.id.noBookmarks );
+        loader.setVisibility( View.GONE );
 
         return v;
     }
@@ -67,7 +60,7 @@ public class ShelterBookmarkedFrag extends Fragment {
             noBookmarkText.setVisibility( View.GONE );
             shelterList.setVisibility( View.VISIBLE );
 
-            results.moveToPosition( -1 );
+            results.moveToPosition(-1);
             while( results.moveToNext() ) {
 
                 String id = results.getString( results.getColumnIndex( ShelterBookmarkDb.id_col ) );
@@ -78,6 +71,7 @@ public class ShelterBookmarkedFrag extends Fragment {
                 String address = results.getString( results.getColumnIndex( ShelterBookmarkDb.address_col ) );
                 String phone = results.getString( results.getColumnIndex( ShelterBookmarkDb.phone_col ) );
                 String email = results.getString( results.getColumnIndex( ShelterBookmarkDb.email_col ) );
+                String photos = results.getString( results.getColumnIndex( ShelterBookmarkDb.photos_col ) );
 
 
 
@@ -89,14 +83,24 @@ public class ShelterBookmarkedFrag extends Fragment {
                         .setCountry( country )
                         .setAddress( address )
                         .setPhone( phone )
-                        .setEmail( email );
+                        .setEmail( email )
+                        .setPhotos( photos );
+
+                currentShelter.setBookmarked( isBookmarked( currentShelter ) );
 
                 bookmarkedShelters.add( currentShelter );
 
             }
 
             shelterListAdapter = new ShelterResultAdapter( getActivity(), bookmarkedShelters );
-            shelterList.setAdapter( shelterListAdapter );
+            shelterList.setAdapter(shelterListAdapter);
+            shelterList.setOnItemClickListener( this );
+
+            shelterNames = new String[bookmarkedShelters.size()];
+
+            for ( int i = 0; i < bookmarkedShelters.size(); i++ ) {
+                shelterNames[i] = bookmarkedShelters.get( i ).getName();
+            }
 
 
         } else {
@@ -110,12 +114,9 @@ public class ShelterBookmarkedFrag extends Fragment {
     }
 
     private void initNoBookmarkView() {
-        shelterList.setVisibility( View.GONE );
-        noBookmarkText.setVisibility( View.VISIBLE );
+        shelterList.setVisibility(View.GONE);
+        noBookmarkText.setVisibility(View.VISIBLE);
     }
 
-    public void initSearchDialog() {
-
-    }
 
 }

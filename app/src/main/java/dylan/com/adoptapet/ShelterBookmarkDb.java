@@ -20,6 +20,7 @@ public class ShelterBookmarkDb extends SQLiteOpenHelper {
     public static final String phone_col = "phone";
     public static final String email_col = "email";
     public static final String pet_ids_col = "currentPetIds";
+    public static final String photos_col = "photos";
 
     public ShelterBookmarkDb( Context context ) {
         super( context, db_name, null, 1  );
@@ -36,6 +37,7 @@ public class ShelterBookmarkDb extends SQLiteOpenHelper {
                 "country TEXT," +
                 "phone TEXT," +
                 "email TEXT," +
+                "photos TEXT," +
                 "currentPetIds TEXT" +
                 ")";
 

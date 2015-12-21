@@ -89,6 +89,7 @@ public class ShelterResultAdapter extends BaseAdapter {
             viewHolder.headCardText = (TextView) recycledView.findViewById( R.id.headCardText );
             viewHolder.locationText = (TextView) recycledView.findViewById( R.id.locationText );
             viewHolder.phoneText = (TextView) recycledView.findViewById( R.id.shelterPhone );
+            viewHolder.emailText = (TextView) recycledView.findViewById( R.id.shelterEmail );
 
             recycledView.setTag(viewHolder);
 
@@ -118,17 +119,12 @@ public class ShelterResultAdapter extends BaseAdapter {
             viewHolder.phoneText.setVisibility( View.GONE );
         }
 
-        /**
-
         if ( !shelter.getEmail().isEmpty() ) {
-            viewHolder.email.setText( shelter.getEmail() );
-            viewHolder.emailLayout.setVisibility( View.VISIBLE );
+            viewHolder.emailText.setText( shelter.getEmail() );
+            viewHolder.emailText.setVisibility( View.VISIBLE );
         } else {
-            viewHolder.emailLayout.setVisibility( View.GONE );
+            viewHolder.emailText.setVisibility( View.GONE );
         }
-
-         */
-
 
         return recycledView;
     }
@@ -147,6 +143,7 @@ public class ShelterResultAdapter extends BaseAdapter {
         public TextView headCardText;
         public TextView locationText;
         public TextView phoneText;
+        public TextView emailText;
     }
 
 }

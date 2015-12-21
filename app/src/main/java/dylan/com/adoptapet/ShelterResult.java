@@ -133,7 +133,7 @@ public class ShelterResult {
         try {
             url = photosJson.getString( rand.nextInt( photosJson.length() ) );
         } catch ( JSONException e ) {
-            url = "";
+            throw new RuntimeException( e );
         }
 
         return url;
